@@ -59,7 +59,7 @@ void show_usage(const char * const arg0) {
     printf("                      60 : minutely.\n");
     printf("                    3600 : hourly.\n");
     printf("                   86400 : dayly.\n");
-    printf("    -d delay     log rotate delay in seconds");
+    printf("    -d delay     log rotate delay in seconds\n");
     printf("                 ignored when interval is 0.\n");
     printf("                   (min, max)=(%d, %d)\n", INT_MIN, INT_MAX);
     fflush(stdout);
