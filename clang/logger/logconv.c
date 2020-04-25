@@ -12,7 +12,7 @@
 
 void show_usage(char *arg0) {
     printf("Description:\n");
-    printf("    This is a logfile converter program, reads from stdin, writes to stdout.\n");
+    printf("    This is a logfile converter program, reads from s_in, writes to stdout.\n");
     printf("      $ cat logfile | logconv\n");
     printf("      $ cat logfile | TZ=Asia/Tokyo logconv\n");
     printf("Usage:\n");
@@ -40,6 +40,7 @@ int main(int argc, char **argv)
 {
     char *line = NULL;     /* line for log */
     char *p = "";          /* pointer      */
+    FILE *s_in = stdin;    /* stream_in    */
     long unsigned sec;
     long unsigned nsec;
     struct timespec ct;    /* current_time */
@@ -57,10 +58,11 @@ int main(int argc, char **argv)
     line = (char *)malloc(maxlen);
     if (line != NULL) { *(line+strlen(line)-1) = '\0'; } // for safety
 
-    while (! feof(stdin)) {
+    while (! feof(s_in)) {
+        if (ferror(s_in)) { break; }
         pos = 0;
         while (pos == 0 || (pos < tabpos && *(line+pos-1) != '\n')) {
-            p = fgets(line + pos, maxlen - pos, stdin);
+            p = fgets(line + pos, maxlen - pos, s_in);
             if (p == NULL) { break; }
             pos = strlen(line);
 #ifdef DEBUG
@@ -75,7 +77,7 @@ int main(int argc, char **argv)
 #endif
         }
 #ifdef DEBUG
-        if (p!= NULL) {
+        if (p != NULL) {
             // printf("[DEBUG] p='%s'\n", p);
             // printf("[DEBUG] line='%s'\n", line);
             if (strlen(line) >= tabpos && *line == '@' && *(line + tabpos) == '\t') {
@@ -100,7 +102,7 @@ int main(int argc, char **argv)
             }
         }
         while (p != NULL && *(line + strlen(line) - 1) != '\n') {
-            p = fgets(line, maxlen, stdin);
+            p = fgets(line, maxlen, s_in);
             printf("%s", line);
         }
     }

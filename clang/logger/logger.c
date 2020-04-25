@@ -58,8 +58,8 @@ void show_usage(const char * const arg0) {
     printf("                       0 : no rotation\n");
     printf("                      60 : minutely.\n");
     printf("                    3600 : hourly.\n");
-    printf("                   86400 : dayly.\n");
-    printf("    -d delay     log rotate delay in seconds\n");
+    printf("                   86400 : daily.\n");
+    printf("    -d delay     log rotate delay in seconds.\n");
     printf("                 ignored when interval is 0.\n");
     printf("                   (min, max)=(%d, %d)\n", INT_MIN, INT_MAX);
     fflush(stdout);
@@ -313,6 +313,7 @@ int main(int argc, char **argv)
         printf("[DEBUG] main: fgets... cnt=%d\n", cnt);
 # endif
         p = fgets(line, ctx.line_maxlen, s_in);
+        if (p == NULL && ferror(s_in)) { goto end; }
         if (p != NULL) {
             rc = timespec_get(&ctx.current_time, TIME_UTC);
             if (rc == 0) { es = 31; goto end; }
@@ -342,9 +343,10 @@ int main(int argc, char **argv)
                 printf("\n");
             }
 # endif
-            /* read out data remained in stream */
+            /* discard the remaining data in stream */
             while (p != NULL && *(line + strlen(line) - 1) != '\n') {
                 p = fgets(line, ctx.line_maxlen, s_in);
+                if (p == NULL && ferror(s_in)) { goto end; }
             }
         }
     }
