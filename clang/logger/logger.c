@@ -34,16 +34,24 @@ struct context {
 
 void show_usage(const char * const arg0) {
     printf("Description:\n");
-    printf("    This is a logging program, reads from stdin, writes to logfile.");
+    printf("============\n");
+    printf("    This is a logging program, reads from stdin, writes to logfile.\n");
     printf("    If interval > 0, rotate log when new input arrived.");
-    printf("    This program uses fgets().");
+    printf("    This program uses fgets().\n");
+    printf("\n");
     printf("Usage:\n");
+    printf("======\n");
     printf("    %s -h|--help\n", arg0);
+    printf("    %s --dry-run -f FILE [-l length] [-i interval] [-d delay]\n", arg0);
     printf("    command | %s [--dry-run] -f FILE [-l length] [-i interval] [-d delay]\n", arg0);
+    printf("\n");
     printf("Caution:\n");
+    printf("========\n");
     printf("    If specified value is out of range, it will be rounded.\n");
     printf("    Use '--dry-run' to check how the arguments were parsed.\n");
+    printf("\n");
     printf("Options:\n");
+    printf("========\n");
     printf("    -h|--help    show usage and exit.\n");
     printf("    --dry-run    show parsed arguments and exit.\n");
     printf("    -f FILE      log file name\n");

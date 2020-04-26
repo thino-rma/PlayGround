@@ -3,7 +3,7 @@
 all: mylogger;
 
 mylogger: logger.c
-	gcc -Wall -O2 -DDEBUG -o mylogger logger.c
+	gcc -Wall -O2 -o mylogger logger.c
 
 .PHONY: clean
 clean:
