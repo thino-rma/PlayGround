@@ -1,0 +1,8 @@
+*.o
+*.sqlite
+*.bk
+sqlite3.c
+sqlite3-version
+sqlite3-createtable
+sqlite3-loader
+
