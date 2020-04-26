@@ -1,7 +1,8 @@
 Description:
 ============
     This is a logging program, reads from stdin, writes to logfile.
-    If interval > 0, rotate log when new input arrived.    This program uses fgets().
+    If interval > 0, rotate log when new input arrived.
+    This program uses fgets().
 
 Usage:
 ======

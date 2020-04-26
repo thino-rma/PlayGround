@@ -36,7 +36,7 @@ void show_usage(const char * const arg0) {
     printf("Description:\n");
     printf("============\n");
     printf("    This is a logging program, reads from stdin, writes to logfile.\n");
-    printf("    If interval > 0, rotate log when new input arrived.");
+    printf("    If interval > 0, rotate log when new input arrived.\n");
     printf("    This program uses fgets().\n");
     printf("\n");
     printf("Usage:\n");
