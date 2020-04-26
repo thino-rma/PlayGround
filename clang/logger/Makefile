@@ -1,18 +1,19 @@
 # Makefile
 .PHONY: all
-all: logger logconv;
+all: mylogger mylogconv;
 
-logger: logger.c
-	gcc -Wall -O2 -o mylogger logger.c
+mylogger: logger.c
+	gcc -Wall -O2 -DDEBUG -o mylogger logger.c
 
-logconv: logconv.c
-	gcc -Wall -O2 -o logconv logconv.c
+mylogconv: logconv.c
+	gcc -Wall -O2 -o mylogconv logconv.c
 
 .PHONY: clean
 clean:
-	rm -f logger logconv
+	rm -f mylogger mylogconv
 	rm -f test.log*
 
 .PHONY: help
 help:
-	@echo "bash echodate.sh | logger -f test.log -i 5"
+	@echo "bash echodate.sh | ./mylogger -f test.log -i 5"
+	@echo "./mylogconv < test.log"
