@@ -313,41 +313,40 @@ int main(int argc, char **argv)
         printf("[DEBUG] main: fgets... cnt=%d\n", cnt);
 # endif
         p = fgets(line, ctx.line_maxlen, s_in);
-        if (p == NULL && ferror(s_in)) { goto end; }
+        if (p == NULL && ferror(s_in)) { err_msg(31, "fgets", errno); es = 31; goto end; }
         if (p != NULL) {
             rc = timespec_get(&ctx.current_time, TIME_UTC);
-            if (rc == 0) { es = 31; goto end; }
+            if (rc == 0) { err_msg(32, "timespec_get", errno); es = 32; goto end; }
 
             /* fprintf(s_out, "@%ld.%ld:", ct.tv_sec, ct.tv_nsec); */
             /* tv_sec is second, in Hexadecimal 0 - ffffffff */
             /* tv_nsec is nanosecond, 0 - 999999999, in Hexadecimal 0 - 3b9ac9ff */
-            rc = fprintf(s_out, "@%08lx.%08lx\t",
+            rc = fprintf(s_out, "@%08lx.%08lx\t%s",
                          ctx.current_time.tv_sec,
-                         ctx.current_time.tv_nsec);
-            if (rc < 0) { err_msg(32, "fprintf", errno); es = 32; goto end; }
-            rc = fputs(line, s_out);
-            if (rc == EOF) { err_msg(33, "fputs", errno); es = 33; goto end; }
-            if (p != NULL && *(line + strlen(line) - 1) != '\n') {
-                rc = fputs("\n", s_out);
-                if (rc == EOF) { err_msg(34, "fputs", errno); es = 34; goto end; }
-            }
-            rc = fflush(s_out);
-            if (rc == EOF) { err_msg(35, "fflush", errno); es = 35; goto end; }
+                         ctx.current_time.tv_nsec,
+                         line);
+            if (rc < 0) { err_msg(33, "fprintf", errno); es = 33; goto end; }
 
 # ifdef DEBUG
-            printf("@%08lx.%08lx\t",
+            printf("@%08lx.%08lx\t%s",
                     ctx.current_time.tv_sec,
-                    ctx.current_time.tv_nsec);
-            printf("%s", line);
-            if (p != NULL && *(line + strlen(line) - 1) != '\n') {
-                printf("\n");
-            }
+                    ctx.current_time.tv_nsec,
+                    line);
 # endif
             /* discard the remaining data in stream */
             while (p != NULL && *(line + strlen(line) - 1) != '\n') {
                 p = fgets(line, ctx.line_maxlen, s_in);
-                if (p == NULL && ferror(s_in)) { goto end; }
+                if (p == NULL && ferror(s_in)) { err_msg(34, "fgets", errno); es = 34; goto end; }
+                if (p != NULL) {
+                    rc = fputs(line, s_out);
+                    if (rc == EOF) { err_msg(35, "fputs", errno); es = 35; goto end; }
+# ifdef DEBUG
+                    printf("%s", line);
+# endif
+                }
             }
+            rc = fflush(s_out);
+            if (rc == EOF) { err_msg(36, "fflush", errno); es = 36; goto end; }
         }
     }
     es = 0;
