@@ -2,7 +2,7 @@
  * small logger program.
  *
  * compile:
- *     gcc -g -Wall -pedantic -O0 -o logger logger.c
+ *     gcc -g -Wall -pedantic -O0 -o mylogger logger.c
  */
 
 #include <errno.h>

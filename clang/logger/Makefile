@@ -3,7 +3,7 @@
 all: logger logconv;
 
 logger: logger.c
-	gcc -Wall -O2 -o logger logger.c
+	gcc -Wall -O2 -o mylogger logger.c
 
 logconv: logconv.c
 	gcc -Wall -O2 -o logconv logconv.c
