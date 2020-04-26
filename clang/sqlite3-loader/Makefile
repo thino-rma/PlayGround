@@ -1,6 +1,6 @@
 # Makefile
 .PHONY: all
-all: sample sqlite3-version sqlite3-createtable;
+all: sample sqlite3-version sqlite3-createtable sqlite3-loader;
 
 sqlite3.o:
 	gcc -Wall -g -O2 -I${HOME}/usr/include -L${HOME}/usr/lib -c -o sqlite3.o sqlite3.c -lpthread -ldl
@@ -14,8 +14,8 @@ sqlite3-version: sqlite3-version.c
 sqlite3-createtable: sqlite3-createtable.c logstdout.h sqlite3.o
 	gcc -Wall -g -O2 -I${HOME}/usr/include -L${HOME}/usr/lib -DLOGSTDOUT -o sqlite3-createtable sqlite3-createtable.c sqlite3.o -lpthread -ldl
 
-# sqlite3-loader: sqlite3-loader.c
-# 	gcc -Wall -g -O2 -I${HOME}/usr/include -L${HOME}/usr/lib -o sqlite3-loader sqlite3-loader.c sqlite3.c -lpthread -ldl
+sqlite3-loader: sqlite3-loader.c logstdout.h sqlite3.o
+	gcc -Wall -g -O2 -I${HOME}/usr/include -L${HOME}/usr/lib -DLOGSTDOUT -o sqlite3-loader sqlite3-loader.c sqlite3.o -lpthread -ldl
 
 # put '-lpthread -ldl' after '*.c' source files. 
 # The pthreads library is needed to make SQLite threadsafe. 
