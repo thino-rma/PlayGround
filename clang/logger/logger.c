@@ -254,6 +254,7 @@ int main(int argc, char **argv)
     int poll_rc = 0;       /* poll return code */
     struct pollfd fds[1];  /* for poll()       */
     struct context ctx;    /* context          */
+    struct tm tm;          /* local time       */
 
     ctx = parse_args(argc, argv);
 
@@ -317,21 +318,34 @@ int main(int argc, char **argv)
         if (p != NULL) {
             rc = timespec_get(&ctx.current_time, TIME_UTC);
             if (rc == 0) { err_msg(32, "timespec_get", errno); es = 32; goto end; }
+            tm = *localtime(&ctx.current_time.tv_sec);
+            rc = fprintf(s_out, "%04d-%02d-%02d %02d:%02d:%02d.%09ld %s",
+                         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                         tm.tm_hour, tm.tm_min, tm.tm_sec,
+                         ctx.current_time.tv_nsec, line);
 
             /* fprintf(s_out, "@%ld.%ld:", ct.tv_sec, ct.tv_nsec); */
             /* tv_sec is second, in Hexadecimal 0 - ffffffff */
             /* tv_nsec is nanosecond, 0 - 999999999, in Hexadecimal 0 - 3b9ac9ff */
-            rc = fprintf(s_out, "@%08lx.%08lx\t%s",
+            /*
+             rc = fprintf(s_out, "@%08lx.%08lx\t%s",
                          ctx.current_time.tv_sec,
                          ctx.current_time.tv_nsec,
                          line);
+             */
             if (rc < 0) { err_msg(33, "fprintf", errno); es = 33; goto end; }
 
 # ifdef DEBUG
+            printf("%04d-%02d-%02d %02d:%02d:%02d.%09ld %s",
+                   tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                   tm.tm_hour, tm.tm_min, tm.tm_sec,
+                   ctx.current_time.tv_nsec, line);
+            /*
             printf("@%08lx.%08lx\t%s",
                     ctx.current_time.tv_sec,
                     ctx.current_time.tv_nsec,
                     line);
+             */
 # endif
             /* discard the remaining data in stream */
             while (p != NULL && *(line + strlen(line) - 1) != '\n') {
