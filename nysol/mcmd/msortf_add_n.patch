@@ -1,0 +1,105 @@
+diff --git a/src/help/en/kgsortfHelp.h b/src/help/en/kgsortfHelp.h
+index 3103f9f..2dee73c 100644
+--- a/src/help/en/kgsortfHelp.h
++++ b/src/help/en/kgsortfHelp.h
+@@ -30,7 +30,7 @@ This commands uses quicksort algorithm and it is not a stable sort\n\
+ \n\
+ Format\n\
+ \n\
+-msortf f= [pways=] [maxlines=] [blocks=] [threadCnt=] [-noflg] [i=] [o=]\n\
++msortf f= [n=] [pways=] [maxlines=] [blocks=] [threadCnt=] [-noflg] [i=] [o=]\n\
+ [-assert_diffSize] [-nfn] [-nfno] [-x] [-q] [tmpPath=] [--help]\n\
+ [--helpl] [--version]\n\
+ \n\
+@@ -41,6 +41,7 @@ Parameters\n\
+        Specify %n after the field name, followed by n or r.\n\
+        Character string ascending order:field name (% is not specified), character string descending order:f=field%r,\n\
+        numeric ascending order:f=field%n, numeric descending order:f=field%nr.\n\
++  n=   Specify the header line.\n\
+ \n\
+ Examples\n\
+ \n\
+diff --git a/src/help/jp/kgsortfHelp.h b/src/help/jp/kgsortfHelp.h
+index 99acf5e..b24f0a5 100644
+--- a/src/help/jp/kgsortfHelp.h
++++ b/src/help/jp/kgsortfHelp.h
+@@ -32,7 +32,7 @@ f=パラメータで指定した項目を基準にして、レコードを並べ
+ \n\
+ 書式\n\
+ \n\
+-msortf f= [pways=] [maxlines=] [blocks=] [threadCnt=] [-noflg] [i=] [o=]\n\
++msortf f= [n=] [pways=] [maxlines=] [blocks=] [threadCnt=] [-noflg] [i=] [o=]\n\
+ [-assert_diffSize] [-nfn] [-nfno] [-x] [-q] [tmpPath=] [--help]\n\
+ [--helpl] [--version]\n\
+ \n\
+@@ -42,6 +42,7 @@ msortf f= [pways=] [maxlines=] [blocks=] [threadCnt=] [-noflg] [i=] [o=]\n\
+                並び順は、数値/文字列、昇順/降順の組み合せで4通り指定できる。\n\
+                指定方法は%に続けてnとrを以下の通り組み合わせる。\n\
+                文字列昇順:項目名(%指定なし)、文字列逆順:f=項目名%r、数値昇順:f=項目名%n、数値降順:f=項目名%nr。\n\
++  n=           出力CSVのヘッダー行を指定する。\n\
+   -noflg       出力CSVのヘッダーにソーティングの印(%0,%0nなど)を付けない。\n\
+   pways=       同時併合ファイル数([2-100]:デフォルト32)【任意】\n\
+                分割ソートされた複数のファイルを同時に何個併合するかを指定する。\n\
+diff --git a/src/kgmod/kgsortf.cpp b/src/kgmod/kgsortf.cpp
+index 4ae817c..183548f 100755
+--- a/src/kgmod/kgsortf.cpp
++++ b/src/kgmod/kgsortf.cpp
+@@ -194,7 +194,12 @@ kgSortf::kgSortf(void)
+ void kgSortf::setArgs(void)
+ {
+ 	// パラメータチェック
+-	_args.paramcheck("f=,i=,o=,pways=,maxlines=,blocks=,threadCnt=,-noflg",kgArgs::COMMON|kgArgs::IODIFF);
++	_args.paramcheck("f=,i=,o=,pways=,maxlines=,blocks=,threadCnt=,-noflg,n=",kgArgs::COMMON|kgArgs::IODIFF);
++	// n=header
++	_nStr = _args.toString("n=",false);
++	if (! _nStr.empty() ) {
++		_nfn_o = true;
++	}
+ 	// 
+ 	_noflg =_args.toBool("-noflg");
+ 
+@@ -758,6 +763,17 @@ int kgSortf::run(void) try
+ 	int iCnt=sort(_iFile);
+ 
+ 	// 入力件数0の時は例外的に項目名のみ出力して終了
++if (! _nStr.empty() ){
++	_oFile.writeStrNdq(_nStr.c_str(), true); // write header
++	if(iCnt==0){
++		_oFile.close();
++	}else{
++		// マージ
++		for(int level=0; iCnt!=0 ;level++){
++			iCnt=mergeOneLevel(level, iCnt);
++		}
++	}
++} else {
+ 	if(iCnt==0){
+ 		if(_noflg) { _oFile.writeFldName(_iFile); }
+ 		else			 { _oFile.writeFldName(_fField,kgstr_t("%")); }
+@@ -768,6 +784,7 @@ int kgSortf::run(void) try
+ 			iCnt=mergeOneLevel(level, iCnt);
+ 		}
+ 	}
++}
+ 
+ 	// 終了処理
+ 	_iFile.close();
+@@ -872,4 +889,4 @@ void kgSortf::run_noargs() try
+ 	tempFile_.remove_all();
+ 	//pthread_cancelが起こったときthrowしないabortする
+ 	throw;
+-}
+\ No newline at end of file
++}
+diff --git a/src/kgmod/kgsortf.h b/src/kgmod/kgsortf.h
+index d67293c..0d56290 100644
+--- a/src/kgmod/kgsortf.h
++++ b/src/kgmod/kgsortf.h
+@@ -58,6 +58,7 @@ class kgSortf :public kgMod{
+ 	size_t   _maxlines;  //maxlines=
+ 	int      _blocks;    //blocks=
+ 	int      _threadCnt; // threadCnt=
++	kgstr_t  _nStr;      // n=
+ 	bool 		 _noflg;
+   void setArgs(void); // 引数セット
+ 
