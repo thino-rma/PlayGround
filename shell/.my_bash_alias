@@ -1,0 +1,39 @@
+## $ echo ". .my_bash_alias" >> .bashrc
+## $ . .bashrc
+
+## normal
+alias ls='ls --color=auto'
+alias ll='ls -alF --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+## pushd/popd
+alias pu='pushd'
+alias po='popd'
+alias di='dirs'
+alias back='cd ${OLDPWD}'
+
+## servicectl
+alias servicels='systemctl --no-pager list-units'
+
+## date
+alias date_log='date +"%Y-%m-%d %H:%M:%S"'
+alias date_ext='date +"%Y%m%d%H%M%S"'
+
+## micro
+#### install
+#### $ mkdir ~/bin
+#### $ curl -sL https://gist.githubusercontent.com/zyedidia/d4acfcc6acf2d0d75e79004fa5feaf24/raw/a43e603e62205e1074775d756ef98c3fc77f6f8d/install_micro.sh | bash -s linux64 ~/bin
+
+## miniconda
+#### install
+#### $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+#### $ bash ~/miniconda.sh -b -p $HOME/miniconda
+#### $ conda create -n myenv python=3.6 -y
+#### $ conda activate myenv
+#### $ conda config --set channel_priority strict --file $CONDA_PREFIX/.condarc
+#### $ conda config --add channels conda-forge    --file $CONDA_PREFIX/.condarc
+#### $ conda install -y geopandas matplotlib pillow seaborn
+#### $ python -c "import geopandas"
+
