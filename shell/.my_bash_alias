@@ -2,6 +2,9 @@
 ## $ echo ". .my_bash_alias" >> ~/.bashrc
 ## $ . ~/.bashrc
 
+## sudo
+alias sudo='sudo -E '
+
 ## normal
 alias ls='ls --color=auto'
 alias ll='ls -alF --color=auto'
