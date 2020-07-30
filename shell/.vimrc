@@ -4,7 +4,7 @@
 " inoremap jk <ESC>  " jk is senseless.
 " let mapleader = " "
 
-set vb t_vb=↲
+set vb t_vb=
 
 filetype plugin indent on
 syntax on
