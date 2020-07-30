@@ -41,3 +41,24 @@ alias date_ext='date +"%Y%m%d%H%M%S"'
 #### $ conda install -y geopandas matplotlib pillow seaborn
 #### $ python -c "import geopandas"
 
+## disable Ctrl-S (stop), Ctrl-Q (start)
+if [[ -t 0 ]]; then
+  stty stop undef
+  stty start undef
+fi
+
+## Bash Commands for Moving
+# C-a (Home)    begginning-of-line
+# C-e (END)     end-of-line
+# C-b (LEFT)    backward-char
+# C-f (RIGHT)   forward-char
+# M-e (C-LEFT)  backward-word
+# M-f (C-RIGHT) forward-word
+## Bash Commands for Changing Text
+# C-d (DELETE)  delete-char
+# C-k           kill-line (erase from current position to end of the line)
+# C-u           unix-line-discard (erase from current position to begginning of the line)
+# C-w           unix-word-rubout (erase from current position to the point after the previous word)
+# C-v TAB       tab-insert
+# C-v any       quoted-insert  (C-v C-d inserts '^D')
+
