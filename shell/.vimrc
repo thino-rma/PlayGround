@@ -1,3 +1,4 @@
+" $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -o ~/.vimrc
 " $ wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -O ~/.vimrc
 
 " imap <C-j> <C-[>   " Ctrl-j
