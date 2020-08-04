@@ -1,3 +1,4 @@
+## $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.my_bash_alias -o ~/.my_bash_alias
 ## $ wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.my_bash_alias -O ~/.my_bash_alias
 ## $ echo ". .my_bash_alias" >> ~/.bashrc
 ## $ . ~/.bashrc
