@@ -4,7 +4,7 @@
 """ this option is useless.
 set nocompatible
 
-"=== for vim ===========================================================
+"=== for vim.tiny ======================================================
 
 """ ambiguas character width
 set ambiwidth=double
