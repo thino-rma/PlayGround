@@ -69,6 +69,7 @@ syntax on
 " inoremap jk <ESC>  " jk is senseless.
 " let mapleader = ' '
 
+""" Toggle number, list, mouse to make it easy to copy/paste
 if has('mouse')
   set mouse=a
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
@@ -78,6 +79,8 @@ endif
 
 """ Function: SmartQ
 "     Parameters:
+"       reg
+"         register name, e.g. 'a' means register @a
 "       len
 "         remove characters length.
 "     Usage:
@@ -133,12 +136,71 @@ function! s:AltRecord(reg, len)
   endif
 endfunction
 
-" keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
+""" start/finish recording with Shift+F12 to register "a
+" you may have to set keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
 " set <S-F1>=
-" nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)<CR>
-" keycode for Shift-F2: type i (insert mode), type C-v, type Shift-F2.
+nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)<CR>
+
+""" execute macro in register "a
+" you may have to set keycode for Shift-F2: type i (insert mode), type C-v, type Shift-F2.
 " set <S-F2>=
-" nnoremap <S-F2> @a
+nnoremap <S-F2> @a
+
+
+""" yank text to clipboard by OSC52
+" https://qiita.com/greymd/items/573e173d084470ee7b2d
+function! s:OscyankPut(text)
+  let encodedText=""
+  if $TMUX != ""
+    let encodedText=substitute(a:text, '\', '\\', "g")
+  else
+    let encodedText=substitute(a:text, '\', '\\\\', "g")
+  endif
+  let encodedText=substitute(encodedText, "\'", "'\\\\''", "g")
+  let executeCmd="echo -n '".encodedText."' | base64 | tr -d '\\n'"
+  let encodedText=system(executeCmd)
+  if $TMUX != ""
+    " tmux
+    let executeCmd='echo -en "\033Ptmux;\033\033]52;;'.encodedText.'\033\033\\\\\033\\" > /dev/tty'
+  elseif $TERM == "screen"
+    " screen
+    let executeCmd='echo -en "\033P\033]52;;'.encodedText.'\007\033\\" > /dev/tty'
+  else
+    let executeCmd='echo -en "\033]52;;'.encodedText.'\033\\" > /dev/tty'
+  endif
+  call system(executeCmd)
+  redraw!
+endfunction
+
+if v:version < 800
+  nnoremap yy yy:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
+  vnoremap y  y:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
+else
+  augroup osc52
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call <SID>OscyankPut(getreg(v:event.regname)) | endif
+  augroup END
+endif
+
+
+""" auto paste mode
+" https://qiita.com/ryoff/items/ad34584e41425362453e
+if &term =~ "xterm"
+    let &t_ti .= "\e[?2004h"
+    let &t_te .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function XTermPasteBegin(ret)
+        set paste
+        return a:ret
+    endfunction
+
+    noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+    cnoremap <special> <Esc>[200~ <nop>
+    cnoremap <special> <Esc>[201~ <nop>
+endif
+
 
 " ======================================================================
 """ usage """
