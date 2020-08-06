@@ -76,32 +76,69 @@ else
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 endif
 
-
+""" Function: SmartQ
+"     Parameters:
+"       len
+"         remove characters length.
+"     Usage:
+"         nnoremap q :<C-u>call <SID>SmartQ(2)<CR>
+"         nnoremap Q q<CR>
 " https://stackoverflow.com/questions/43654089/vim-mapping-q-only-when-not-recording
+"
+function! s:SmartQ(len)
+  if exists("g:recording_macro")
+    let r = g:recording_macro
+    unlet g:recording_macro
+    normal! q
+    execute 'let @'.r.' = @'.r.'[:-'.a:len.']'
+    echo 'recorded. Type @'.r.' to run the macro.'
+  else
+    echo '--recording : select register [0-9a-zA-Z] > '
+    let c = nr2char(getchar())
+    if c == ''
+      let c = 'a'
+    endif
+    if c =~ '[0-9a-eA-Z"]'
+      let g:recording_macro = c
+      execute 'normal! q'.c
+    else
+      redraw
+      echo 'aborted.'
+    endif
+  endif
+endfunction
+nnoremap Q q
+nnoremap q :<C-u>call <SID>SmartQ(2)<CR>
+
+
+""" Function: AltRecord
+"     Parameters:
+"       reg
+"         register name, e.g. 'a' means register @a
+"       len
+"         remove characters length.
+"     Usage:
+"         nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)
+"         nnoremap <S-F2> :<C-u>call <SID>AltRecord('b', 2)
 function! s:AltRecord(reg, len)
   if exists("g:recording_macro")
     let r = g:recording_macro
     unlet g:recording_macro
     normal! q
-    execute 'let @'.r." = @".r.'[:-'.len.']'
+    execute 'let @'.r." = @".r.'[:-'.a:len.']'
+    echo 'recorded. Type @'.r.' to run the macro.'
   else
-    let c = nr2char(getchar())
-    if c == ':'
-       quit
-    else
-       let g:recording_macro = reg
-       execute 'normal! q'.reg
-    endif
+    let g:recording_macro = a:reg
+    execute 'normal! q'.a:reg
   endif
 endfunction
-nnoremap Q q
-nnoremap q <Nop>
-noremap <S-F1> :<C-u>call <SID>AltRecord('a', 2)<CR>
-function! s:Sample(reg)
-  execute 'let @'.reg." = 'test'"
-endfunction
-nnoremap <S-F1> :<C-u>call <SID>Sample('a')<CR>
 
+" keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
+" set <S-F1>=
+" nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)<CR>
+" keycode for Shift-F2: type i (insert mode), type C-v, type Shift-F2.
+" set <S-F2>=
+" nnoremap <S-F2> @a
 
 " ======================================================================
 """ usage """
