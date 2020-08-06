@@ -204,10 +204,14 @@ endif
 
 " ======================================================================
 """ usage """
-
+" :e[dit] .        list files
 " :%s/abc/xyz/gcI  global / confirm / case sensitive
 " I xyz ESC .      repeat input commands 
 " C-v ... xyz      BLOCK VISUAL selection input (multi cursor)
+" C-p / C-n        auto complete
+" viw              VISUAL internal word
+" vi'              VISUAL internal ' and '
+" vi(              VISUAL internal ( and )
 
 """ (1) mode, save/quit
 " i / a / o           enter INPUT mode. INPUT / APPEND / OPEN bottom
@@ -218,6 +222,7 @@ endif
 " :w [filename]<CR>   write to file
 " :q<CR>, :q!<CR>    quit (or close current tab/window) / quit force
 " :wq<CR>, ZZ<CR>    write and quit (or close current tab/window)
+" :e[dit] [filename] edit (open)
 
 """ (2) cursor move
 " h / j / k / l       left / down / up / right
