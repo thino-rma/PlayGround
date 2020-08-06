@@ -71,7 +71,7 @@ syntax on
 
 if has('mouse')
   set mouse=a
-  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse! = '' ? set mouse= : set mouse=a<CR>
+  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
 else
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 endif
