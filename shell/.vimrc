@@ -1,57 +1,111 @@
 " $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -o ~/.vimrc
 " $ wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -O ~/.vimrc
 
-" imap <C-j> <C-[>   " Ctrl-j
-" inoremap jk <ESC>  " jk is senseless.
-" let mapleader = " "
+""" this option is useless.
+set nocompatible
 
+"=== for vim ===========================================================
+
+""" ambiguas character width
+set ambiwidth=double
+
+set autowrite      " Automatically save before commands like :next and :make
+
+""" enable backspace
+set backspace=indent,eol,start
+
+set expandtab      " expand tab to whitespace
+
+""" encoding
+set encoding=utf-8
+
+set hidden         " Hide buffers when they are abandoned
+set ignorecase     " Do case insensitive matching
+set incsearch      " Incremental search
+set list           " show unvisible character
+
+""" list characters
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+""" number format : this affects C-a (increment), C-x (decrement)
+set nrformats-=octal,hex
+
+set number         " Show line number
+
+""" set indent size
+set shiftwidth=4
+set showmatch      " Show matching brackets.
+set smartcase      " Do smart case matching
+
+""" set tab size
+set tabstop=4
+
+""" set terminal visual bell
 set vb t_vb=
+
+""" if vim.tine then execute it.
+silent! while 0
+  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+  """ finish reading vimrc
+  finish
+silent! endwhile
+
+"=== for vim ===========================================================
+
+set clipboard=unnamedplus
+set history=50
+set hlsearch
+set showcmd
+" set smartindent
+set title
+set virtualedit=block
+set whichwrap=b,s,[,],<,>
+set wildmenu
 
 filetype plugin indent on
 syntax on
-set encoding=utf-8
-set clipboard=unnamedplus
 
-set number
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+" imap <C-j> <C-[>   " Ctrl-j
+" inoremap jk <ESC>  " jk is senseless.
+" let mapleader = ' '
+
 if has('mouse')
   set mouse=a
-  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse!=""? "set mouse=" : "set mouse=a"<CR>
+  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse! = '' ? set mouse= : set mouse=a<CR>
 else
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 endif
 
-" set smartindent
 
-set showcmd        " Show (partial) command in status line.
-set showmatch      " Show matching brackets.
-set ignorecase     " Do case insensitive matching
-set smartcase      " Do smart case matching
-set incsearch      " Incremental search
-set autowrite      " Automatically save before commands like :next and :make
-set hidden         " Hide buffers when they are abandoned
+" https://stackoverflow.com/questions/43654089/vim-mapping-q-only-when-not-recording
+function! s:AltRecord(reg, len)
+  if exists("g:recording_macro")
+    let r = g:recording_macro
+    unlet g:recording_macro
+    normal! q
+    execute 'let @'.r." = @".r.'[:-'.len.']'
+  else
+    let c = nr2char(getchar())
+    if c == ':'
+       quit
+    else
+       let g:recording_macro = reg
+       execute 'normal! q'.reg
+    endif
+  endif
+endfunction
+nnoremap Q q
+nnoremap q <Nop>
+noremap <S-F1> :<C-u>call <SID>AltRecord('a', 2)<CR>
+function! s:Sample(reg)
+  execute 'let @'.reg." = 'test'"
+endfunction
+nnoremap <S-F1> :<C-u>call <SID>Sample('a')<CR>
 
-set title
-set ambiwidth=double
-set tabstop=4
-set expandtab
-set shiftwidth=4
-set nrformats-=octal
-set hidden
-set history=50
-set virtualedit=block
-set whichwrap=b,s,[,],<,>
-set backspace=indent,eol,start
-set wildmenu
 
-if has("syntax")
-  syntax on
-endif
-
-"""""""""""""
+" ======================================================================
 """ usage """
-"""""""""""""
+
 " :%s/abc/xyz/gcI  global / confirm / case sensitive
 " I xyz ESC .      repeat input commands 
 " C-v ... xyz      BLOCK VISUAL selection input (multi cursor)
@@ -130,3 +184,47 @@ endif
 " za / zA            open all / fold all
 " zi                 inverse open,fold
 
+""" (8) recording
+" qa                recording start into register "a if not recording
+" q                 recording end if recording in NORMAL mode
+" C-o q             recording end if recording in INSERT mode
+" @a                execute command in register "a
+
+""" (9) register
+" :reg         show register list
+" "ayy         yank current line into register a
+" "ap          paste register a
+" C-v ... "ay  yank selected region into register a
+" 
+" |register| description                                         |
+" |:-------|:----------------------------------------------------|
+" | ""     | unnamed register, used when yank(y), delete(d) etc. |
+" | "0     | numbered register (yanked text)                     |
+" | "1-    | numbered register (deleted line text)               |
+" | "2-"9  | numbered register (previous register content)       |
+" | "a-"z  | named register (overwrite)                          |
+" | "A-"Z  | named register (append to register a-z)             |
+" | "%     | read only register (current filename)               |
+" | "#     | read only register (alternate filename)             |
+" | "*     | the clipboard contents                              |
+" | "+     | the clipboard contents                              |
+" | "/     | the last search pattern                             |
+" | ":     | the last command-line                               |
+" | ".     | read only register (last inserted text)             |
+" | "-     | register for small delete                           |
+" | "=     | the expression register e                           |
+
+""" (10) buffer
+" :ls, :buffers, :files  show buffer list
+" :e[dit] FILENAME       open file (create buffer)
+" :bd[elete] 3           delete buffer 3
+" :b 3                   show buffer 3
+" :bprev[ous]            buffer previous
+" :bnext                 buffer next
+" :bfirst                buffer first
+" :blast                 buffer last
+
+
+""" check key code
+" $ sed -n l
+" exit with Ctrl-D or Ctrl-C
