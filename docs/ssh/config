@@ -1,0 +1,39 @@
+# ssh host1
+Host           host1
+HostName       host1.example.com
+User           vagrant
+IdentityFile   ~/.ssh/id_rsa
+LocalForward 8080 localhost:80
+LocalForward 8090 host2.private.net:80
+
+# ssh host2 over ssh1 (-C compression)
+Host           host2
+HostName       host2.private.net
+User           vagrant
+IdentityFile   ~/.ssh/id_rsa
+ProxyCommand   ssh -CW %h:%p host1
+
+# $ ssh host2
+#  local.net     |   public.net |   private.net
+# +-----------+  |   +-------+  |   +-------+
+# | localhost | ---> | host1 | ---> | host2 |
+# +-----------+  |   +-------+  |   +-------+
+#          8080 ---> 80
+#          8090 ------------------> 80
+
+# $ ssh -i ~/.ssh/private_key -p 22 vagrant@remote
+#   here '@remote' is reachable from localhost
+# $ ssh -i ~/.ssh/private_key -L 8080:localhost:80 vagrant@remote
+#   here 'localhost:80' is reachable from remote, so 'localhost' is remote itself.
+# $ ssh -i ~/.ssh/private_key -L 8090:sealed:80 vagrant@remote
+#   here 'sealed:80' is reachable from remote, so 'sealed' ought to be unreachable from localhost.
+
+# chmod 700 ~/.ssh
+# chmod 644 ~/.ssh/config
+# chmod 644 ~/.ssh/known_hosts
+# chmod 600 ~/.ssh/authorized_keys 
+# chmod 600 ~/.ssh/id_rsa
+# chmod 644 ~/.ssh/id_rsa.pub
+
+# cat id_rsa.pub >> ~/.ssh/authorized_keys
+
