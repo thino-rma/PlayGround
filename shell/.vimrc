@@ -15,10 +15,11 @@ set clipboard=unnamedplus
 set number
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 if has('mouse')
-  set mouse=a        " Enable mouse usage (all modes)
+  set mouse=a
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse!=""? "set mouse=" : "set mouse=a"<CR>
+else
+  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 endif
 
 " set smartindent
