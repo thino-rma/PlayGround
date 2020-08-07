@@ -20,7 +20,7 @@ function download() {
     echo "download $1 to $2"
     if [ -f /usr/bin/curl ]; then
       # /usr/bin/curl $1 -o $2
-      /usr/bin/curl -s $1 -o $2
+      /usr/bin/curl -L -s $1 -o $2
     elif [ -f /usr/bin/wget ]; then
       # /usr/bin/wget $1 -O $2
       /usr/bin/wget -q $1 -O $2
