@@ -84,6 +84,17 @@ let mapleader = "\<Space>"
 " toggle highlight search
 nnoremap <Leader><Leader> :set hlsearch!<CR>
 
+" insert empty line
+nnoremap <silent> <Leader><CR> o<ESC>
+nnoremap <silent> <Leader>o o<ESC>
+nnoremap <silent> <Leader>O O<ESC>
+
+" move cursor
+nnoremap <Leader><Left>   ^
+nnoremap <Leader><Right>  $
+nnoremap <Leader><Up>     <C-u>
+nnoremap <Leader><Down>   <C-d>
+
 " Quickly move to the beginning of line
 nnoremap <Leader><C-a> 0
 " Move to the end of line
