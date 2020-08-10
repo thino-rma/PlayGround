@@ -65,17 +65,116 @@ set wildmenu
 filetype plugin indent on
 syntax on
 
-" imap <C-j> <C-[>   " Ctrl-j
-" inoremap jk <ESC>  " jk is senseless.
-" let mapleader = ' '
+""" input wrapper function
+function! s:input(...) abort
+  new
+  cnoremap <buffer> <Esc> __CANCELED__<CR>
+  let ret = call('input', a:000)
+  bwipeout!
+  redraw
+  if ret =~# '__CANCELED__$'
+    throw 'Canceled'
+  endif
+  return ret
+endfunction
+
+
+let mapleader = "\<Space>"
+
+" toggle highlight search
+nnoremap <Leader><Leader> :set hlsearch!<CR>
+
+" Quickly move to the beginning of line
+nnoremap <Leader><C-a> 0
+" Move to the end of line
+nnoremap <Leader><C-e> $
+" Delete all characters after the cursor (Kills foward)
+nnoremap <Leader><C-k> d$
+" Delete all characters before the cursor (Kills backward)
+nnoremap <Leader><C-u> d0
+
+" open window
+nnoremap <Leader>ow :sp .
+" open tab
+nnoremap <Leader>ot :tabnew .
+
+" window open
+nnoremap <Leader>wo :sp .
+" window rotate
+nnoremap <Leader>wr <C-w>r
+" window down
+nnoremap <Leader>ww <C-w>w
+" window left/down/up/right
+nnoremap <Leader>wh        <C-w>h
+nnoremap <Leader>wj        <C-w>j
+nnoremap <Leader>wk        <C-w>k
+nnoremap <Leader>wl        <C-w>l
+nnoremap <Leader>w<Left>   <C-w><Left>
+nnoremap <Leader>w<Down>   <C-w><Down>
+nnoremap <Leader>w<Up>     <C-w><Up>
+nnoremap <Leader>w<Right>  <C-w><Right>
+" window size increase/decrease height
+nnoremap <Leader>ws<Up>    <C-w>+
+nnoremap <Leader>ws<Down>  <C-w>-
+" window size increase/decrease width
+nnoremap <Leader>ws<Right> <C-w>>
+nnoremap <Leader>ws<Left>  <C-w><
+" table next/previous
+nnoremap <Leader>tt gt
+nnoremap <Leader>tT gT
+" table rotate
+nnoremap <Leader>tr :tabmove<CR>gt
+
+" find
+nnoremap <Leader>f /<C-r>0\c<Left><Left>
+nnoremap <Leader>F /<C-r>0\C<Left><Left>
+vnoremap <Leader>f y/<C-r>0\c<Left><Left>
+vnoremap <Leader>F y/<C-r>0\C<Left><Left>
+" replace
+nnoremap <Leader>r :%s/<C-r>0//gci<Left><Left><Left><Left>
+nnoremap <Leader>R :%s/<C-r>0//gcI<Left><Left><Left><Left>
+vnoremap <Leader>r y:%s/<C-r>0//gci<Left><Left><Left><Left>
+vnoremap <Leader>R y:%s/<C-r>0//gcI<Left><Left><Left><Left>
+
+" list registries/tabs/buffers
+nnoremap <Leader>lr :reg<CR>
+nnoremap <Leader>lt :tabs<CR>
+nnoremap <Leader>lb :buffers<CR>
+
+" yank internal word / line
+nnoremap <F5> yiw
+nnoremap <S-F5> yy
+
+" find
+nnoremap <Leader>f /<C-r>0\c<Left><Left>
+nnoremap <Leader>F /<C-r>0\C<Left><Left>
+vnoremap <Leader>f y/<C-r>0\c<Left><Left>
+vnoremap <Leader>F y/<C-r>0\C<Left><Left>
+" replace
+nnoremap <Leader>r :%s/<C-r>0//gci<Left><Left><Left><Left>
+nnoremap <Leader>R :%s/<C-r>0//gcI<Left><Left><Left><Left>
+vnoremap <Leader>r y:%s/<C-r>0//gci<Left><Left><Left><Left>
+vnoremap <Leader>R y:%s/<C-r>0//gcI<Left><Left><Left><Left>
+
+" list registries/tabs/buffers
+nnoremap <Leader>lr :reg<CR>
+nnoremap <Leader>lt :tabs<CR>
+nnoremap <Leader>lb :buffers<CR>
+
+" yank internal word / line
+nnoremap <F5> yiw
+nnoremap <S-F5> yy
 
 """ Toggle number, list, mouse to make it easy to copy/paste
-if has('mouse')
-  set mouse=a
-  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
-else
-  noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
-endif
+noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+
+""" Toggle number, list, mouse to make it easy to copy/paste
+" if has('mouse')
+"   set mouse=a
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
+" else
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+" endif
 
 """ Function: SmartQ
 "     Parameters:
