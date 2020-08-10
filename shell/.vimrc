@@ -126,15 +126,15 @@ nnoremap <Leader>tT gT
 nnoremap <Leader>tr :tabmove<CR>gt
 
 " find
-nnoremap <Leader>f /<C-r>0\c<Left><Left>
+nnoremap <Leader>f /<C-r>0
 nnoremap <Leader>F /<C-r>0\C<Left><Left>
-vnoremap <Leader>f y/<C-r>0\c<Left><Left>
-vnoremap <Leader>F y/<C-r>0\C<Left><Left>
+vnoremap <Leader>f "fy/<C-r>f
+vnoremap <Leader>F "fy/<C-r>f\C<Left><Left>
 " replace
-nnoremap <Leader>r :%s/<C-r>0//gci<Left><Left><Left><Left>
+nnoremap <Leader>r :%s/<C-r>0//gc<Left><Left><Left>
 nnoremap <Leader>R :%s/<C-r>0//gcI<Left><Left><Left><Left>
-vnoremap <Leader>r y:%s/<C-r>0//gci<Left><Left><Left><Left>
-vnoremap <Leader>R y:%s/<C-r>0//gcI<Left><Left><Left><Left>
+vnoremap <Leader>r "ry:%s/<C-r>r//gc<Left><Left><Left>
+vnoremap <Leader>R "ry:%s/<C-r>r//gcI<Left><Left><Left><Left>
 
 " list registries/tabs/buffers
 nnoremap <Leader>lr :reg<CR>
