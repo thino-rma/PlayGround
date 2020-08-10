@@ -40,10 +40,10 @@ set smartcase      " Do smart case matching
 """ set tab size
 set tabstop=4
 
-""" set terminal visual bell
+""" set terminal visual bell off
 set vb t_vb=
 
-""" if vim.tine then execute it.
+""" if vim.tiny then execute it.
 silent! while 0
   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
   """ finish reading vimrc
@@ -184,23 +184,25 @@ endif
 
 
 """ auto paste mode
-" https://qiita.com/ryoff/items/ad34584e41425362453e
+" https://github.com/ConradIrwin/vim-bracketed-paste
 if &term =~ "xterm"
     let &t_ti .= "\e[?2004h"
-    let &t_te .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
+    let &t_te = "\e[?2004l" . &t_te
 
-    function XTermPasteBegin(ret)
+    function! XTermPasteBegin(ret)
+        set pastetoggle=<f29>
         set paste
         return a:ret
     endfunction
 
-    noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-    cnoremap <special> <Esc>[200~ <nop>
-    cnoremap <special> <Esc>[201~ <nop>
+    execute "set <f28>=\<Esc>[200~"
+    execute "set <f29>=\<Esc>[201~"
+    map <expr> <f28> XTermPasteBegin("0i")
+    imap <expr> <f28> XTermPasteBegin("")
+    vmap <expr> <f28> XTermPasteBegin("c")
+    cmap <f28> <nop>
+    cmap <f29> <nop>
 endif
-
 
 " ======================================================================
 """ usage """
