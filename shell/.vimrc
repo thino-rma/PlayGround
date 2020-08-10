@@ -313,6 +313,20 @@ endif
 " viw              VISUAL internal word
 " vi'              VISUAL internal ' and '
 " vi(              VISUAL internal ( and )
+" yiw              yank inner word
+" diw              delete inner word
+" daw              delete a word
+" diW              delete inner WORD
+" daW              delete a WORD
+" dgn              delete next search
+" dis              delete inner sentence
+" das              delete a sentence
+" dib              delete inner '(' ')' block
+" dab              delete a '(' ')' block
+" dip              delete inner paragraph
+" dap              delete a paragraph
+" diB              delete inner '{' '}' Block
+" daB              delete a '{' '}' Block
 
 """ (1) mode, save/quit
 " i / a / o           enter INPUT mode. INPUT / APPEND / OPEN bottom
