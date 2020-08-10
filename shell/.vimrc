@@ -78,6 +78,17 @@ function! s:input(...) abort
   return ret
 endfunction
 
+""" function for F1, toggle Help
+function! MapF1()
+  if &buftype == "help"
+    exec 'quit'
+  else
+    exec 'help'
+  endif
+endfunction
+" Disable F1 Help, show infomation at the cursor position
+inoremap <F1> <Esc>g<C-g>
+noremap <F1> :call MapF1()<CR>
 
 let mapleader = "\<Space>"
 
