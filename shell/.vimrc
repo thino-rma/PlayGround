@@ -53,6 +53,8 @@ silent! endwhile
 "=== for vim ===========================================================
 
 set clipboard=unnamedplus
+" set cursorline
+" set cursorcolumn
 set history=50
 set hlsearch
 set showcmd
@@ -79,13 +81,9 @@ function! s:input(...) abort
 endfunction
 
 " you may have to set keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
-" set <S-F1>=^[[11;2~
 execute "set <S-F1>=\<Esc>[11;2~"
-execute "set <F2>=\<Esc>[12~"
 execute "set <S-F2>=\<Esc>[12;2~"
-execute "set <F3>=\<Esc>[13~"
 execute "set <S-F3>=\<Esc>[13;2~"
-execute "set <F4>=\<Esc>[14~"
 execute "set <S-F4>=\<Esc>[14;2~"
 
 """ function for F1, toggle Help
@@ -96,29 +94,167 @@ function! MapF1()
     exec 'help'
   endif
 endfunction
+
 " Disable F1 Help, show infomation at the cursor position
+nnoremap <F1> :call MapF1()<CR>
+vnoremap <F1> <Esc>g<C-g>
 inoremap <F1> <Esc>g<C-g>
-noremap <F1> :call MapF1()<CR>
+
+""" start/finish recording with Shift+F12 to register
+" <S-F1>
+nnoremap <S-F1>      :<C-u>call <SID>AltRecord('a', 4)<CR>
+" <M-F1>
+nnoremap <ESC>[11;3~ :<C-u>call <SID>AltRecord('b', 8)<CR>
+" <M-S-F1>
+nnoremap <ESC>[11;4~ :<C-u>call <SID>AltRecord('c', 8)<CR>
+" <C-F1>
+nnoremap <ESC>[11;5~ :<C-u>call <SID>AltRecord('d', 8)<CR>
+" <C-S-F1>
+nnoremap <ESC>[11;6~ :<C-u>call <SID>AltRecord('e', 8)<CR>
+" <M-C-F1>
+nnoremap <ESC>[11;7~ :<C-u>call <SID>AltRecord('f', 8)<CR>
+" <M-C-S-F1>
+nnoremap <ESC>[11;8~ :<C-u>call <SID>AltRecord('g', 8)<CR>
+
+""" show register
+nnoremap <F2>        :<C-u>reg<CR>
+inoremap <F2>        <nop>
+""" execute macro in register
+" <S-F2>
+nnoremap <S-F2>      @a
+" <M-F2>
+nnoremap <ESC>[12;3~ @b
+" <M-S-F2>
+nnoremap <ESC>[12;4~ @c
+" <C-F2>
+nnoremap <ESC>[12;5~ @d
+" <C-S-F2>
+nnoremap <ESC>[12;6~ @e
+" <M-C-F2>
+nnoremap <ESC>[12;7~ @f
+" <M-C-S-F2>
+nnoremap <ESC>[12;8~ @g
 
 " search next/previous (zz: redraw, cursor line at center of window)
-nnoremap <F3> nzz
+nnoremap <F3>   nzz
+vnoremap <F3>   nzz
+inoremap <F3>   <C-o>n<C-o>zz
+" <S-F3>
 nnoremap <S-F3> Nzz
-inoremap <F3> <C-o>n<C-o>zz
-inoremap <S-F3> <C-o>N<C-o>zz
+vnoremap <S-F3> Nzz
+inoremap <S-F3> <C-o>n<C-o>zz
+" <M-f3>   search foward case sensivtive
+nnoremap <ESC>[13;3~ /\c<Left><Left>
+vnoremap <ESC>[13;3~ /\c<Left><Left>
+inoremap <ESC>[13;3~ <ESC>/\c<Left><Left>
+" <M-S-f3> search backword case sensitive
+nnoremap <ESC>[13;4~ ?\c<Left><Left>
+vnoremap <ESC>[13;4~ ?\c<Left><Left>
+inoremap <ESC>[13;4~ <ESC>?\c<Left><Left>
+" <C-f3> substitute /
+nnoremap <ESC>[13;5~ :s/<C-r>///<Left>
+vnoremap <ESC>[13;5~ :s/<C-r>///<Left>
+inoremap <ESC>[13;5~ <ESC>:s/<C-r>///<Left>
+" <C-S-f3> substitute #
+nnoremap <ESC>[13;6~ :s#<C-r>/##<Left>
+vnoremap <ESC>[13;6~ :s#<C-r>/##<Left>
+inoremap <ESC>[13;6~ <ESC>:s#<C-r>/##<Left>
+" <M-C-f3> substitute case sensitive
+nnoremap <ESC>[13;7~ :s/<C-r>///i<Left><Left>
+vnoremap <ESC>[13;7~ :s/<C-r>///i<Left><Left>
+inoremap <ESC>[13;7~ <ESC>:s/<C-r>///i<Left><Left>
+" <M-C-S-f3> substitute 
+nnoremap <ESC>[13;8~ :,$s//~/gc
+vnoremap <ESC>[13;8~ :s//~/gc
+inoremap <ESC>[13;8~ <ESC>:,$s//~/gc
 
-" tab next/previous
-nnoremap <F4> gt
-nnoremap <S-F4> gT
-inoremap <F4> <ESC>gt
-inoremap <S-F4> <ESC>gT
+" F4
+nnoremap <F4>           :&&<CR>
+nnoremap <S-F4>         gt
+nnoremap <A-F4>         gt
+nnoremap <S-A-F4>       gt
+nnoremap <C-F4>         gt
+nnoremap <C-S-F4>       gt
+nnoremap <C-A-F4>       gt
+nnoremap <C-S-A-F4>     gt
 
-" yank internal word / line
-nnoremap <F5> yiw
-nnoremap <S-F5> yy
+" yank internal word / to end of the line
+nnoremap <F5>       yiw
+nnoremap <S-F5>     y$
+nnoremap <A-F5>         gt
+nnoremap <S-A-F5>       gt
+nnoremap <C-F5>         gt
+nnoremap <C-S-F5>       gt
+nnoremap <C-A-F5>       gt
+nnoremap <C-S-A-F5>     gt
 
+" F6
+nnoremap <F6>           gt
+nnoremap <S-F6>         gt
+nnoremap <A-F6>         gt
+nnoremap <S-A-F6>       gt
+nnoremap <C-F6>         gt
+nnoremap <C-S-F6>       gt
+nnoremap <C-A-F6>       gt
+nnoremap <C-S-A-F6>     gt
+
+" F7
+nnoremap <F7>           gt
+nnoremap <S-F7>         gt
+nnoremap <A-F7>         gt
+nnoremap <S-A-F7>       gt
+nnoremap <C-F7>         gt
+nnoremap <C-S-F7>       gt
+nnoremap <C-A-F7>       gt
+nnoremap <C-S-A-F7>     gt
+
+" F8
+nnoremap <F8>           gt
+nnoremap <S-F8>         gt
+nnoremap <A-F8>         gt
+nnoremap <S-A-F8>       gt
+nnoremap <C-F8>         gt
+nnoremap <C-S-F8>       gt
+nnoremap <C-A-F8>       gt
+nnoremap <C-S-A-F8>     gt
+
+" F9
+nnoremap <F9>           gt
+nnoremap <S-F9>         gT
+nnoremap <A-F9>         gt
+nnoremap <S-A-F9>       gt
+nnoremap <C-F9>         gt
+nnoremap <C-S-F9>       gt
+nnoremap <C-A-F9>       gt
+nnoremap <C-S-A-F9>     gt
+
+" F10
+nnoremap <F10>           <C-w>w
+nnoremap <S-F10>         <C-w>W
+nnoremap <A-F10>         gt
+nnoremap <S-A-F10>       gt
+nnoremap <C-F10>         gt
+nnoremap <C-S-F10>       gt
+nnoremap <C-A-F10>       gt
+nnoremap <C-S-A-F10>     gt
+
+" F11
+nnoremap <F11>           gt
+nnoremap <S-F11>         gt
+nnoremap <A-F11>         gt
+nnoremap <S-A-F11>       gt
+nnoremap <C-F11>         gt
+nnoremap <C-S-F11>       gt
+nnoremap <C-A-F11>       gt
+nnoremap <C-S-A-F11>     gt
+
+" F12
 """ Toggle number, list, mouse to make it easy to copy/paste
-noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+nnoremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR>
+""" Toggle cursorline, cursorcol
+nnoremap <silent> <S-F12> <ESC>:set cursorline!<CR>:set cursorcolumn!<CR>
+inoremap <silent> <S-F12> <C-o>:set cursorline!<CR><C-o>:set cursorcolumn!<CR>
 
 """ Toggle number, list, mouse to make it easy to copy/paste
 " if has('mouse')
@@ -127,6 +263,13 @@ inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR>
 " else
 "   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
 " endif
+
+nnoremap <A-F12>         gt
+nnoremap <S-A-F12>       gt
+nnoremap <C-F12>         gt
+nnoremap <C-S-F12>       gt
+nnoremap <C-A-F12>       gt
+nnoremap <C-S-A-F12>     gt
 
 let mapleader = "\<Space>"
 
@@ -492,6 +635,25 @@ endif
 " :bfirst                buffer first
 " :blast                 buffer last
 
+""" (11) mark
+" :marks                
+" ma           set mark a {A-Za-z} at cursor position
+" delma        delete mark a {A-Za-z}
+" delmarsk!    delete all marks
+" `a           cursor to the mark a {A-Za-z0-9}
+" 'a           cursor to the first CHAR on the line with mark a {A-Za-z09}
+" [`           cursor to previous lowercase mark
+" ]`           cursor to next lowercase mark
+" ['           cursor to previous lowercase mark, on first non-blank
+" ]'           cursor to next lowercase mark, on first non-blank
+" c`a          change from current cursor position to position mark a
+" d`a          delete from current cursor position to position mark a
+" y`a          yank from current cursor position to position mark a
+
+""" (12) jump list
+" :ju[mps]    print the jump list
+" <C-o>       go to N older entry in jump list
+" <C-i>       go to N newer entry in jump list
 
 """ check key code
 " $ sed -n l
