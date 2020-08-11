@@ -78,6 +78,16 @@ function! s:input(...) abort
   return ret
 endfunction
 
+" you may have to set keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
+" set <S-F1>=^[[11;2~
+execute "set <S-F1>=\<Esc>[11;2~"
+execute "set <F2>=\<Esc>[12~"
+execute "set <S-F2>=\<Esc>[12;2~"
+execute "set <F3>=\<Esc>[13~"
+execute "set <S-F3>=\<Esc>[13;2~"
+execute "set <F4>=\<Esc>[14~"
+execute "set <S-F4>=\<Esc>[14;2~"
+
 """ function for F1, toggle Help
 function! MapF1()
   if &buftype == "help"
@@ -89,6 +99,34 @@ endfunction
 " Disable F1 Help, show infomation at the cursor position
 inoremap <F1> <Esc>g<C-g>
 noremap <F1> :call MapF1()<CR>
+
+" search next/previous (zz: redraw, cursor line at center of window)
+nnoremap <F3> nzz
+nnoremap <S-F3> Nzz
+inoremap <F3> <C-o>n<C-o>zz
+inoremap <S-F3> <C-o>N<C-o>zz
+
+" tab next/previous
+nnoremap <F4> gt
+nnoremap <S-F4> gT
+inoremap <F4> <ESC>gt
+inoremap <S-F4> <ESC>gT
+
+" yank internal word / line
+nnoremap <F5> yiw
+nnoremap <S-F5> yy
+
+""" Toggle number, list, mouse to make it easy to copy/paste
+noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR>
+
+""" Toggle number, list, mouse to make it easy to copy/paste
+" if has('mouse')
+"   set mouse=a
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
+" else
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+" endif
 
 let mapleader = "\<Space>"
 
@@ -163,10 +201,6 @@ nnoremap <Leader>lr :reg<CR>
 nnoremap <Leader>lt :tabs<CR>
 nnoremap <Leader>lb :buffers<CR>
 
-" yank internal word / line
-nnoremap <F5> yiw
-nnoremap <S-F5> yy
-
 " find
 nnoremap <Leader>f /<C-r>0\c<Left><Left>
 nnoremap <Leader>F /<C-r>0\C<Left><Left>
@@ -183,12 +217,9 @@ nnoremap <Leader>lr :reg<CR>
 nnoremap <Leader>lt :tabs<CR>
 nnoremap <Leader>lb :buffers<CR>
 
-" yank internal word / line
-nnoremap <F5> yiw
-nnoremap <S-F5> yy
-
 """ Toggle number, list, mouse to make it easy to copy/paste
-noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+nnoremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR>
 
 """ Toggle number, list, mouse to make it easy to copy/paste
 " if has('mouse')
@@ -258,13 +289,9 @@ function! s:AltRecord(reg, len)
 endfunction
 
 """ start/finish recording with Shift+F12 to register "a
-" you may have to set keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
-" set <S-F1>=
 nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)<CR>
 
 """ execute macro in register "a
-" you may have to set keycode for Shift-F2: type i (insert mode), type C-v, type Shift-F2.
-" set <S-F2>=
 nnoremap <S-F2> @a
 
 
