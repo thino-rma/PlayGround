@@ -143,40 +143,47 @@ inoremap <F3>   <C-o>n<C-o>zz
 nnoremap <S-F3> Nzz
 vnoremap <S-F3> Nzz
 inoremap <S-F3> <C-o>n<C-o>zz
-" <M-f3>   search foward case sensivtive
+" <M-F3>   search foward case sensivtive
 nnoremap <ESC>[13;3~ /\c<Left><Left>
 vnoremap <ESC>[13;3~ /\c<Left><Left>
 inoremap <ESC>[13;3~ <ESC>/\c<Left><Left>
-" <M-S-f3> search backword case sensitive
+" <M-S-F3> search backword case sensitive
 nnoremap <ESC>[13;4~ ?\c<Left><Left>
 vnoremap <ESC>[13;4~ ?\c<Left><Left>
 inoremap <ESC>[13;4~ <ESC>?\c<Left><Left>
-" <C-f3> substitute /
+" <C-F3> substitute /
 nnoremap <ESC>[13;5~ :s/<C-r>///<Left>
 vnoremap <ESC>[13;5~ :s/<C-r>///<Left>
 inoremap <ESC>[13;5~ <ESC>:s/<C-r>///<Left>
-" <C-S-f3> substitute #
+" <C-S-F3> substitute #
 nnoremap <ESC>[13;6~ :s#<C-r>/##<Left>
 vnoremap <ESC>[13;6~ :s#<C-r>/##<Left>
 inoremap <ESC>[13;6~ <ESC>:s#<C-r>/##<Left>
-" <M-C-f3> substitute case sensitive
-nnoremap <ESC>[13;7~ :s/<C-r>///i<Left><Left>
-vnoremap <ESC>[13;7~ :s/<C-r>///i<Left><Left>
-inoremap <ESC>[13;7~ <ESC>:s/<C-r>///i<Left><Left>
-" <M-C-S-f3> substitute 
+" <M-C-F3> substitute case sensitive
+nnoremap <ESC>[13;7~ :s/<C-r>///I<Left><Left>
+vnoremap <ESC>[13;7~ :s/<C-r>///I<Left><Left>
+inoremap <ESC>[13;7~ <ESC>:s/<C-r>///I<Left><Left>
+" <M-C-S-F3> substitute 
 nnoremap <ESC>[13;8~ :,$s//~/gc
 vnoremap <ESC>[13;8~ :s//~/gc
 inoremap <ESC>[13;8~ <ESC>:,$s//~/gc
 
 " F4
-nnoremap <F4>           :&&<CR>
-nnoremap <S-F4>         gt
-nnoremap <A-F4>         gt
-nnoremap <S-A-F4>       gt
-nnoremap <C-F4>         gt
-nnoremap <C-S-F4>       gt
-nnoremap <C-A-F4>       gt
-nnoremap <C-S-A-F4>     gt
+nnoremap <F4>        :&&<CR>
+" <S-F4>
+nnoremap <S-F4>      gt
+" <M-F4>
+nnoremap <ESC>[14;3~ gt
+" <M-S-F4>
+nnoremap <ESC>[14;4~ gt
+" <C-F4>
+nnoremap <ESC>[14;5~ gt
+" <C-S-F4>
+nnoremap <ESC>[14;6~ gt
+" <M-C-F4>
+nnoremap <ESC>[14;7~ gt
+" <M-C-S-F4>
+nnoremap <ESC>[14;8~ gt
 
 " yank internal word / to end of the line
 nnoremap <F5>       yiw
