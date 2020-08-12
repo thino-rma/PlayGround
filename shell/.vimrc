@@ -57,6 +57,7 @@ set clipboard=unnamedplus
 " set cursorcolumn
 set history=50
 set hlsearch
+set scrolloff=5
 set showcmd
 " set smartindent
 set title
@@ -273,7 +274,11 @@ inoremap <silent> <S-F12> <C-o>:set cursorline!<CR><C-o>:set cursorcolumn!<CR>
 
 nnoremap <A-F12>         gt
 nnoremap <S-A-F12>       gt
-nnoremap <C-F12>         gt
+
+""" Toggle cursorline, cursorcol
+nnoremap <silent> <C-F12> <ESC>:<C-u>let &scrolloff=999-&scrolloff<CR>
+inoremap <silent> <C-F12> <C-o>:let &scrolloff=999-&scrolloff<CR>
+
 nnoremap <C-S-F12>       gt
 nnoremap <C-A-F12>       gt
 nnoremap <C-S-A-F12>     gt
