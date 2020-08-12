@@ -283,6 +283,29 @@ nnoremap <C-S-F12>       gt
 nnoremap <C-A-F12>       gt
 nnoremap <C-S-A-F12>     gt
 
+""""""""""""""""""""""""""""""""
+""" key-maps for comandline-edit
+
+" <C-b> cursor to left
+" <C-f> cursor to right
+" <C-a> cursor to begin of command-line
+" <C-e> cursor to end of command-line
+" <C-u> Remove all characters between the cursor position and the beginning of the line.
+" <C-k> Remove all characters between the cursor position and the end of the line.
+
+""" backups
+cnoremap <C-\>1 <C-a>
+cnoremap <C-\>2 <C-b>
+cnoremap <C-\>3 <C-f>
+cnoremap <C-\>4 <C-k>
+
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-k> <C-\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>
+
+""""""""""""""""""""""""""""""""
+
 let mapleader = "\<Space>"
 
 " toggle highlight search
