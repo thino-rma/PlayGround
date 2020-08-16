@@ -602,6 +602,25 @@ nnoremap <M-C-S-F8>     <nop>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F9  tab / (Alt) window
 
+function! s:SearchEN(key, skey)
+  let p = '\(^\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\\|' . "'" . '\\|(\\|)\\|$\)'
+  call <SID>Search(a:key, a:skey, p)
+endfunction
+
+function! s:SearchJP(key, skey)
+  let p = '\(^\\|\s\+\zs\\|　\+\zs\\|、\\|。\\|！\\|？\\|「\\|」\\|（\\|）\\|$\)'
+  call <SID>Search(a:key, a:skey, p)
+endfunction
+
+function! s:Search(key, skey, p)
+  exec 'nnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'vnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'inoremap ' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'nnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'vnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'inoremap ' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+endfunction
+
 """ without Alt
 call <SID>SearchEN('<F9>', '<S-F9>')
 noremap <C-F9>         <nop>
@@ -1418,26 +1437,6 @@ nnoremap <Leader>T<Space>        T<C-k>IS
 vnoremap <Leader>T<Space>        <C-o>T<C-k>IS
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-function! s:SearchEN(key, skey)
-  let p = '\(^\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\\|' . "'" . '\\|(\\|)\\|$\)'
-  call <SID>Search(a:key, a:skey, p)
-endfunction
-
-function! s:SearchJP(key, skey)
-  let p = '\(^\\|\s\+\zs\\|　\+\zs\\|、\\|。\\|！\\|？\\|「\\|」\\|（\\|）\\|$\)'
-  call <SID>Search(a:key, a:skey, p)
-endfunction
-
-function! s:Search(key, skey, p)
-  exec 'nnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'vnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'inoremap ' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'nnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'vnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'inoremap ' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-endfunction
 
 """ Function: SmartQ
 "     Parameters:
