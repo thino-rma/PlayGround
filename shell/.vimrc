@@ -682,20 +682,15 @@ inoremap <silent> <S-F12> <C-o>:let &scrolloff=999-&scrolloff<CR><C-o>:echo "scr
 nnoremap <silent> <C-F12> <ESC>:set cursorline!<CR>:set cursorcolumn!<CR>
 inoremap <silent> <C-F12> <C-o>:set cursorline!<CR><C-o>:set cursorcolumn!<CR>
 
-""" with Alt, Toggle ignorecase (alternative search/replace condition)
-" <M-F12>
-nnoremap <M-F12> <ESC>:set ignorecase!<CR>
-inoremap <M-F12> <C-o>:set ignorecase!<CR>
-
-""" with Ctrl+Shift
+""" with Ctrl+Shift, Toggle ignorecase (alternative search/replace condition)
 " <C-S-F12>
-noremap <C-S-F12>       <nop>
+nnoremap <silent> <C-S-F12> <ESC>:set ignorecase!<CR>:set ignorecase?<CR>
+inoremap <silent> <C-S-F12> <C-o>:set ignorecase!<CR><C-o>:set ignorecase?<CR>
 
-""" with Alt
+""" with Alt, Toggle Bash Keymap
 " <M-F12>
-nnoremap <M-F12>         :call <SID>ToggleBashKeymap()<CR>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
-vnoremap <M-F12>         <nop>
-inoremap <M-F12>         <C-o>:call <SID>ToggleBashKeymap()<CR><C-o>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
+nnoremap <silent> <M-F12> <ESC>:call <SID>ToggleBashKeymap()<CR>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
+inoremap <silent> <M-F12> <C-o>:call <SID>ToggleBashKeymap()<CR><C-o>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
 
 """ with Alt-Shift
 " <M-S-F12>
@@ -1222,11 +1217,6 @@ inoremap <ESC>O7D   <nop>
 nnoremap <ESC>O8D   <nop>
 vnoremap <ESC>O8D   <nop>
 inoremap <ESC>O8D   <nop>
-
-
-
-
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ keys with Leader
