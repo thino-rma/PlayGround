@@ -1021,8 +1021,8 @@ inoremap <ESC>O2A   <C-o>vk
 " [default] vnoremap <ESC>O5A   <ESC>gt
 " [default] inoremap <ESC>O5A   <C-o>gt
 nnoremap <ESC>O5A   5k
-nnoremap <ESC>O5A   5k
-nnoremap <ESC>O5A   <C-o>5k
+vnoremap <ESC>O5A   5k
+inoremap <ESC>O5A   <C-o>5k
 
 
 """ with Ctrl-Shift, select region 5 lines Up
@@ -1077,8 +1077,8 @@ inoremap <ESC>O2B   <C-o>vj
 " [default] vnoremap <ESC>O5B   <ESC>gt
 " [default] inoremap <ESC>O5B   <C-o>gt
 nnoremap <ESC>O5B   5j
-nnoremap <ESC>O5B   5j
-nnoremap <ESC>O5B   <C-o>5j
+vnoremap <ESC>O5B   5j
+inoremap <ESC>O5B   <C-o>5j
 
 
 """ with Ctrl-Shift, select 5 lines Up
