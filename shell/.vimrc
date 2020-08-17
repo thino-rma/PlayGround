@@ -1,4 +1,4 @@
-" $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -o ~/.vimrc
+" $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -L -o ~/.vimrc
 " $ wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/.vimrc -O ~/.vimrc
 
 """ this option is useless.
@@ -50,6 +50,8 @@ silent! while 0
   finish
 silent! endwhile
 
+" DON'T ERASE this!!
+if 1
 "=== for vim ===========================================================
 
 set clipboard=unnamedplus
@@ -1590,6 +1592,8 @@ digraphs j~ 12316  " ～ tilde
 digraphs j/ 12539  " ・ slash
 digraphs js 12288  " 　 space
 
+" DON'T ERASE this!!
+endif
 " ======================================================================
 """ usage """
 " :e[dit] .        list files
