@@ -717,8 +717,8 @@ function! s:ToggleBashKeymap()
     iunmap <C-u>
     nunmap <C-k>
     iunmap <C-k>
-    nunmap <C-x>
-    iunmap <C-x>
+    nunmap <C-d>
+    iunmap <C-d>
   else
     let g:keymap_bash = 1
     nnoremap <C-a> 0
@@ -729,8 +729,8 @@ function! s:ToggleBashKeymap()
     inoremap <C-u> <C-o>v0d
     nnoremap <C-k> vg_d
     inoremap <C-k> <C-o>vg_d
-    nnoremap <C-x> _x
-    inoremap <C-x> <C-o>_x
+    nnoremap <C-d> _x
+    inoremap <C-d> <C-o>_x
   endif
 endfunction
 
