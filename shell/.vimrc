@@ -72,6 +72,19 @@ set wildmode=list:longest
 filetype plugin indent on
 syntax on
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" IME control
+" https://qiita.com/U25CE/items/0b40662a22162907efae
+" start INSERT mode, IME on
+execute "set t_SI+=\<Esc>[<r"
+" exit INSERT mode, IME mode save, IME off
+execute "set t_EI+=\<Esc>[<s\<ESC>[<0t"
+" terminate, IME off
+execute "set t_te+=\<Esc>[<0t\<ESC>[<s"
+" The time in milliseconds that is waited for a key code or mapped key sequence to complete.
+set ttimeoutlen=100
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ input wrapper function
 function! s:input(...) abort
   new
@@ -1120,31 +1133,31 @@ inoremap <ESC>O8B   <nop>
 " [default] nnoremap <ESC>O2C   w
 " [default] vnoremap <ESC>O2C   w
 " [default] inoremap <ESC>O2C   <C-o>w
-nnoremap <ESC>O2C   vl
-vnoremap <ESC>O2C   l
-inoremap <ESC>O2C   <C-o>vl
+nnoremap <ESC>O2C   v<Right>
+vnoremap <ESC>O2C   <Right>
+inoremap <ESC>O2C   <C-o>v<Right>
 
 """ with Ctrl, 5 chars Right
 " <C-Right>
 " [default] nnoremap <ESC>O5C   w
 " [default] vnoremap <ESC>O5C   w
 " [default] inoremap <ESC>O5C   <C-o>w
-nnoremap <ESC>O5C   5l
-vnoremap <ESC>O5C   5l
-inoremap <ESC>O5C   <C-o>v5l
+nnoremap <ESC>O5C   5<Right>
+vnoremap <ESC>O5C   5<Right>
+inoremap <ESC>O5C   <C-o>v5<Right>
 
 
 """ with Ctrl-Shift, select region 5 lines Up
 " <C-S-Right>
-nnoremap <ESC>O6C   v5l
-vnoremap <ESC>O6C   5l
-inoremap <ESC>O6C   <C-o>5l
+nnoremap <ESC>O6C   v5<Right>
+vnoremap <ESC>O6C   5<Right>
+inoremap <ESC>O6C   <C-o>5<Right>
 
 """ with Alt, window up
 " <M-Right>
-nnoremap <ESC>O3C   <C-w>l
-vnoremap <ESC>O3C   <C-w>l
-inoremap <ESC>O3C   <C-o><C-w>l
+nnoremap <ESC>O3C   <C-w><Right>
+vnoremap <ESC>O3C   <C-w><Right>
+inoremap <ESC>O3C   <C-o><C-w><Right>
 
 """ with Alt-Shift, window size wider
 " <M-S-Right>
@@ -1176,31 +1189,31 @@ inoremap <ESC>O8C   <nop>
 " [default] nnoremap <ESC>O2D   b
 " [default] vnoremap <ESC>O2D   b
 " [default] inoremap <ESC>O2D   <C-o>b
-nnoremap <ESC>O2D   vh
-vnoremap <ESC>O2D   h
-inoremap <ESC>O2D   <C-o>vh
+nnoremap <ESC>O2D   v<Left>
+vnoremap <ESC>O2D   <Left>
+inoremap <ESC>O2D   <C-o>v<Left>
 
 """ with Ctrl, 5 chars Left
 " <C-Left>
 " [default] nnoremap <ESC>O5D   b
 " [default] vnoremap <ESC>O5D   b
 " [default] inoremap <ESC>O5D   <C-o>b
-nnoremap <ESC>O5D   5h
-vnoremap <ESC>O5D   5h
-inoremap <ESC>O5D   <C-o>v5h
+nnoremap <ESC>O5D   5<Left>
+vnoremap <ESC>O5D   5<Left>
+inoremap <ESC>O5D   <C-o>v5<Left>
 
 
 """ with Ctrl-Shift, select region 5 lines Up
 " <C-S-Left>
-nnoremap <ESC>O6D   v5h
-vnoremap <ESC>O6D   5h
-inoremap <ESC>O6D   <C-o>v5h
+nnoremap <ESC>O6D   v5<Left>
+vnoremap <ESC>O6D   5<Left>
+inoremap <ESC>O6D   <C-o>v5<Left>
 
 """ with Alt, window up
 " <M-Left>
-nnoremap <ESC>O3D   <C-w>h
-vnoremap <ESC>O3D   <C-w>h
-inoremap <ESC>O3D   <C-o><C-w>h
+nnoremap <ESC>O3D   <C-w><Left>
+vnoremap <ESC>O3D   <C-w><Left>
+inoremap <ESC>O3D   <C-o><C-w><Left>
 
 """ with Alt-Shift, window size wider
 " <M-S-Left>
