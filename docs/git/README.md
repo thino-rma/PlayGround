@@ -4,6 +4,7 @@
   $ git config --global core.editor 'vim -c "set fenc=utf-8"'
   $ git config --global user.name "user"
   $ git config --global user.email "user@example.com"
+  $ git config --global -l
   ```
 
 - Operation Flow
