@@ -7,6 +7,20 @@
   $ git config --global -l
   ```
 
+- Git ssh
+  ```console
+  $ ssh-keygen -t rsa -f ./id_rsa -q -N "passphrase"
+  $ vi ~/.ssh/config
+  host github github.com
+    HostName github.com
+    IdentityFile PATH/TO/id_rsa
+    User git
+  $ chmod 600 ~/.ssh/config
+  $ ssh -T github
+  $ git clone [-b BRANCHNAME] git@github.com:USER/REPO
+  $ git checkout BRANCHANEM
+  ```
+
 - Operation Flow
   ```console
      +------------+
