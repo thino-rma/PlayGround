@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/setup_shell_env.sh -o ~/setup_shell_env.sh
+# $ curl https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/setup_shell_env.sh -L -o ~/setup_shell_env.sh
 # $ wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/setup_shell_env.sh -O ~/setup_shell_env.sh
 
 # rm ~/.my_bash_alias
