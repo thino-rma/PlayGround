@@ -22,7 +22,7 @@ set encoding=utf-8
 set hidden         " Hide buffers when they are abandoned
 set ignorecase     " Do case insensitive matching
 set incsearch      " Incremental search
-set list           " show unvisible character
+" set list           " show unvisible character
 
 """ list characters
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
@@ -30,7 +30,7 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 """ number format : this affects C-a (increment), C-x (decrement)
 set nrformats-=octal,hex
 
-set number         " Show line number
+" set number         " Show line number
 
 """ set indent size
 set shiftwidth=4
@@ -621,12 +621,17 @@ nnoremap <M-C-S-F8>     <nop>
 " F9  tab / (Alt) window
 
 function! s:SearchEN(key, skey)
-  let p = '\(^\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\\|' . "'" . '\\|(\\|)\\|$\)'
+  " let p = '\(^\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\\|' . "'" . '\\|(\\|)\\|$\)'
+  let p = '\(^\S\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\+\\|' . "'" . '\\|(\\|)\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
 function! s:SearchJP(key, skey)
-  let p = '\(^\\|\s\+\zs\\|　\+\zs\\|、\\|。\\|！\\|？\\|「\\|」\\|（\\|）\\|$\)'
+  " let p = '\(^\\|\s\+\zs\\|　\+\zs\\|、\\|。\\|！\\|？\\|「\\|」\\|（\\|）\\|$\)'
+  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\zs\)'
+  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\)'
+  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・' . '\\|(\zs\\|)\zs' . '\\|#\+\)'
+  let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
@@ -654,12 +659,12 @@ noremap <M-C-S-F9>     <nop>
 
 " F10
 call <SID>SearchJP('<F10>', '<S-F10>')
-noremap <A-F10>         <nop>
-noremap <S-A-F10>       <nop>
+noremap <M-F10>         <nop>
+noremap <M-S-F10>       <nop>
 noremap <C-F10>         <nop>
 noremap <C-S-F10>       <nop>
-noremap <C-A-F10>       <nop>
-noremap <C-S-A-F10>     <nop>
+noremap <M-C-F10>       <nop>
+noremap <M-C-S-F10>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F11  nop
@@ -667,12 +672,12 @@ noremap <C-S-A-F10>     <nop>
 " F11
 noremap <F11>           <nop>
 noremap <S-F11>         <nop>
-noremap <A-F11>         <nop>
-noremap <S-A-F11>       <nop>
+noremap <M-F11>         <nop>
+noremap <M-S-F11>       <nop>
 noremap <C-F11>         <nop>
 noremap <C-S-F11>       <nop>
-noremap <C-A-F11>       <nop>
-noremap <C-S-A-F11>     <nop>
+noremap <M-C-F11>       <nop>
+noremap <M-C-S-F11>     <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F12  toggle setting
@@ -733,8 +738,8 @@ function! s:ToggleBashKeymap()
     iunmap <C-u>
     nunmap <C-k>
     iunmap <C-k>
-    nunmap <C-d>
-    iunmap <C-d>
+    nunmap <C-x>
+    iunmap <C-x>
   else
     let g:keymap_bash = 1
     nnoremap <C-a> 0
@@ -745,8 +750,8 @@ function! s:ToggleBashKeymap()
     inoremap <C-u> <C-o>v0d
     nnoremap <C-k> vg_d
     inoremap <C-k> <C-o>vg_d
-    nnoremap <C-d> _x
-    inoremap <C-d> <C-o>_x
+    nnoremap <C-x> _x
+    inoremap <C-x> <C-o>_x
   endif
 endfunction
 
@@ -1070,7 +1075,7 @@ inoremap <ESC>O8A   <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, Down
-" <Up>
+" <Down>
 " [default] nnoremap <ESC>OB as is
 " [default] vnoremap <ESC>OB as is
 " [default] inoremap <ESC>OB as is
@@ -1085,7 +1090,7 @@ vnoremap <ESC>O2B   j
 inoremap <ESC>O2B   <C-o>vj
 
 """ with Ctrl, 5 lines Down
-" <C-Up>
+" <C-Down>
 " [default] nnoremap <ESC>O5B   <PageDown>
 " [default] vnoremap <ESC>O5B   <ESC>gt
 " [default] inoremap <ESC>O5B   <C-o>gt
@@ -1094,32 +1099,32 @@ vnoremap <ESC>O5B   5j
 inoremap <ESC>O5B   <C-o>5j
 
 
-""" with Ctrl-Shift, select 5 lines Up
-" <C-S-Up>
+""" with Ctrl-Shift, select 5 lines Down
+" <C-S-Down>
 nnoremap <ESC>O6B   v5j
 vnoremap <ESC>O6B   5j
 inoremap <ESC>O6B   <C-o>v5j
 
-""" with Alt, window up
-" <M-Up>
+""" with Alt, window down
+" <M-Down>
 nnoremap <ESC>O3B   <C-w>j
 vnoremap <ESC>O3B   <C-w>j
 inoremap <ESC>O3B   <C-o><C-w>j
 
 """ with Alt-Shift, window size shorter
-" <M-S-Up>
+" <M-S-Down>
 nnoremap <ESC>O4B   <C-w>-
 vnoremap <ESC>O4B   <C-w>-
 inoremap <ESC>O4B   <C-o><C-w>-
 
 """ with Alt-Ctrl, nop
-" <M-C-Up>
+" <M-C-Down>
 nnoremap <ESC>O7B   <nop>
 vnoremap <ESC>O7B   <nop>
 inoremap <ESC>O7B   <nop>
 
 """ with Alt-Ctrl-Shift, nop
-" <M-C-S-Up>
+" <M-C-S-Down>
 nnoremap <ESC>O8B   <nop>
 vnoremap <ESC>O8B   <nop>
 inoremap <ESC>O8B   <nop>
@@ -1150,13 +1155,13 @@ vnoremap <ESC>O5C   5<Right>
 inoremap <ESC>O5C   <C-o>v5<Right>
 
 
-""" with Ctrl-Shift, select region 5 lines Up
+""" with Ctrl-Shift, select region 5 chars Right
 " <C-S-Right>
 nnoremap <ESC>O6C   v5<Right>
 vnoremap <ESC>O6C   5<Right>
 inoremap <ESC>O6C   <C-o>5<Right>
 
-""" with Alt, window up
+""" with Alt, window Right
 " <M-Right>
 nnoremap <ESC>O3C   <C-w><Right>
 vnoremap <ESC>O3C   <C-w><Right>
@@ -1168,13 +1173,13 @@ nnoremap <ESC>O4C   <C-w>>
 vnoremap <ESC>O4C   <C-w>>
 inoremap <ESC>O4C   <C-o><C-w>>
 
-""" with Alt-Ctrl, window size shorter
+""" with Alt-Ctrl, nop
 " <M-C-Right>
 nnoremap <ESC>O7C   <nop>
 vnoremap <ESC>O7C   <nop>
 inoremap <ESC>O7C   <nop>
 
-""" with Alt-Ctrl-Shift, window size nallower
+""" with Alt-Ctrl-Shift, nop
 " <M-C-S-Right>
 nnoremap <ESC>O8C   <nop>
 vnoremap <ESC>O8C   <nop>
@@ -1206,31 +1211,31 @@ vnoremap <ESC>O5D   5<Left>
 inoremap <ESC>O5D   <C-o>v5<Left>
 
 
-""" with Ctrl-Shift, select region 5 lines Up
+""" with Ctrl-Shift, select region 5 chars Left
 " <C-S-Left>
 nnoremap <ESC>O6D   v5<Left>
 vnoremap <ESC>O6D   5<Left>
 inoremap <ESC>O6D   <C-o>v5<Left>
 
-""" with Alt, window up
+""" with Alt, window Left
 " <M-Left>
 nnoremap <ESC>O3D   <C-w><Left>
 vnoremap <ESC>O3D   <C-w><Left>
 inoremap <ESC>O3D   <C-o><C-w><Left>
 
-""" with Alt-Shift, window size wider
+""" with Alt-Shift, window size narrower
 " <M-S-Left>
 nnoremap <ESC>O4D   <C-w><
 vnoremap <ESC>O4D   <C-w><
 inoremap <ESC>O4D   <C-o><C-w><
 
-""" with Alt-Ctrl, window size shorter
+""" with Alt-Ctrl, nop
 " <M-C-Left>
 nnoremap <ESC>O7D   <nop>
 vnoremap <ESC>O7D   <nop>
 inoremap <ESC>O7D   <nop>
 
-""" with Alt-Ctrl-Shift, window size nallower
+""" with Alt-Ctrl-Shift, nop
 " <M-C-S-Left>
 nnoremap <ESC>O8D   <nop>
 vnoremap <ESC>O8D   <nop>
