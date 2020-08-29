@@ -54,6 +54,7 @@ silent! endwhile
 if 1
 "=== for vim ===========================================================
 
+set background=dark
 set clipboard=unnamedplus
 " set cursorline
 " set cursorcolumn
@@ -63,6 +64,7 @@ set laststatus=1
 set scrolloff=5
 set showcmd
 " set smartindent
+set t_Co=256
 set textwidth=0
 set title
 set virtualedit=block
