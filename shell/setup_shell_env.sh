@@ -124,10 +124,10 @@ PLUGIN_DIR=${VIM_DIR}/plugin
 ### packages
 echo "### commands to instal packages ###"
 if [ $distri_name = "debian" ] || [ $distri_name = "ubuntu" ]; then
-  echo "sudo apt -y install curl wget vim"
+  echo "sudo apt -y install curl wget vim tmux"
 fi
 if [ $distri_name = "redhat" ]; then
   echo "# curl -L https://copr.fedorainfracloud.org/coprs/unixcommunity/vim/repo/epel-7/unixcommunity-vim-epel-7.repo -o /etc/yum.repos.d/unixcommunity-vim-epel-7.repo"
-  echo "sudo yum -y install curl wget vim"
+  echo "sudo yum -y install curl wget vim tmux"
 fi
 
