@@ -59,6 +59,7 @@ set clipboard=unnamedplus
 " set cursorcolumn
 set history=50
 set hlsearch
+set laststatus=1
 set scrolloff=5
 set showcmd
 " set smartindent
@@ -676,8 +677,8 @@ noremap <C-S-A-F11>     <nop>
 
 """ without modifire, Toggle number, list, mouse to make it easy to copy/paste
 " <F12>
-nnoremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
-inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR>
+nnoremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &laststatus == 2 ? "set laststatus=1" : "set laststatus=2"<CR>
+inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR><C-o>:exec &laststatus == 2 ? "set laststatus=1" : "set laststatus=2"<CR>
 
 """ Toggle number, list, mouse to make it easy to copy/paste
 " if has('mouse')
