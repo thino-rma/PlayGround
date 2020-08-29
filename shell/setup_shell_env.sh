@@ -16,15 +16,16 @@ function makedir() {
 # $1 url
 # $2 path
 function download() {
-  if [ ! -f $2 ]; then
-    echo "download $1 to $2"
-    if [ -f /usr/bin/curl ]; then
-      # /usr/bin/curl $1 -o $2
-      /usr/bin/curl -L -s $1 -o $2
-    elif [ -f /usr/bin/wget ]; then
-      # /usr/bin/wget $1 -O $2
-      /usr/bin/wget -q $1 -O $2
-    fi
+  if [ -f $2 ]; then
+    mv $2 $2.org
+  fi
+  echo "download $1 to $2"
+  if [ -f /usr/bin/curl ]; then
+    # /usr/bin/curl $1 -o $2
+    /usr/bin/curl -L -s $1 -o $2
+  elif [ -f /usr/bin/wget ]; then
+    # /usr/bin/wget $1 -O $2
+    /usr/bin/wget -q $1 -O $2
   fi
 }
 
@@ -88,6 +89,9 @@ TARGET=.vimrc
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
 TARGET=.my_bash_alias
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
+TARGET=.tmux.conf
+download ${RAW_GIT}/${TARGET} ~/${TARGET}
+
 
 if ! grep "~/.my_bash_alias" ~/.bashrc > /dev/null; then
   echo ". ~/.my_bash_alias" >> ~/.bashrc
@@ -126,3 +130,4 @@ if [ $distri_name = "redhat" ]; then
   echo "# curl -L https://copr.fedorainfracloud.org/coprs/unixcommunity/vim/repo/epel-7/unixcommunity-vim-epel-7.repo -o /etc/yum.repos.d/unixcommunity-vim-epel-7.repo"
   echo "sudo yum -y install curl wget vim"
 fi
+
