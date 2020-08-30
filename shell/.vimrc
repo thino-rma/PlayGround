@@ -173,20 +173,13 @@ function! s:ToggleHelp()
 endfunction
 
 """ start/finish recording with Shift+F12 to register
-" <S-F1>
 nnoremap <S-F1>      :<C-u>call <SID>AltRecord('a', 4)<CR>
-" <M-F1>
-nnoremap <ESC>[11;3~ :<C-u>call <SID>AltRecord('b', 8)<CR>
-" <M-S-F1>
-nnoremap <ESC>[11;4~ :<C-u>call <SID>AltRecord('c', 8)<CR>
-" <C-F1>
-nnoremap <ESC>[11;5~ :<C-u>call <SID>AltRecord('d', 8)<CR>
-" <C-S-F1>
-nnoremap <ESC>[11;6~ :<C-u>call <SID>AltRecord('e', 8)<CR>
-" <M-C-F1>
-nnoremap <ESC>[11;7~ :<C-u>call <SID>AltRecord('f', 8)<CR>
-" <M-C-S-F1>
-nnoremap <ESC>[11;8~ :<C-u>call <SID>AltRecord('g', 8)<CR>
+nnoremap <M-F1>      :<C-u>call <SID>AltRecord('b', 8)<CR>
+nnoremap <M-S-F1>    :<C-u>call <SID>AltRecord('c', 8)<CR>
+nnoremap <C-F1>      :<C-u>call <SID>AltRecord('d', 8)<CR>
+nnoremap <C-S-F1>    :<C-u>call <SID>AltRecord('e', 8)<CR>
+nnoremap <M-C-F1>    :<C-u>call <SID>AltRecord('f', 8)<CR>
+nnoremap <M-C-S-F1>  :<C-u>call <SID>AltRecord('g', 8)<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F2  execute register
@@ -196,20 +189,13 @@ nnoremap <ESC>[11;8~ :<C-u>call <SID>AltRecord('g', 8)<CR>
 nnoremap <F2>        :<C-u>reg<CR>
 inoremap <F2>        <nop>
 """ execute macro in register
-" <S-F2>
 nnoremap <S-F2>      @a
-" <M-F2>
-nnoremap <ESC>[12;3~ @b
-" <M-S-F2>
-nnoremap <ESC>[12;4~ @c
-" <C-F2>
-nnoremap <ESC>[12;5~ @d
-" <C-S-F2>
-nnoremap <ESC>[12;6~ @e
-" <M-C-F2>
-nnoremap <ESC>[12;7~ @f
-" <M-C-S-F2>
-nnoremap <ESC>[12;8~ @g
+nnoremap <M-F2>      @b
+nnoremap <M-S-F2>    @c
+nnoremap <C-F2>      @d
+nnoremap <C-S-F2>    @e
+nnoremap <M-C-F2>    @f
+nnoremap <M-C-S-F2>  @g
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F3  search commands.
@@ -222,54 +208,46 @@ nnoremap <ESC>[12;8~ @g
 "     Hint: q/ and q? shows search history.
 
 """ without modifier, search next
-" <F3>
-nnoremap <F3>   n
-vnoremap <F3>   n
-inoremap <F3>   <C-o>n
+nnoremap <F3> n
+vnoremap <F3> n
+inoremap <F3> <C-o>n
 
 """ with Shift, search previous
-" <S-F3>
 nnoremap <S-F3> N
 vnoremap <S-F3> N
 inoremap <S-F3> <C-o>N
 
 """ with Alt, search forward, using "" (unnamed)
-" <M-F3>
-nnoremap <ESC>[13;3~ /<C-r>"<CR>
-vnoremap <ESC>[13;3~ y/<C-r>"<CR>
-inoremap <ESC>[13;3~ <C-o>/<C-r>"<CR>
+nnoremap <M-F3> /<C-r>"<CR>
+vnoremap <M-F3> /<C-r>"<CR>
+inoremap <M-F3> <C-o>/<C-r>"<CR>
 
 """ with Alt-Shift, search backword, using "" (unnamed)
-" <M-S-F3>
-nnoremap <ESC>[13;4~ ?<C-r>"<CR>
-vnoremap <ESC>[13;4~ y?<C-r>"<CR>
-inoremap <ESC>[13;4~ <C-o>?<C-r>"<CR>
+nnoremap <M-S-F3> ?<C-r>"<CR>
+vnoremap <M-S-F3> ?<C-r>"<CR>
+inoremap <M-S-F3> <C-o>?<C-r>"<CR>
 
 """ with Ctrl, confirm search forward, waiting for <CR>
 "   if IME ON, use just /.
-" <C-F3>
-nnoremap <ESC>[13;5~ /<C-r>/
-vnoremap <ESC>[13;5~ /<C-r>/
-inoremap <ESC>[13;5~ <C-o>/<C-r>/
+nnoremap <C-F3> /<C-r>/
+vnoremap <C-F3> /<C-r>/
+inoremap <C-F3> <C-o>/<C-r>/
 
 """ with Ctrl-Shift, confirm search backward, waiting for <CR>
 "   if IME ON, use just ?.
-" <C-S-F3>
-nnoremap <ESC>[13;6~ ?<C-r>/
-vnoremap <ESC>[13;6~ ?<C-r>/
-inoremap <ESC>[13;6~ <C-o>?<C-r>/
+nnoremap <C-S-F3> ?<C-r>/
+vnoremap <C-S-F3> ?<C-r>/
+inoremap <C-S-F3> <C-o>?<C-r>/
 
 """ with Alt-Ctrl, confirm search forward, using "" (unnamed), waiting for <CR>
-" <M-C-F3>
-nnoremap <ESC>[13;7~ /<C-r>"
-vnoremap <ESC>[13;7~ /<C-r>"
-inoremap <ESC>[13;7~ <C-o>/<C-r>"
+nnoremap <M-C-F3> /<C-r>"
+vnoremap <M-C-F3> /<C-r>"
+inoremap <M-C-F3> <C-o>/<C-r>"
 
 """ with Alt-Ctrl-Shift, confirm search backword, using "" (unnamed), waiting for <CR>
-" <M-C-S-F3> substitute
-nnoremap <ESC>[13;8~ ?<C-r>"
-vnoremap <ESC>[13;8~ ?<C-r>"
-inoremap <ESC>[13;8~ <C-o>?<C-r>"
+nnoremap <M-C-S-F3> ?<C-r>"
+vnoremap <M-C-S-F3> ?<C-r>"
+inoremap <M-C-S-F3> <C-o>?<C-r>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F4  substitute commands.
@@ -285,53 +263,47 @@ inoremap <ESC>[13;8~ <C-o>?<C-r>"
 
 """ without modifire, repeat last substitute
 "   so that you can use F3 and F4 repeatedly.
-" F4
-nnoremap <F4>        &
-vnoremap <F4>        <nop>
-inoremap <F4>        <C-o>&
+""" without modifire, repeat last substitute
+"   so that you can use F3 and F4 repeatedly.
+nnoremap <F4> &
+vnoremap <F4> <nop>
+inoremap <F4> <C-o>&
 
 """ with Shift, repeat last substitute
 "   so that you can use F3 and F4 repeatedly.
-" <S-F4>
-nnoremap <S-F4>      &
-vnoremap <S-F4>      <nop>
-inoremap <S-F4>      <C-o>&
+nnoremap <S-F4> &
+vnoremap <S-F4> <nop>
+inoremap <S-F4> <C-o>&
 
 """ with Alt, substitute /, using from  "" to previous {string}
-" <M-F4>
-nnoremap <ESC>[14;3~      :s/<C-r>"/~/<CR>
-vnoremap <ESC>[14;3~ <nop>
-inoremap <ESC>[14;3~ <C-o>:s/<C-r>"/~/<CR>
+nnoremap <M-F4> :s/<C-r>"/~/<CR>
+vnoremap <M-F4> <nop>
+inoremap <M-F4> <C-o>:s/<C-r>"/~/<CR>
 
 """ with Alt-Shift, substitute #, from "" to previous {string}
-" <M-S-F4>
-nnoremap <ESC>[14;4~      :s#<C-r>"#~#<CR>
-vnoremap <ESC>[14;4~ <nop>
-inoremap <ESC>[14;4~ <C-o>:s#<C-r>"#~#<CR>
+nnoremap <M-S-F4> :s#<C-r>"#~#<CR>
+vnoremap <M-S-F4> <nop>
+inoremap <M-S-F4> <C-o>:s#<C-r>"#~#<CR>
 
 """ with Ctrl, confirm substitute /, waiting for {string}<CR>
-" <C-F4>
-nnoremap <ESC>[14;5~      :s/<C-r>//~/<Left>
-vnoremap <ESC>[14;5~ <nop>
-inoremap <ESC>[14;5~ <C-o>:s/<C-r>//~/<Left>
+nnoremap <C-F4> :s/<C-r>//~/<Left>
+vnoremap <C-F4> <nop>
+inoremap <C-F4> <C-o>:s/<C-r>//~/<Left>
 
 """ with Ctrl-Shift, confirm substitute #, waiting for {string}<CR>
-" <C-S-F4>
-nnoremap <ESC>[14;6~      :s#<C-r>/#~#<Left>
-vnoremap <ESC>[14;6~ <nop>
-inoremap <ESC>[14;6~ <C-o>:s#<C-r>/#~#<Left>
+nnoremap <C-S-F4> :s#<C-r>/#~#<Left>
+vnoremap <C-S-F4> <nop>
+inoremap <C-S-F4> <C-o>:s#<C-r>/#~#<Left>
 
 """ with Alt-Ctrl, confirm substitute /, from "", waiting for {string}<CR>
-" <M-C-F4>
-nnoremap <ESC>[14;7~      :s/<C-r>"/~/<Left>
-vnoremap <ESC>[14;7~ <nop>
-inoremap <ESC>[14;7~ <C-o>:s/<C-r>"/~/<Left>
+nnoremap <M-C-F4> :s/<C-r>"/~/<Left>
+vnoremap <M-C-F4> <nop>
+inoremap <M-C-F4> <C-o>:s/<C-r>"/~/<Left>
 
 """ with Alt-Ctrl-Shift, confirm substitute #, from "", waiting for {string}<CR>
-" <M-C-S-F4>
-nnoremap <ESC>[14;8~      :s#<C-r>"#~#<Left>
-vnoremap <ESC>[14;8~ <nop>
-inoremap <ESC>[14;8~ <C-o>:s#<C-r>"#~#<Left>
+nnoremap <M-C-S-F4> :s#<C-r>"#~#<Left>
+vnoremap <M-C-S-F4> <nop>
+inoremap <M-C-S-F4> <C-o>:s#<C-r>"#~#<Left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F5  yank
