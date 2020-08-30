@@ -307,107 +307,102 @@ inoremap <M-C-S-F4> <C-o>:s#<C-r>"#~#<Left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F5  yank
-"     Hint: yank or select word/WORD
+"     without Shift, yank word
+"     with    Shift, yank WORD
+"     without Ctrl,  yank inner
+"     with    Ctrl,  yank around
+"     without Alt,   yank into ""
+"     with    Alt,   yank into "p
 
 """ without modifier, yank internal word
-" <F5>
 nnoremap <F5>       yiw:echo 'yanked: ' . @"<CR>
 vnoremap <F5>       <ESC>yiwgv
 inoremap <F5>       <C-o>yiw
 
 """ with Shift, yank internal WORD
-" <S-F5>
 nnoremap <S-F5>     yiW:echo 'yanked: ' . @"<CR>
-vnoremap <S-F5>     <ESC>yiWgv
+vnoremap <S-F5>     <ESC>yiW
 inoremap <S-F5>     <C-o>yiW
 
-""" with Alt, yank to end of the line (printable)
-" <M-F5>
-nnoremap <M-F5>     "pyiw:echo 'yanked: ' . @"<CR>
+""" with Alt, yank internal word into "p
+nnoremap <M-F5>     "pyiw:echo 'yanked [@p]: ' . @"<CR>
 vnoremap <M-F5>     <ESC>"pyiwgv
 inoremap <M-F5>     <C-o>"pyiw
 
-""" with Alt-Shift, yank to end of the line
-" <M-S-F5>
-nnoremap <M-S-F5>   "pyiW:echo 'yanked: ' . @"<CR>
+""" with Alt-Shift, yank internal WORD into "p
+nnoremap <M-S-F5>   "pyiW:echo 'yanked [@p]: ' . @"<CR>
 vnoremap <M-S-F5>   <ESC>"pyiWgv
 inoremap <M-S-F5>   <C-o>"pyiW
 
-""" with Ctrl, yank to the begin of line
-" <C-F5>
-nnoremap <C-F5>     viw
-vnoremap <C-F5>     <ESC>viw
-inoremap <C-F5>     <C-o>viw
+""" with Ctrl, yank around word
+nnoremap <C-F5>     yaw:echo 'yanked: ' . @"<CR>
+vnoremap <C-F5>     <ESC>yawgv
+inoremap <C-F5>     <C-o>yaw
 
-""" with Ctrl-Shift, same as with Ctrl
-" <C-S-F5>
-nnoremap <C-S-F5>   viW
-vnoremap <C-S-F5>   <ESC>viW
-inoremap <C-S-F5>   <C-o>viW
+""" with Ctrl-Shift, yank around WORD
+nnoremap <C-S-F5>   yaw:echo 'yanked: ' . @"<CR>
+vnoremap <C-S-F5>   <ESC>yaWgv
+inoremap <C-S-F5>   <C-o>yaW
 
-""" with Alt-Ctrl, yank to end of the line (printable)
-" <M-C-F5>
-nnoremap <M-C-F5>   viw"p:s/<C-r>p//<Left>
-vnoremap <M-C-F5>   <ESC>viw"p:s/<C-r>p//<Left>
-inoremap <M-C-F5>   <C-o>viw"p<C-o>:s/<C-r>p//<Left>
+""" with Alt-Ctrl, yank around word into "p
+nnoremap <M-C-F5>   "pyaw:echo 'yanked [@p]: ' . @"<CR>
+vnoremap <M-C-F5>   <ESC>"pyawgv
+inoremap <M-C-F5>   <C-o>"pyiw
 
-""" with Alt-Ctrl-Shift, nop
-" <M-C-S-F5>
-nnoremap <M-C-S-F5> viW"p:s/<C-r>p//<Left>
-vnoremap <M-C-S-F5> <ESC>viW"p:s/<C-r>p//<Left>
-inoremap <M-C-S-F5> <C-o>viW"p<C-o>:s/<C-r>p//<Left>
+""" with Alt-Ctrl-Shift, yank around WORD into "p
+nnoremap <M-C-S-F5> "pyaW:echo 'yanked [@p]: ' . @"<CR>
+vnoremap <M-C-S-F5> <ESC>"pyaWgv
+inoremap <M-C-S-F5> <C-o>"pyaW
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F6  select and put (replace)
-"     Hint: replace with unnamed register ("")
+"     without Shift, select word   and put
+"     with    Shift, select WORD   and put
+"     without Ctrl,  select inner  and put
+"     with    Ctrl,  select around and put
+"     without Alt,   select        and put ""
+"     with    Alt,   select        and put "p
 
-""" without modifier, elect word and put ""
-" F6
-nnoremap <F6>       viwP
+""" without modifier, select inner word and put ""
+nnoremap <F6>       viwP:echo 'replaced: ' + @"<CR>
 vnoremap <F6>       <ESC>viwPgv
 inoremap <F6>       <C-o>viwP
 
-""" with Shift, select WORD and put ""
-" <S-F6>
-nnoremap <S-F6>     viWP
+""" with Shift, select inner WORD and put ""
+nnoremap <S-F6>     viWP:echo 'replaced: ' + @"<CR>
 vnoremap <S-F6>     <ESC>viWPgv
 inoremap <S-F6>     <C-o>viWP
 
-""" with Alt, select word and put "p
-" <M-F6>
-nnoremap <M-F6>     viw"pP
+""" with Alt, select inner word and put "p
+nnoremap <M-F6>     viw"pP:echo 'replaced: ' + @p<CR>
 vnoremap <M-F6>     <ESC>viw"pPgv
 inoremap <M-F6>     <C-o>viw"pP
 
-""" with Alt-Shift, select WORD and put "p
-" <M-S-F6>
-nnoremap <M-S-F6>   viW"pP
+""" with Alt-Shift, select inner WORD and put "p
+nnoremap <M-S-F6>   viW"pP:echo 'replaced: ' + @p<CR>
 vnoremap <M-S-F6>   <ESC>viW"pPgv
 inoremap <M-S-F6>   <C-o>viW"pP
 
-""" with Ctrl, nop
-" <C-F6>
-nnoremap <C-F6>     <nop>
-vnoremap <C-F6>     <nop>
-inoremap <C-F6>     <nop>
+""" with Ctrl, select around word and put ""
+nnoremap <C-F6>     vawP:echo 'replaced: ' + @"<CR>
+vnoremap <C-F6>     <ESC>vawPgv
+inoremap <C-F6>     <C-o>vawP
 
-""" with Ctrl-Shift, nop
-" <C-S-F6>
-nnoremap <C-S-F6>   <nop>
-vnoremap <C-S-F6>   <nop>
-inoremap <C-S-F6>   <nop>
+""" with Ctrl-Shift, select around WORD and put ""
+nnoremap <C-S-F6>   vaWP:echo 'replaced: ' + @"<CR>
+vnoremap <C-S-F6>   <ESC>vaWPgv
+inoremap <C-S-F6>   <C-o>vaWP
 
-""" with Ctrl-Shift, nop
-" <M-C-F6>
-nnoremap <M-C-F6>   <nop>
-vnoremap <M-C-F6>   <nop>
-inoremap <M-C-F6>   <nop>
+""" with Alt-Ctrl, select around word and put "p
+nnoremap <M-C-F6>   vaw"pP:echo 'replaced: ' + @p<CR>
+vnoremap <M-C-F6>   <ESC>vaw"pPgv
+inoremap <M-C-F6>   <C-o>vaw"pP
 
-""" with Alt-Ctrl-Shift, nop
-" <M-C-S-F6>
-nnoremap <M-C-S-F6> <nop>
-vnoremap <M-C-S-F6> <nop>
-inoremap <M-C-S-F6> <nop>
+""" with Alt-Ctrl-Shift, select around WORD and put "p
+nnoremap <M-C-S-F6> vaW"pP:echo 'replaced: ' + @p<CR>
+vnoremap <M-C-S-F6> <ESC>vaW"pPgv
+inoremap <M-C-S-F6> <C-o>vaW"pP
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F7  using digraph
 "                     f<C-k>    cursor to Nth occurrence of {char} to the right
