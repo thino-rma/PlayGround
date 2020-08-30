@@ -1627,18 +1627,18 @@ endif
 " vi(              VISUAL internal ( and )
 " yiw              yank inner word
 " diw              delete inner word
-" daw              delete a word
+" daw              delete around word
 " diW              delete inner WORD
-" daW              delete a WORD
+" daW              delete around WORD
 " dgn              delete next search
 " dis              delete inner sentence
-" das              delete a sentence
+" das              delete around sentence
 " dib              delete inner '(' ')' block
-" dab              delete a '(' ')' block
+" dab              delete around '(' ')' block
 " dip              delete inner paragraph
-" dap              delete a paragraph
+" dap              delete around paragraph
 " diB              delete inner '{' '}' Block
-" daB              delete a '{' '}' Block
+" daB              delete around '{' '}' Block
 
 """ (1) mode, save/quit
 " i / a / o           enter INPUT mode. INPUT / APPEND / OPEN bottom
