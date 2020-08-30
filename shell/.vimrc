@@ -739,23 +739,18 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <Insert> toggle insert/replace
 "     Note: modifire is disabled in RLogin
-" <Insert>
-" nnoremap <Insert>
-""" with Shift, RLogin PASTE
-" <S-Insert>
-" nnoremap <ESC>[2;2    <nop> NOT AVAILABLE
-" <M-Insert>
-" nnoremap <ESC>[2;3    <nop>
-" <M-S-Insert>
-" nnoremap <ESC>[2;4    <nop>
-" <C-Insert>
-" nnoremap <ESC>[2;5    <nop>
-" <C-S-Insert>
-" nnoremap <ESC>[2;6    <nop>
-" <M-C-Insert>
-" nnoremap <ESC>[2;7    <nop>
-" <M-C-S-Insert>
-" nnoremap <ESC>[2;8    <nop>
+
+""" with Shift, nop for RLogin PASTE
+nnoremap <S-Insert> <nop>
+vnoremap <S-Insert> <nop>
+inoremap <S-Insert> <nop>
+
+" nnoremap <M-Insert>     <nop> Not Available
+" nnoremap <M-S-Insert>   <nop> Not Available
+" nnoremap <C-Insert>     <nop> Not Available
+" nnoremap <C-S-Insert>   <nop> Not Available
+" nnoremap <M-C-Insert>   <nop> Not Available
+" nnoremap <M-C-S-Insert> <nop> Not Available
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, delete character under the cursor
@@ -768,459 +763,390 @@ vnoremap <Del> "_x
 inoremap <Del> <C-o>"_x
 
 """ with Shift, delete character under the cursor
-" <S-Del>
 " using unnameed register
-nnoremap <ESC>[3;2~   x
-vnoremap <ESC>[3;2~   x
-inoremap <ESC>[3;2~   <C-o>x
+nnoremap <S-Del> x
+vnoremap <S-Del> x
+inoremap <S-Del> <C-o>x
 
 """ with Alt, erase {pattern} /
-" <M-Del>
-nnoremap <ESC>[3;3~   :s/<C-r>///I<CR>
-vnoremap <ESC>[3;3~   "ry:s///I<CR>
-inoremap <ESC>[3;3~   <C-o>:s/<C-r>///I<CR>
+nnoremap <M-Del> :s/<C-r>///I<CR>
+vnoremap <M-Del> "ry:s///I<CR>
+inoremap <M-Del> <C-o>:s/<C-r>///I<CR>
 
 """ with Alt-Shift, erase {pattern} #
-" <M-S-Del>
-nnoremap <ESC>[3;4~   :s#<C-r>/##I<CR>
-vnoremap <ESC>[3;4~   "ry:s#<C-r>r##I<CR>
-inoremap <ESC>[3;4~   <C-o>:s#<C-r>/##I<CR>
+nnoremap <M-S-Del> :s#<C-r>/##I<CR>
+vnoremap <M-S-Del> "ry:s#<C-r>r##I<CR>
+inoremap <M-S-Del> <C-o>:s#<C-r>/##I<CR>
 
 """ with Ctrl, confirm erase {pattern} /
-" <C-Del>
-nnoremap <ESC>[3;5~   :s/<C-r>///I<Left><Left><Left>
-vnoremap <ESC>[3;5~   "ry:s///I<Left><Left><Left>
-inoremap <ESC>[3;5~   <C-o>:s/<C-r>///I<Left><Left><Left>
+nnoremap <C-Del> :s/<C-r>///I<Left><Left><Left>
+vnoremap <C-Del> "ry:s///I<Left><Left><Left>
+inoremap <C-Del> <C-o>:s/<C-r>///I<Left><Left><Left>
 
 """ with Ctrl-Shift, confirm erase {pattern} #
-" <C-S-Del>
-nnoremap <ESC>[3;6~   :s#<C-r>/##I<Left><Left><Left>
-vnoremap <ESC>[3;6~   "ry:s#<C-r>r##I<Left><Left><Left>
-inoremap <ESC>[3;6~   <C-o>:s#<C-r>/##I<Left><Left><Left>
+nnoremap <C-S-Del> :s#<C-r>/##I<Left><Left><Left>
+vnoremap <C-S-Del> "ry:s#<C-r>r##I<Left><Left><Left>
+inoremap <C-S-Del> <C-o>:s#<C-r>/##I<Left><Left><Left>
 
-" <M-C-Del>
-" nnoremap <ESC>[3;7~   <nop>
-" <M-C-S-Del>
-" nnoremap <ESC>[3;8~   <nop>
+""" with Alt-Ctrl, <nop> for Windows Task Manager <Alt-Ctrl-Del>
+nnoremap <M-C-Del> <nop>
+vnoremap <M-C-Del> <nop>
+inoremap <M-C-Del> <nop>
+
+""" with Alt-Ctrl-Shift,
+nnoremap <M-C-S-Del> <nop>
+vnoremap <M-C-S-Del> <nop>
+inoremap <M-C-S-Del> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, cursor to start of line
-" <Home>
 " [default] nnoremap <Home>   0
 " [default] vnoremap <Home>   0
 " [default] inoremap <Home>   <C-o>0
 
 """ with Shift, select to start of line
-" <S-Home>
-nnoremap <ESC>O2H    v0
-vnoremap <ESC>O2H    0
-inoremap <ESC>O2H    <C-o>v0
+nnoremap <S-Home> v0
+vnoremap <S-Home> 0
+inoremap <S-Home> <C-o>v0
 
 """ with Ctrl, cursor to first line
-" <C-Home>
-" [default] nnoremap <ESC>O5H    gg
-" [default] vnoremap <ESC>O5H    gg
-" [default] inoremap <ESC>O5H    <C-o>gg
+" [default] nnoremap <C-Home>    gg
+" [default] vnoremap <C-Home>    gg
+" [default] inoremap <C-Home>    <C-o>gg
 
 """ with Ctrl-Shift, select to first line
-" <C-S-Home>
-nnoremap <ESC>O6H    vgg
-vnoremap <ESC>O6H    gg
-inoremap <ESC>O6H    <C-o>vgg
+nnoremap <C-S-Home> vgg
+vnoremap <C-S-Home> gg
+inoremap <C-S-Home> <C-o>vgg
 
 """ with Alt, window up
-" <M-Home>
-nnoremap <ESC>O3H    <C-w>W
-vnoremap <ESC>O3H    <C-w>W
-inoremap <ESC>O3H    <C-o><C-w>W
+nnoremap <M-Home> <C-w>W
+vnoremap <M-Home> <C-w>W
+inoremap <M-Home> <C-o><C-w>W
 
 """ with Alt-Shift, window top
-" <M-S-Home>
-nnoremap <ESC>O4H    <C-w>t
-vnoremap <ESC>O4H    <C-w>t
-inoremap <ESC>O4H    <C-o><C-w>t
+nnoremap <M-S-Home> <C-w>t
+vnoremap <M-S-Home> <C-w>t
+inoremap <M-S-Home> <C-o><C-w>t
 
 """ with Alt-Ctrl, window rotate up
-" <M-C-Home>
-nnoremap <ESC>O7H    <C-w>R
-vnoremap <ESC>O7H    <C-w>R
-inoremap <ESC>O7H    <C-o><C-w>R
+nnoremap <M-C-Home> <C-w>R
+vnoremap <M-C-Home> <C-w>R
+inoremap <M-C-Home> <C-o><C-w>R
 
 """ with Alt-Ctrl-Shift, window to Tab
-" <M-C-S-Home>
-nnoremap <ESC>O8H    <C-w>T
-vnoremap <ESC>O8H    <C-w>T
-inoremap <ESC>O8H    <C-o><C-w>T
+nnoremap <M-C-S-Home> <C-w>T
+vnoremap <M-C-S-Home> <C-w>T
+inoremap <M-C-S-Home> <C-o><C-w>T
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, cursor to end of line
 " <End>
-nnoremap <End>   g_
-vnoremap <End>   g_
-inoremap <End>   <C-o>g_
+" [default] nnoremap <End> as is
+" [default] vnoremap <End> as is
+" [default] inoremap <End> as is
 
-""" with Shift, select to end of line(printable)
-" <S-End>
-nnoremap <ESC>O2F    vg_
-vnoremap <ESC>O2F    g_
-inoremap <ESC>O2F    <C-o>vg_
+""" with Shift, select to end of line
+nnoremap <S-End> v$
+vnoremap <S-End> $
+inoremap <S-End> <C-o>$
 
 """ with Ctrl, cursor to last line
-" <C-End>
-" [default] nnoremap <ESC>O5F   G
-" [default] vnoremap <ESC>O5F   G
-" [default] inoremap <ESC>O5F   <C-o>G
+" [default] nnoremap <C-End> G
+" [default] vnoremap <C-End> G
+" [default] inoremap <C-End> <C-o>G
 
 """ with Ctrl-Shift, select to last line
-" <C-S-End>
-nnoremap <ESC>O6F    vG
-vnoremap <ESC>O6F    G
-inoremap <ESC>O6F    <C-o>vG
+nnoremap <C-S-End> vG
+vnoremap <C-S-End> G
+inoremap <C-S-End> <C-o>vG
 
 """ with Alt, window down
-" <M-End>
-nnoremap <ESC>03F   <C-w>w
-vnoremap <ESC>03F   <C-w>w
-inoremap <ESC>03F   <C-o><C-w>w
+nnoremap <M-End> <C-w>w
+vnoremap <M-End> <C-w>w
+inoremap <M-End> <C-o><C-w>w
+
 """ with Alt-Shift, window bottom
-" <M-S-End>
-nnoremap <ESC>O4F    <C-w>b
-vnoremap <ESC>O4F    <C-w>b
-inoremap <ESC>O4F    <C-o><C-w>b
+nnoremap <M-S-End> <C-w>b
+vnoremap <M-S-End> <C-w>b
+inoremap <M-S-End> <C-o><C-w>b
 
 """ with Alt-Ctrl, window rotate down
-" <M-C-End>
-nnoremap <ESC>O7F   <C-w>r
-vnoremap <ESC>O7F   <C-w>r
-inoremap <ESC>O7F   <C-o><C-w>r
+nnoremap <M-C-End> <C-w>r
+vnoremap <M-C-End> <C-w>r
+inoremap <M-C-End> <C-o><C-w>r
 
 """ with Alt-Ctrl-Shift, window to Tab
-" <M-C-S-End>
-nnoremap <ESC>O8F   <C-w>T
-vnoremap <ESC>O8F   <C-w>T
-inoremap <ESC>O8F   <C-o><C-w>T
+nnoremap <M-C-S-End> <C-w>T
+vnoremap <M-C-S-End> <C-w>T
+inoremap <M-C-S-End> <C-o><C-w>T
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, one screenful backward
-" <PageUp>
-" [default] nnoremap <ESC>[5~ as is
-" [default] vnoremap <ESC>[5~ as is
-" [default] inoremap <ESC>[5~ as is
+" [default] nnoremap <PageUp> as is
+" [default] vnoremap <PageUp> as is
+" [default] inoremap <PageUp> as is
 
 """ with Shift, select region
-" <S-PageUp>
-nnoremap <ESC>[5;2~   v<PageUp>
-vnoremap <ESC>[5;2~   <PageUp>
-inoremap <ESC>[5;2~   <C-o>v<PageUp>
+nnoremap <S-PageUp>   v<PageUp>
+vnoremap <S-PageUp>   <PageUp>
+inoremap <S-PageUp>   <C-o>v<PageUp>
 
 """ with Ctrl, tab previous
-" <C-PageUp>
-" [default] nnoremap <ESC>[5;5~   gT
-" [default] vnoremap <ESC>[5;5~   gT
-" [default] inoremap <ESC>[5;5~   <C-o>gT
+" [default] nnoremap <S-PageUp>   gT
+" [default] vnoremap <S-PageUp>   gT
+" [default] inoremap <S-PageUp>   <C-o>gT
 
 """ with Ctrl+Shift, go to first tab page
-" <C-S-PageUp>
-nnoremap <ESC>[5;6~   :tabfirst<CR>
-vnoremap <ESC>[5;6~   <ESC>:tabfirst<CR>
-inoremap <ESC>[5;6~   <C-o>:tabfirst<CR>
+nnoremap <C-S-PageUp> :tabfirst<CR>
+vnoremap <C-S-PageUp> <ESC>:tabfirst<CR>
+inoremap <C-S-PageUp> <C-o>:tabfirst<CR>
 
 """ with Alt, go window up
-" <M-PageUp>
-nnoremap <ESC>[5;3~   <C-w>k
-vnoremap <ESC>[5;3~   <C-w>k
-inoremap <ESC>[5;3~   <C-o><C-w>k
+nnoremap <M-PageUp> <C-w>k
+vnoremap <M-PageUp> <C-w>k
+inoremap <M-PageUp> <C-o><C-w>k
 
 """ with Alt-Shift, go window keft
-" <M-S-PageUp>
-nnoremap <ESC>[5;4~   <C-w>h
-vnoremap <ESC>[5;4~   <C-w>h
-inoremap <ESC>[5;4~   <C-o><C-w>h
+nnoremap <M-S-PageUp> <C-w>h
+vnoremap <M-S-PageUp> <C-w>h
+inoremap <M-S-PageUp> <C-o><C-w>h
 
 """ with Alt-Ctrl, window size highter
-" <M-C-PageUp>
-nnoremap <ESC>[5;7~   <C-w>+
-vnoremap <ESC>[5;7~   <C-w>+
-inoremap <ESC>[5;7~   <C-o><C-w>+
+nnoremap <M-C-PageUp> <C-w>+
+vnoremap <M-C-PageUp> <C-w>+
+inoremap <M-C-PageUp> <C-o><C-w>+
 
 """ with Alt-Ctrl-Shift, window size wider
-" <M-C-S-PageUp>
-nnoremap <ESC>[5;8~   <C-w>>
-vnoremap <ESC>[5;8~   <C-w>>
-inoremap <ESC>[5;8~   <C-o><C-w>>
+nnoremap <M-C-S-PageUp> <C-w>>
+vnoremap <M-C-S-PageUp> <C-w>>
+inoremap <M-C-S-PageUp> <C-o><C-w>>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, one screenful forward
-" <PageDown>
-" [default] nnoremap <ESC>[6~ as is
-" [default] vnoremap <ESC>[6~ as is
-" [default] inoremap <ESC>[6~ as is
+" [default] nnoremap <PageDown> as is
+" [default] vnoremap <PageDown> as is
+" [default] inoremap <PageDown> as is
 
 """ with Shift, select region
-" <S-PageDown>
-nnoremap <ESC>[6;2~   v<PageDown>
-vnoremap <ESC>[6;2~   <PageDown>
-inoremap <ESC>[6;2~   <C-o>v<PageDown>
+nnoremap <S-PageDown> v<PageDown>
+vnoremap <S-PageDown> <PageDown>
+inoremap <S-PageDown> <C-o>v<PageDown>
 
 """ with Ctrl, tab next
-" <C-PageDown>
-" [default] nnoremap <ESC>[6;5~   gt
-" [default] vnoremap <ESC>[6;5~   <ESC>gt
-" [default] inoremap <ESC>[6;5~   <C-o>gt
+" [default] nnoremap <C-PageDown> gt
+" [default] vnoremap <C-PageDown> <ESC>gt
+" [default] inoremap <C-PageDown> <C-o>gt
 
 """ with Ctrl-Shift, go to last tab page
-" <C-S-PageDown>
-nnoremap <ESC>[6;6~   :tablast<CR>
-vnoremap <ESC>[6;6~   <ESC>:tablast<CR>
-inoremap <ESC>[6;6~   <C-o>:tablast<CR>
+nnoremap <C-S-PageDown> :tablast<CR>
+vnoremap <C-S-PageDown> <ESC>:tablast<CR>
+inoremap <C-S-PageDown> <C-o>:tablast<CR>
 
 """ with Alt, go window down
-" <M-PageDown>
-nnoremap <ESC>[6;3~   <C-w>j
-vnoremap <ESC>[6;3~   <C-w>j
-inoremap <ESC>[6;3~   <C-o><C-w>j
+nnoremap <M-PageDown> <C-w>j
+vnoremap <M-PageDown> <C-w>j
+inoremap <M-PageDown> <C-o><C-w>j
 
 """ with Alt-Shift, go window right
-" <M-S-PageDown>
-nnoremap <ESC>[6;4~   <C-w>l
-vnoremap <ESC>[6;4~   <C-w>l
-inoremap <ESC>[6;4~   <C-o><C-w>l
+nnoremap <M-S-PageDown> <C-w>l
+vnoremap <M-S-PageDown> <C-w>l
+inoremap <M-S-PageDown> <C-o><C-w>l
 
 """ with Alt-Ctrl, window size shorter
-" <M-C-PageDown>
-nnoremap <ESC>[6;7~   <C-w>-
-vnoremap <ESC>[6;7~   <C-w>-
-inoremap <ESC>[6;7~   <C-o><C-w>-
+nnoremap <M-C-PageDown> <C-w>-
+vnoremap <M-C-PageDown> <C-w>-
+inoremap <M-C-PageDown> <C-o><C-w>-
 
 """ with Alt-Ctrl-Shift, window size nallower
-" <M-C-S-PageDown>
-nnoremap <ESC>[6;8~   <C-w><
-vnoremap <ESC>[6;8~   <C-w><
-inoremap <ESC>[6;8~   <C-o><C-w><
+nnoremap <M-C-S-PageDown> <C-w><
+vnoremap <M-C-S-PageDown> <C-w><
+inoremap <M-C-S-PageDown> <C-o><C-w><
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, Up
-" <Up>
-" [default] nnoremap <ESC>OA as is
-" [default] vnoremap <ESC>OA as is
-" [default] inoremap <ESC>OA as is
+" [default] nnoremap <Up> as is
+" [default] vnoremap <Up> as is
+" [default] inoremap <Up> as is
 
 """ with Shift, select region Up
-" <S-Up>
-" [default] nnoremap <ESC>O2A   <PageUp>
-" [default] vnoremap <ESC>O2A   <PageUp>
-" [default] inoremap <ESC>O2A   <C-o><PageUp>
-nnoremap <ESC>O2A   vk
-vnoremap <ESC>O2A   k
-inoremap <ESC>O2A   <C-o>vk
+" [default] nnoremap <S-Up>   <PageUp>
+" [default] vnoremap <S-Up>   <PageUp>
+" [default] inoremap <S-Up>   <C-o><PageUp>
+nnoremap <S-Up> vk
+vnoremap <S-Up> k
+inoremap <S-Up> <C-o>vk
 
 """ with Ctrl, 5 lines Up
-" <C-Up>
-" [default] nnoremap <ESC>O5A   <PageUp>
-" [default] vnoremap <ESC>O5A   <ESC>gt
-" [default] inoremap <ESC>O5A   <C-o>gt
-nnoremap <ESC>O5A   5k
-vnoremap <ESC>O5A   5k
-inoremap <ESC>O5A   <C-o>5k
-
+" [default] nnoremap <C-Up> <PageUp>
+" [default] vnoremap <C-Up> <ESC>gt
+" [default] inoremap <C-Up> <C-o>gt
+nnoremap <C-Up> 5k
+vnoremap <C-Up> 5k
+inoremap <C-Up> <C-o>5k
 
 """ with Ctrl-Shift, select region 5 lines Up
-" <C-S-Up>
-nnoremap <ESC>O6A   v5k
-vnoremap <ESC>O6A   5k
-inoremap <ESC>O6A   <C-o>v5k
+nnoremap <C-S-Up>   v5k
+vnoremap <C-S-Up>   5k
+inoremap <C-S-Up>   <C-o>v5k
 
 """ with Alt, window up
-" <M-Up>
-nnoremap <ESC>O3A   <C-w>k
-vnoremap <ESC>O3A   <C-w>k
-inoremap <ESC>O3A   <C-o><C-w>k
+nnoremap <M-Up>   <C-w>k
+vnoremap <M-Up>   <C-w>k
+inoremap <M-Up>   <C-o><C-w>k
 
 """ with Alt-Shift, window size taller
-" <M-S-Up>
-nnoremap <ESC>O4A   <C-w>+
-vnoremap <ESC>O4A   <C-w>+
-inoremap <ESC>O4A   <C-o><C-w>+
+nnoremap <M-S-Up>   <C-w>+
+vnoremap <M-S-Up>   <C-w>+
+inoremap <M-S-Up>   <C-o><C-w>+
 
 """ with Alt-Ctrl, nop
-" <M-C-Up>
-nnoremap <ESC>O7A   <nop>
-vnoremap <ESC>O7A   <nop>
-inoremap <ESC>O7A   <nop>
+nnoremap <M-C-Up>   <nop>
+vnoremap <M-C-Up>   <nop>
+inoremap <M-C-Up>   <nop>
 
 """ with Alt-Ctrl-Shift, nop
-" <M-C-S-Up>
-nnoremap <ESC>O8A   <nop>
-vnoremap <ESC>O8A   <nop>
-inoremap <ESC>O8A   <nop>
+nnoremap <M-C-S-Up>   <nop>
+vnoremap <M-C-S-Up>   <nop>
+inoremap <M-C-S-Up>   <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, Down
-" <Down>
-" [default] nnoremap <ESC>OB as is
-" [default] vnoremap <ESC>OB as is
-" [default] inoremap <ESC>OB as is
+" [default] nnoremap <Down> as is
+" [default] vnoremap <Down> as is
+" [default] inoremap <Down> as is
 
 """ with Shift, Down
-" <S-Up>
-" [default] nnoremap <ESC>O2B   <PageDown>
-" [default] vnoremap <ESC>O2B   <PageDown>
-" [default] inoremap <ESC>O2B   <C-o><PageDown>
-nnoremap <ESC>O2B   vj
-vnoremap <ESC>O2B   j
-inoremap <ESC>O2B   <C-o>vj
+" [default] nnoremap <S-Down>   <PageDown>
+" [default] vnoremap <S-Down>   <PageDown>
+" [default] inoremap <S-Down>   <C-o><PageDown>
+nnoremap <S-Down>   vj
+vnoremap <S-Down>   j
+inoremap <S-Down>   <C-o>vj
 
 """ with Ctrl, 5 lines Down
-" <C-Down>
-" [default] nnoremap <ESC>O5B   <PageDown>
-" [default] vnoremap <ESC>O5B   <ESC>gt
-" [default] inoremap <ESC>O5B   <C-o>gt
-nnoremap <ESC>O5B   5j
-vnoremap <ESC>O5B   5j
-inoremap <ESC>O5B   <C-o>5j
-
+nnoremap <C-Down> 5j
+vnoremap <C-Down> 5j
+inoremap <C-Down> <C-o>5j
 
 """ with Ctrl-Shift, select 5 lines Down
-" <C-S-Down>
-nnoremap <ESC>O6B   v5j
-vnoremap <ESC>O6B   5j
-inoremap <ESC>O6B   <C-o>v5j
+nnoremap <C-S-Down> v5j
+vnoremap <C-S-Down> 5j
+inoremap <C-S-Down> <C-o>v5j
 
 """ with Alt, window down
-" <M-Down>
-nnoremap <ESC>O3B   <C-w>j
-vnoremap <ESC>O3B   <C-w>j
-inoremap <ESC>O3B   <C-o><C-w>j
+nnoremap <M-Down> <C-w>j
+vnoremap <M-Down> <C-w>j
+inoremap <M-Down> <C-o><C-w>j
 
 """ with Alt-Shift, window size shorter
-" <M-S-Down>
-nnoremap <ESC>O4B   <C-w>-
-vnoremap <ESC>O4B   <C-w>-
-inoremap <ESC>O4B   <C-o><C-w>-
+nnoremap <M-S-Down> <C-w>-
+vnoremap <M-S-Down> <C-w>-
+inoremap <M-S-Down> <C-o><C-w>-
 
 """ with Alt-Ctrl, nop
-" <M-C-Down>
-nnoremap <ESC>O7B   <nop>
-vnoremap <ESC>O7B   <nop>
-inoremap <ESC>O7B   <nop>
+nnoremap <M-C-Down> <nop>
+vnoremap <M-C-Down> <nop>
+inoremap <M-C-Down> <nop>
 
 """ with Alt-Ctrl-Shift, nop
-" <M-C-S-Down>
-nnoremap <ESC>O8B   <nop>
-vnoremap <ESC>O8B   <nop>
-inoremap <ESC>O8B   <nop>
+nnoremap <M-C-S-Down> <nop>
+vnoremap <M-C-S-Down> <nop>
+inoremap <M-C-S-Down> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, Right
-" <Right>
-" [default] nnoremap <ESC>OC as is
-" [default] vnoremap <ESC>OC as is
-" [default] inoremap <ESC>OC as is
+" [default] nnoremap <Right> as is
+" [default] vnoremap <Right> as is
+" [default] inoremap <Right> as is
 
 """ with Shift, select region Right
-" <S-Right>
-" [default] nnoremap <ESC>O2C   w
-" [default] vnoremap <ESC>O2C   w
-" [default] inoremap <ESC>O2C   <C-o>w
-nnoremap <ESC>O2C   v<Right>
-vnoremap <ESC>O2C   <Right>
-inoremap <ESC>O2C   <C-o>v<Right>
+" [default] nnoremap <S-Right> w
+" [default] vnoremap <S-Right> w
+" [default] inoremap <S-Right> <C-o>w
+nnoremap <S-Right> v<Right>
+vnoremap <S-Right> <Right>
+inoremap <S-Right> <C-o>v<Right>
 
 """ with Ctrl, 5 chars Right
-" <C-Right>
-" [default] nnoremap <ESC>O5C   w
-" [default] vnoremap <ESC>O5C   w
-" [default] inoremap <ESC>O5C   <C-o>w
-nnoremap <ESC>O5C   5<Right>
-vnoremap <ESC>O5C   5<Right>
-inoremap <ESC>O5C   <C-o>v5<Right>
-
+" [default] nnoremap <C-Right> w
+" [default] vnoremap <C-Right> w
+" [default] inoremap <C-Right> <C-o>w
+nnoremap <C-Right> 5<Right>
+vnoremap <C-Right> 5<Right>
+inoremap <C-Right> <C-o>v5<Right>
 
 """ with Ctrl-Shift, select region 5 chars Right
-" <C-S-Right>
-nnoremap <ESC>O6C   v5<Right>
-vnoremap <ESC>O6C   5<Right>
-inoremap <ESC>O6C   <C-o>5<Right>
+nnoremap <C-S-Right> v5<Right>
+vnoremap <C-S-Right> 5<Right>
+inoremap <C-S-Right> <C-o>5<Right>
 
 """ with Alt, window Right
-" <M-Right>
-nnoremap <ESC>O3C   <C-w><Right>
-vnoremap <ESC>O3C   <C-w><Right>
-inoremap <ESC>O3C   <C-o><C-w><Right>
+nnoremap <M-Right> <C-w><Right>
+vnoremap <M-Right> <C-w><Right>
+inoremap <M-Right> <C-o><C-w><Right>
 
 """ with Alt-Shift, window size wider
-" <M-S-Right>
-nnoremap <ESC>O4C   <C-w>>
-vnoremap <ESC>O4C   <C-w>>
-inoremap <ESC>O4C   <C-o><C-w>>
+nnoremap <M-S-Right> <C-w>>
+vnoremap <M-S-Right> <C-w>>
+inoremap <M-S-Right> <C-o><C-w>>
 
 """ with Alt-Ctrl, nop
-" <M-C-Right>
-nnoremap <ESC>O7C   <nop>
-vnoremap <ESC>O7C   <nop>
-inoremap <ESC>O7C   <nop>
+nnoremap <M-C-Right> <nop>
+vnoremap <M-C-Right> <nop>
+inoremap <M-C-Right> <nop>
 
 """ with Alt-Ctrl-Shift, nop
-" <M-C-S-Right>
-nnoremap <ESC>O8C   <nop>
-vnoremap <ESC>O8C   <nop>
-inoremap <ESC>O8C   <nop>
+nnoremap <M-C-S-Right> <nop>
+vnoremap <M-C-S-Right> <nop>
+inoremap <M-C-S-Right> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ without modifier, Left
-" <Left>
-" [default] nnoremap <ESC>OD as is
-" [default] vnoremap <ESC>OD as is
-" [default] inoremap <ESC>OD as is
+" [default] nnoremap <Left> as is
+" [default] vnoremap <Left> as is
+" [default] inoremap <Left> as is
 
 """ with Shift, select region Left
-" <S-Left>
-" [default] nnoremap <ESC>O2D   b
-" [default] vnoremap <ESC>O2D   b
-" [default] inoremap <ESC>O2D   <C-o>b
-nnoremap <ESC>O2D   v<Left>
-vnoremap <ESC>O2D   <Left>
-inoremap <ESC>O2D   <C-o>v<Left>
+" [default] nnoremap <S-Left>   b
+" [default] vnoremap <S-Left>   b
+" [default] inoremap <S-Left>   <C-o>b
+nnoremap <S-Left>   v<Left>
+vnoremap <S-Left>   <Left>
+inoremap <S-Left>   <C-o>v<Left>
 
 """ with Ctrl, 5 chars Left
-" <C-Left>
-" [default] nnoremap <ESC>O5D   b
-" [default] vnoremap <ESC>O5D   b
-" [default] inoremap <ESC>O5D   <C-o>b
-nnoremap <ESC>O5D   5<Left>
-vnoremap <ESC>O5D   5<Left>
-inoremap <ESC>O5D   <C-o>v5<Left>
-
+" [default] nnoremap <C-Left>   b
+" [default] vnoremap <C-Left>   b
+" [default] inoremap <C-Left>   <C-o>b
+nnoremap <C-Left>   5<Left>
+vnoremap <C-Left>   5<Left>
+inoremap <C-Left>   <C-o>v5<Left>
 
 """ with Ctrl-Shift, select region 5 chars Left
-" <C-S-Left>
-nnoremap <ESC>O6D   v5<Left>
-vnoremap <ESC>O6D   5<Left>
-inoremap <ESC>O6D   <C-o>v5<Left>
+nnoremap <C-S-Left>   v5<Left>
+vnoremap <C-S-Left>   5<Left>
+inoremap <C-S-Left>   <C-o>v5<Left>
 
 """ with Alt, window Left
-" <M-Left>
-nnoremap <ESC>O3D   <C-w><Left>
-vnoremap <ESC>O3D   <C-w><Left>
-inoremap <ESC>O3D   <C-o><C-w><Left>
+nnoremap <M-Left>   <C-w><Left>
+vnoremap <M-Left>   <C-w><Left>
+inoremap <M-Left>   <C-o><C-w><Left>
 
 """ with Alt-Shift, window size narrower
-" <M-S-Left>
-nnoremap <ESC>O4D   <C-w><
-vnoremap <ESC>O4D   <C-w><
-inoremap <ESC>O4D   <C-o><C-w><
+nnoremap <M-S-Left>   <C-w><
+vnoremap <M-S-Left>   <C-w><
+inoremap <M-S-Left>   <C-o><C-w><
 
 """ with Alt-Ctrl, nop
-" <M-C-Left>
-nnoremap <ESC>O7D   <nop>
-vnoremap <ESC>O7D   <nop>
-inoremap <ESC>O7D   <nop>
+nnoremap <M-C-Left>   <nop>
+vnoremap <M-C-Left>   <nop>
+inoremap <M-C-Left>   <nop>
 
 """ with Alt-Ctrl-Shift, nop
-" <M-C-S-Left>
-nnoremap <ESC>O8D   <nop>
-vnoremap <ESC>O8D   <nop>
-inoremap <ESC>O8D   <nop>
+nnoremap <M-C-S-Left>   <nop>
+vnoremap <M-C-S-Left>   <nop>
+inoremap <M-C-S-Left>   <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ keys with Leader
