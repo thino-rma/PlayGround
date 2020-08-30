@@ -159,6 +159,10 @@ execute "set <xHome>=\<Esc>O*H"
 execute "set <xEnd>=\<Esc>O*F"
 execute "set <PageUp>=\<Esc>[5;*~"
 execute "set <PageDown>=\<Esc>[6;*~"
+execute "set <xUp>=\<Esc>O*A"
+execute "set <xDown>=\<Esc>O*B"
+execute "set <xRight>=\<Esc>O*C"
+execute "set <xLeft>=\<Esc>O*D"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F1  Help / recording macros
