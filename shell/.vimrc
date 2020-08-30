@@ -140,11 +140,19 @@ cnoremap <C-d> <Del>
 cnoremap <F7>  <C-k>j
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" you may have to set keycode for Shift-F1: type i (insert mode), type C-v, type Shift-F1.
-execute "set <S-F1>=\<Esc>[11;2~"
-execute "set <S-F2>=\<Esc>[12;2~"
-execute "set <S-F3>=\<Esc>[13;2~"
-execute "set <S-F4>=\<Esc>[14;2~"
+" you may have to set keycode for F1: type i (insert mode), type C-v, type F1.
+execute "set <xF1>=\<Esc>[11;*~"
+execute "set <xF2>=\<Esc>[12;*~"
+execute "set <xF3>=\<Esc>[13;*~"
+execute "set <xF4>=\<Esc>[14;*~"
+execute "set <F5>=\<Esc>[15;*~"
+execute "set <F6>=\<Esc>[17;*~"
+execute "set <F7>=\<eSc>[18;*~"
+execute "set <F8>=\<Esc>[19;*~"
+execute "set <F9>=\<Esc>[20;*~"
+execute "set <F10>=\<Esc>[21;*~"
+execute "set <F11>=\<Esc>[23;*~"
+execute "set <F12>=\<Esc>[24;*~"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F1  Help / recording macros
