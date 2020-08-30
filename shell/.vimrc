@@ -153,6 +153,12 @@ execute "set <F9>=\<Esc>[20;*~"
 execute "set <F10>=\<Esc>[21;*~"
 execute "set <F11>=\<Esc>[23;*~"
 execute "set <F12>=\<Esc>[24;*~"
+execute "set <Insert>=\<Esc>[2;*~"
+execute "set <Delete>=\<Esc>[3;*~"
+execute "set <xHome>=\<Esc>O*H"
+execute "set <xEnd>=\<Esc>O*F"
+execute "set <PageUp>=\<Esc>[5;*~"
+execute "set <PageDown>=\<Esc>[6;*~"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F1  Help / recording macros
