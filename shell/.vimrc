@@ -340,7 +340,7 @@ vnoremap <C-F5>     <ESC>yawgv
 inoremap <C-F5>     <C-o>yaw
 
 """ with Ctrl-Shift, yank around WORD
-nnoremap <C-S-F5>   yaw:echo 'yanked: ' . @"<CR>
+nnoremap <C-S-F5>   yaW:echo 'yanked: ' . @"<CR>
 vnoremap <C-S-F5>   <ESC>yaWgv
 inoremap <C-S-F5>   <C-o>yaW
 
