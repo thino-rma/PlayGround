@@ -612,11 +612,8 @@ function! s:SearchEN(key, skey)
 endfunction
 
 function! s:SearchJP(key, skey)
-  " let p = '\(^\\|\s\+\zs\\|　\+\zs\\|、\\|。\\|！\\|？\\|「\\|」\\|（\\|）\\|$\)'
-  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\zs\)'
-  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\)'
-  " let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・' . '\\|(\zs\\|)\zs' . '\\|#\+\)'
-  let p = '\(^\S\\|\s\+\zs\\|　\+\zs\\|、\zs\\|。\zs\\|！\zs\\|？\zs\\|「\zs\\|」\zs\\|『\zs\\|』\zs\\|（\zs\\|）\zs\\|・\)'
+  let p ='\(^\S\\|^\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[ぁ-ん]\+[、。！？（）「」『』【】]\+\
+zs\\|[ぁ-ん]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
