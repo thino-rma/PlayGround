@@ -191,6 +191,14 @@ nnoremap <C-S-F1>    :<C-u>call <SID>AltRecord('e', 8)<CR>
 nnoremap <M-C-F1>    :<C-u>call <SID>AltRecord('f', 8)<CR>
 nnoremap <M-C-S-F1>  :<C-u>call <SID>AltRecord('g', 8)<CR>
 
+inoremap <S-F1>      <C-o>:call <SID>AltRecord('a', 4)<CR>
+inoremap <M-F1>      <C-o>:call <SID>AltRecord('b', 4)<CR>
+inoremap <M-S-F1>    <C-o>:call <SID>AltRecord('c', 6)<CR>
+inoremap <C-F1>      <C-o>:call <SID>AltRecord('d', 4)<CR>
+inoremap <C-S-F1>    <C-o>:call <SID>AltRecord('e', 6)<CR>
+inoremap <M-C-F1>    <C-o>:call <SID>AltRecord('f', 6)<CR>
+inoremap <M-C-S-F1>  <C-o>:call <SID>AltRecord('g', 8)<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F2  execute register
 "     Hint: :reg shows register list, (use F2)
@@ -206,6 +214,14 @@ nnoremap <C-F2>      @d
 nnoremap <C-S-F2>    @e
 nnoremap <M-C-F2>    @f
 nnoremap <M-C-S-F2>  @g
+
+inoremap <expr> <S-F2>      @a
+inoremap <expr> <M-F2>      @b
+inoremap <expr> <M-S-F2>    @c
+inoremap <expr> <C-F2>      @d
+inoremap <expr> <C-S-F2>    @e
+inoremap <expr> <M-C-F2>    @f
+inoremap <expr> <M-C-S-F2>  @g
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F3  search commands.
