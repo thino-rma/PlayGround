@@ -773,6 +773,16 @@ inoremap <S-Insert> <nop>
 " nnoremap <M-C-S-Insert> <nop> Not Available
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! s:SmartDelete()
+  if col('.') <= strlen(getline('.'))
+    return "\<C-o>\"_x"
+  elseif line('.') < line('$')
+    return "\<C-o>j\<C-o>0\<BS>"
+  endif
+  return ""
+endfunction
+
 """ without modifier, delete character under the cursor
 " <Del>
 " Note: use "d"(delete) and "p"(put) for "cut  and paste"
@@ -781,12 +791,14 @@ inoremap <S-Insert> <nop>
 nnoremap <Del> "_x
 vnoremap <Del> "_x
 inoremap <Del> <C-o>"_x
+" inoremap <expr> <Del> <SID>SmartDelete()
 
 """ with Shift, delete character under the cursor
 " using unnameed register
 nnoremap <S-Del> x
 vnoremap <S-Del> x
 inoremap <S-Del> <C-o>x
+" inoremap <expr> <S-Del> <SID>SmartDelete()
 
 """ with Alt, erase {pattern} /
 nnoremap <M-Del> :s/<C-r>///I<CR>
