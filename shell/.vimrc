@@ -604,16 +604,18 @@ nnoremap <M-C-S-F8>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F9  tab / (Alt) window
-
-function! s:SearchEN(key, skey)
-  " let p = '\(^\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\\|' . "'" . '\\|(\\|)\\|$\)'
-  let p = '\(^\S\\|\s\+\zs\\|,\\|\.\\|!\\|?\\|"\+\\|' . "'" . '\\|(\\|)\)'
+function! s:SearchJPLong(key, skey)
+  let p ='\(^\S\\|^\s\+\zs\S\\|[。！？]\+\zs\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
-function! s:SearchJP(key, skey)
-  let p ='\(^\S\\|^\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[ぁ-ん]\+[、。！？（）「」『』【】]\+\
-zs\\|[ぁ-ん]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
+function! s:SearchJPMiddle(key, skey)
+  let p ='\(^\S\\|^\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
+  call <SID>Search(a:key, a:skey, p)
+endfunction
+
+function! s:SearchJPShort(key, skey)
+  let p ='\(^\S\\|^\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[ぁ-ん]\+[、。！？（）「」『』【】]\+\zs\\|[ぁ-ん]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
@@ -627,7 +629,7 @@ function! s:Search(key, skey, p)
 endfunction
 
 """ without Alt
-call <SID>SearchEN('<F9>', '<S-F9>')
+call <SID>SearchJPShort('<F9>', '<S-F9>')
 noremap <C-F9>         <nop>
 noremap <C-S-F9>       <nop>
 """ with Alt
@@ -639,25 +641,26 @@ noremap <M-C-S-F9>     <nop>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F10  nop
 
-" F10
-call <SID>SearchJP('<F10>', '<S-F10>')
-noremap <M-F10>         <nop>
-noremap <M-S-F10>       <nop>
+""" without Alt
+call <SID>SearchJPMiddle('<F10>', '<S-F10>')
 noremap <C-F10>         <nop>
 noremap <C-S-F10>       <nop>
+""" with Alt
+noremap <M-F10>         <nop>
+noremap <M-S-F10>       <nop>
 noremap <M-C-F10>       <nop>
 noremap <M-C-S-F10>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F11  nop
 
-" F11
-noremap <F11>           <nop>
-noremap <S-F11>         <nop>
-noremap <M-F11>         <nop>
-noremap <M-S-F11>       <nop>
+""" without Alt
+call <SID>SearchJPLong('<F11>', '<S-F11>')
 noremap <C-F11>         <nop>
 noremap <C-S-F11>       <nop>
+""" with Alt
+noremap <M-F11>         <nop>
+noremap <M-S-F11>       <nop>
 noremap <M-C-F11>       <nop>
 noremap <M-C-S-F11>     <nop>
 
