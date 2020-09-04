@@ -109,6 +109,25 @@ endfunction
 nnoremap x "_x
 vnoremap x "_x
 
+" Leave Insert mode
+inoremap <C-l> <ESC>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" key-maps for Cursor-move
+""" for Ctrl-h,j,k,l
+nnoremap <C-h> <Left>
+nnoremap <C-j> <Down>
+nnoremap <C-k> <Up>
+nnoremap <C-l> <Right>
+vnoremap <C-h> <Left>
+vnoremap <C-j> <Down>
+vnoremap <C-k> <Up>
+vnoremap <C-l> <Right>
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for comandline-edit
 
@@ -741,6 +760,8 @@ function! s:ToggleBashKeymap()
     iunmap <C-k>
     nunmap <C-x>
     iunmap <C-x>
+    nnoremap <C-k> <Up>
+    inoremap <C-k> <Up>
   else
     let g:keymap_bash = 1
     nnoremap <C-a> 0
@@ -1185,12 +1206,18 @@ inoremap <M-C-S-Left>   <nop>
 
 let mapleader = "\<Space>"
 
+" alternatives for Cursor Move key-mappings
+nnoremap <Leader><C-l> <C-l> 
+inoremap <Leader><C-l> <C-l>
+inoremap <Leader><C-k> <C-k>
+
 " toggle highlight search
 nnoremap <silent> <Leader><Leader> :set hlsearch!<CR>
 vnoremap <silent> <Leader><Leader> :<C-u>set hlsearch!<CR>gv
+
 " execute selected command
-nnoremap <Leader><CR>     V:!/usr/bin/env bash
-vnoremap <Leader><CR>     :!/usr/bin/env bash
+" nnoremap <Leader><CR>     V:!/usr/bin/env bash
+" vnoremap <Leader><CR>     :!/usr/bin/env bash
 
 " reload .vimrc
 nnoremap <silent> <Leader>rr :source ~/.vimrc<CR>:noh<CR>
@@ -1209,10 +1236,10 @@ nnoremap <Leader><Up>     <C-u>
 nnoremap <Leader><Down>   <C-d>
 
 " start selection
-nnoremap <Leader><S-Left>   v<Left>
-nnoremap <Leader><S-Right>  v<Right>
-nnoremap <Leader><S-Up>     v<Up>
-nnoremap <Leader><S-Down>   v<Down>
+" nnoremap <Leader><S-Left>   v<Left>
+" nnoremap <Leader><S-Right>  v<Right>
+" nnoremap <Leader><S-Up>     v<Up>
+" nnoremap <Leader><S-Down>   v<Down>
 
 
 " Quickly move to the beginning of line
