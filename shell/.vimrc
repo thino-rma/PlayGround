@@ -109,24 +109,50 @@ endfunction
 nnoremap x "_x
 vnoremap x "_x
 
-" Leave Insert mode
-inoremap <C-l> <ESC>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for Cursor-move
 """ for Ctrl-h,j,k,l
 nnoremap <C-h> <Left>
-nnoremap <C-j> <Down>
-nnoremap <C-k> <Up>
-nnoremap <C-l> <Right>
 vnoremap <C-h> <Left>
-vnoremap <C-j> <Down>
-vnoremap <C-k> <Up>
-vnoremap <C-l> <Right>
 inoremap <C-h> <Left>
+nnoremap <C-j> <Down>
+vnoremap <C-j> <Down>
 inoremap <C-j> <Down>
-inoremap <C-k> <Up>
+nnoremap <C-l> <Right>
+vnoremap <C-l> <Right>
 inoremap <C-l> <Right>
+nnoremap <C-k> <Up>
+vnoremap <C-k> <Up>
+inoremap <C-k> <Up>
+
+" alternative key for Normal mode <C-l> redraw screen
+"   nnoremap <Leader><C-l> <C-l>
+" alternative key for Insert mode <C-k> enter digraph
+"   inoremap <F7> <C-k>
+" alternative key for Insert mode <C-l> Leave Insert mode
+"   use default <C-[>      in Insert mode : Leave Insert mode
+"   use default <C-\\><C-n> in Insert mode : Go to Normal mode
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" keymaps for <ESC> in Insert mode
+" use default Ctrl-[ in Insert mode
+
+inoremap jj <ESC>
+onoremap jj <ESC>
+
+" additional key
+"   nnoremap <F8> <ESC>
+"   onoremap <F8> <ESC>
+
+" default <C-i>      in Insert mode : same as <Tab>
+inoremap <C-i>      <ESC>
+onoremap <C-i>      <ESC>
+" default <C-m>      in Insert mode : same as <CR>
+inoremap <C-m>      <ESC>
+onoremap <C-m>      <ESC>
+" default <C-\><C-\> in Insert mode : not used
+inoremap <C-\><C-\> <ESC>
+onoremap <C-\><C-\> <ESC>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for comandline-edit
@@ -625,10 +651,13 @@ nnoremap <M-C-S-F7><Space>  t<C-k>IS
 inoremap <M-C-S-F7><Space>  <C-o>t<C-k>IS
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F8  <nop>
+" F8  <ESC>
 
 " F8
-nnoremap <F8>           <nop>
+nnoremap <F8>           <ESC>
+vnoremap <F8>           <ESC>
+inoremap <F8>           <ESC>
+onoremap <F8>           <ESC>
 nnoremap <S-F8>         <nop>
 nnoremap <M-F8>         <nop>
 nnoremap <M-S-F8>       <nop>
@@ -1207,9 +1236,8 @@ inoremap <M-C-S-Left>   <nop>
 let mapleader = "\<Space>"
 
 " alternatives for Cursor Move key-mappings
+" in Normal mode <C-l> redraw screen
 nnoremap <Leader><C-l> <C-l> 
-inoremap <Leader><C-l> <C-l>
-inoremap <Leader><C-k> <C-k>
 
 " toggle highlight search
 nnoremap <silent> <Leader><Leader> :set hlsearch!<CR>
