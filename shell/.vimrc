@@ -1513,7 +1513,7 @@ endif
 
 """ auto paste mode
 " https://github.com/ConradIrwin/vim-bracketed-paste
-if &term =~ "xterm"
+if &term =~ "xterm" || &term =~ "screen" || &term =~ "tmux"
     let &t_ti .= "\e[?2004h"
     let &t_te = "\e[?2004l" . &t_te
 
