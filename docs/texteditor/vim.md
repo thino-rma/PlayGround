@@ -23,7 +23,18 @@
     |nv  |```<C-k>```|not used|```nnoremap <C-k> <Up>```<br />```vnoremap <C-k> <Up>```|
     |nv  |```<C-l>```|redraw screen|```nnoremap <C-l> <Down>```<br />```vnoremap <C-l> <Down>```<br />```nnoremap <Leader><C-l> <C-l>```<br />```vnoremap <Leader><C-l> <C-l>```|
 
-- Default key mapping for Bash keymap
+- Default key mapping related to Bash keymap
+  - Bash keymap
+    |key|action|
+    |:--|:-----|
+    |```<C-f>```|forward-char<br />Move forward a character.|
+    |```<C-b>```|backward-char<br />Move back a character.|
+    |```<C-a>```|beginning-of-line<br />Move to the start of the current line.|
+    |```<C-e>```|end-of-line<br />Move back a character.|
+    |```<C-d>```|delete-char<br />Delete  the  character  at point. |
+    |```<C-u>```|unix-line-discard<br />Kill backward from point to the beginning of the line.|
+    |```<C-k>```|kill-line<br />Kill the text from point to the end of the line.|
+  
   - Default key action
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
@@ -45,7 +56,7 @@
     |nv  |```<C-u>```|scroll N lines Upwards (default: half a screen)||
     |nv  |```<C-k>```|not used||
     |nv  |```<C-x>```|subtract N from number at/after cursor||
-  - Key mappings for Back keymap
+  - Key mappings for Bash keymap
     |mode|key|action|custom mapping|
     |:--:|:--|:-----|:---|
     |i   |```<C-@>```|insert previously inserted text and stop insert||
