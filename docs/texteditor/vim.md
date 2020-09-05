@@ -3,6 +3,28 @@
   - [vim index JP](https://vim-jp.org/vimdoc-ja/vimindex.html)
   - [vim index EN](https://vim-jp.org/vimdoc-en/vimindex.html)
 
+- Default key mapping related to ESC
+  - Default key action
+    |mode|key|action|memo|
+    |:--:|:--|:-----|:---|
+    |v   |```<ESC>```|stop Visual mode||
+    |v   |```<C-[>```|stop Visual mode||
+    |i   |```<ESC>```|end insert mode||
+    |i   |```<C-[>```|same as <ESC>||
+    |c   |```<ESC>```|abandon command-line without executing it||
+    |c   |```<C-[>```|same as <ESC>||
+  - Alternative Keys for ESC
+    |mode|key|action|custom mapping|
+    |:--:|:--|:-----|:---|
+    |i  |```jj```|not used|```inoremap jj <ESC>```|
+    |n  |```<C-i>```|same as ```<TAB>```||
+    |v  |```<C-i>```|not used?    |```vnoremap <C-i> <ESC>```|
+    |i  |```<C-i>```|same as ```<TAB>```|```inoremap <C-i> <ESC>```|
+    |c  |```<C-i>```|same as ```<TAB>```|```cnoremap <C-i> <ESC>```|
+    |v  |```<C-\><C-\>```|not used|```vnoremap <C-\><C-\> <ESC>```|
+    |i  |```<C-\><C-\>```|not used|```inoremap <C-\><C-\> <ESC>```|
+    |c  |```<C-\><C-\>```|not used|```cnoremap <C-\><C-\> <ESC>```|
+
 - Default key mapping for Cursor move
   - Default key action
     |mode|key|action|memo|
