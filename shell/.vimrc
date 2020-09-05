@@ -125,6 +125,11 @@ nnoremap <C-k> <Up>
 vnoremap <C-k> <Up>
 inoremap <C-k> <Up>
 
+" for RLogin, BS generates ^H, which is same as <C-h>
+" so you will lost BS key function with the setting "inoremap <C-h> <Left>".
+" set Screen -> Escape sequence No.?67 Reset (Send DEL with BS key)
+" which cause key code Back(BackSpace) as ^? (= 127 = 0x7f)
+
 " alternative key for Normal mode <C-l> redraw screen
 "   nnoremap <Leader><C-l> <C-l>
 " alternative key for Insert mode <C-k> enter digraph
