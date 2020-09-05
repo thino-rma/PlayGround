@@ -132,8 +132,8 @@ inoremap <C-k> <Up>
 "     No.?67 Unchecked (Reset - Send DEL with BS key)
 " this makes key code for Back(BackSpace) ^? (= 127 = 0x7f)
 " and BS key <Char-0x7f> can be mapped as you like.
-nnoremap <Char-0x7f>  h
-vnoremap <Char-0x7f>  h
+nnoremap <Char-0x7f>  <Left>
+vnoremap <Char-0x7f>  <Left>
 inoremap <Char-0x7f>  <BS>
 cnoremap <Char-0x7f>  <BS>
 
