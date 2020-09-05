@@ -848,8 +848,7 @@ endfunction
 
 """ without modifier, delete character under the cursor
 " <Del>
-" Note: use "d"(delete) and "p"(put) for "cut  and paste"
-" Note: use "y"(yank)   and "p"(put) for "copy and paste"
+""" without modifier, delete character under the cursor
 " using blackhole register
 nnoremap <Del> "_x
 vnoremap <Del> "_x
