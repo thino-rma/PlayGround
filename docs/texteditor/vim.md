@@ -45,7 +45,7 @@
     |nv  |```<C-u>```|scroll N lines Upwards (default: half a screen)||
     |nv  |```<C-k>```|not used||
     |nv  |```<C-x>```|subtract N from number at/after cursor||
-  - Alternative Keys for Back keymap
+  - Key mappings for Back keymap
     |mode|key|action|custom mapping|
     |:--:|:--|:-----|:---|
     |i   |```<C-@>```|insert previously inserted text and stop insert||
@@ -72,3 +72,6 @@
     |c   |```<C-e>```|cursor to end of command-line|as is (cursor to end of command-line)|
     |c   |```<C-u>```|remove all characters|as is (Remove all characters between the cursor position and the beginning of the line.)|
     |c   |```<C-k>```|enter digraph|```cnoremap <C-k> <C-\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>```<br />(Remove all characters between the cursor position and the end of the line.)|
+    |c   |```<C-\>{num}```|not used|```cnoremap <C-\>1 <C-a>```<br />```cnoremap <C-\>2 <C-b>```<br />```cnoremap <C-\>3 <C-d>```<br />```cnoremap <C-\>4 <C-f>```|
+    |c   |```<F7>```|not used|```cnoremap <F7> <C-k>```<br />```cnoremap <M-F7> <C-k>j```|
+    
