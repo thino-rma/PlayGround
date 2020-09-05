@@ -152,10 +152,6 @@ cnoremap <Char-0x7f>  <BS>
 inoremap jj <ESC>
 onoremap jj <ESC>
 
-" additional key
-"   nnoremap <F8> <ESC>
-"   onoremap <F8> <ESC>
-
 " default <C-i>      in Insert mode : same as <Tab>
 inoremap <C-i>      <ESC>
 onoremap <C-i>      <ESC>
@@ -666,17 +662,24 @@ inoremap <M-C-S-F7><Space>  <C-o>t<C-k>IS
 " F8  <ESC>
 
 " F8
-nnoremap <F8>           <ESC>
-vnoremap <F8>           <ESC>
-inoremap <F8>           <ESC>
-onoremap <F8>           <ESC>
+nnoremap <F8>           <nop>
+vnoremap <F8>           <nop>
+inoremap <F8>           <nop>
+onoremap <F8>           <nop>
 nnoremap <S-F8>         <nop>
+inoremap <S-F8>         <nop>
 nnoremap <M-F8>         <nop>
+inoremap <M-F8>         <nop>
 nnoremap <M-S-F8>       <nop>
+inoremap <M-S-F8>       <nop>
 nnoremap <C-F8>         <nop>
+inoremap <C-F8>         <nop>
 nnoremap <C-S-F8>       <nop>
+inoremap <C-S-F8>       <nop>
 nnoremap <M-C-F8>       <nop>
+inoremap <M-C-F8>       <nop>
 nnoremap <M-C-S-F8>     <nop>
+inoremap <M-C-S-F8>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F9  tab / (Alt) window
@@ -852,15 +855,13 @@ endfunction
 " using blackhole register
 nnoremap <Del> "_x
 vnoremap <Del> "_x
-inoremap <Del> <C-o>"_x
-" inoremap <expr> <Del> <SID>SmartDelete()
+inoremap <expr> <Del> <SID>SmartDelete()
 
 """ with Shift, delete character under the cursor
-" using unnameed register
-nnoremap <S-Del> x
-vnoremap <S-Del> x
-inoremap <S-Del> <C-o>x
-" inoremap <expr> <S-Del> <SID>SmartDelete()
+" using blackhole register
+nnoremap <S-Del> "_x
+vnoremap <S-Del> "_x
+inoremap <expr> <S-Del> <SID>SmartDelete()
 
 """ with Alt, erase {pattern} /
 nnoremap <M-Del> :s/<C-r>///I<CR>
