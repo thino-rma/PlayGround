@@ -1266,10 +1266,10 @@ nnoremap <silent> <Leader>oo :call append(line("."),   repeat([""], v:count1))<C
 nnoremap <silent> <Leader>OO :call append(line(".")-1, repeat([""], v:count1))<CR>
 
 " move cursor
-nnoremap <Leader><Left>   ^
-nnoremap <Leader><Right>  g_
-nnoremap <Leader><Up>     <C-u>
-nnoremap <Leader><Down>   <C-d>
+" nnoremap <Leader><Left>   ^
+" nnoremap <Leader><Right>  g_
+" nnoremap <Leader><Up>     <C-u>
+" nnoremap <Leader><Down>   <C-d>
 
 " start selection
 " nnoremap <Leader><S-Left>   v<Left>
@@ -1298,8 +1298,21 @@ nnoremap <Leader>ot :tabnew .
 " nnoremap <Leader>o o<Esc>
 " nnoremap <Leader>O O<Esc>
 
-" window open
+" window open like tmux PREFIX " or PREFIX %
+nnoremap <Leader>" :sp<CR>
+nnoremap <Leader>% :vs<CR>
+nnoremap <Leader><Left>   <C-w><Left>
+nnoremap <Leader><Down>   <C-w><Down>
+nnoremap <Leader><Up>     <C-w><Up>
+nnoremap <Leader><Right>  <C-w><Right>
+" tab open like tmux PREFIX c (create)
+nnoremap <Leader>c :tabnew<CR>
+nnoremap <Leader><C-n> gt
+nnoremap <Leader><C-p> gT
+
+" window open / window new
 nnoremap <Leader>wo :sp .
+nnoremap <Leader>wn :sp<CR>
 " window rotate
 nnoremap <Leader>wr <C-w>r
 " window down
@@ -1320,8 +1333,9 @@ nnoremap <Leader>ws<Down>  <C-w>-
 nnoremap <Leader>ws<Right> <C-w>>
 nnoremap <Leader>ws<Left>  <C-w><
 
-" tab open
+" tab open / tab new
 nnoremap <Leader>to :tabnew .
+nnoremap <Leader>tn :tabnew<CR>
 " table next/previous
 nnoremap <Leader>tt gt
 nnoremap <Leader>tT gT
