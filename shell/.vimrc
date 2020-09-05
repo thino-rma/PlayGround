@@ -150,17 +150,15 @@ cnoremap <Char-0x7f>  <BS>
 " use default Ctrl-[ in Insert mode
 
 inoremap jj <ESC>
-onoremap jj <ESC>
 
 " default <C-i>      in Insert mode : same as <Tab>
+vnoremap <C-i>      <ESC>
 inoremap <C-i>      <ESC>
-onoremap <C-i>      <ESC>
-" default <C-m>      in Insert mode : same as <CR>
-inoremap <C-m>      <ESC>
-onoremap <C-m>      <ESC>
+cnoremap <C-i>      <ESC>
 " default <C-\><C-\> in Insert mode : not used
+vnoremap <C-\><C-\> <ESC>
 inoremap <C-\><C-\> <ESC>
-onoremap <C-\><C-\> <ESC>
+cnoremap <C-\><C-\> <ESC>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for comandline-edit
