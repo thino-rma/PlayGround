@@ -837,7 +837,7 @@ inoremap <S-Insert> <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-function! s:SmartDelete()
+function! s:EmulateDelete()
   if col('.') <= strlen(getline('.'))
     return "\<C-o>\"_x"
   elseif line('.') < line('$')
@@ -853,13 +853,13 @@ endfunction
 " using blackhole register
 nnoremap <Del> "_x
 vnoremap <Del> "_x
-inoremap <expr> <Del> <SID>SmartDelete()
+" inoremap <Del> as is
 
 """ with Shift, delete character under the cursor
 " using blackhole register
 nnoremap <S-Del> "_x
 vnoremap <S-Del> "_x
-inoremap <expr> <S-Del> <SID>SmartDelete()
+inoremap <expr> <S-Del> <SID>EmulateDelete()
 
 """ with Alt, erase {pattern} /
 nnoremap <M-Del> :s/<C-r>///I<CR>
