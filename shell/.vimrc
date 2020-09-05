@@ -126,12 +126,16 @@ vnoremap <C-k> <Up>
 inoremap <C-k> <Up>
 
 " for RLogin, BS generates ^H, which is same as <C-h>
-" so you will lost BS key function with the setting
+" so you will lose BS key functionality with the settings above
 " like "inoremap <C-h> <Left>".
 " set Screen -> ControlCode -> Escape sequence
 "     No.?67 Unchecked (Reset - Send DEL with BS key)
 " this makes key code for Back(BackSpace) ^? (= 127 = 0x7f)
-" and BS key works fine.
+" and BS key <Char-0x7f> can be mapped as you like.
+nnoremap <Char-0x7f>  h
+vnoremap <Char-0x7f>  h
+inoremap <Char-0x7f>  <BS>
+cnoremap <Char-0x7f>  <BS>
 
 " alternative key for Normal mode <C-l> redraw screen
 "   nnoremap <Leader><C-l> <C-l>
@@ -139,7 +143,7 @@ inoremap <C-k> <Up>
 "   inoremap <F7> <C-k>
 " alternative key for Insert mode <C-l> Leave Insert mode
 "   use default <C-[>      in Insert mode : Leave Insert mode
-"   use default <C-\\><C-n> in Insert mode : Go to Normal mode
+"   use default <C-\><C-n> in Insert mode : Go to Normal mode
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ keymaps for <ESC> in Insert mode
