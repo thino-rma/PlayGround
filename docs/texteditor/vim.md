@@ -2,6 +2,17 @@
 - URL
   - [vim index JP](https://vim-jp.org/vimdoc-ja/vimindex.html)
   - [vim index EN](https://vim-jp.org/vimdoc-en/vimindex.html)
+- tmux側の設定（tmux経由の場合でも、うまく動くように）
+  - オプション
+    ```console
+    set-option -g default-terminal screen-256color
+    set -g terminal-overrides "xterm*:colors=256:kLFT2=\e[2D:kRIT2=\e[2C:kUP2=\e[2A:kDN2=\e[2B:kLFT3=\e[3D:kRIT3=\e[3C:kUP3=\e[3A:kDN3=\e[3B:kLFT4=\e[4D:kRIT4=\e[4C:kUP4=\e[4A:kDN4=\e[4B:kLFT5=\e[5D:kRIT5=\e[5C:kUP5=\e[5A:kDN5=\e[5B:kLFT6=\e[6D:kRIT6=\e[6C:kUP6=\e[6A:kDN6=\e[6B:kLFT7=\e[7D:kRIT7=\e[7C:kUP7=\e[7A:kDN7=\e[7B:kLFT8=\e[8D:kRIT8=\e[8C:kUP8=\e[8A:kDN8=\e[8B"
+    ```
+  - キーバインド
+    - 奇妙に思えるが、以下の設定で、Ctrl-h を押下したときに、^H が送信される。（デフォルトでは、^? に変換されてしまう。Bspace はキーコード ^H = 0x08 を意味する）
+      ```console
+      bind-key -n Bspace send-keys C-h
+      ```
 - RLogin側の設定
   - 制御コード
     - 「?67 Set BSキーでBSを送信 / Reset BSキーでDELを送信」のチェックをはずす
@@ -54,6 +65,7 @@
     - 設定によらず（＝h,l を含めても含めなくても）、dl,cl,yl が行をまたぐことはない。
     - カーソルキーは含めるので、前行・次行に移動できる。```d<Right>```,```c<Right>```.```y<Right>```  などは行をまたぐ。
     - そこで、NORMALモード、INSERTモード、VISUALモードの３つで、C-h, C-j, C-k, C-l にそれぞれ ```<Left>```, ```<Down>```, ```<Up>```, ```<Right>``` を割り当てることにする。
+    
   - Default key action
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
