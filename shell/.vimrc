@@ -125,6 +125,7 @@ nnoremap <C-k> <Up>
 vnoremap <C-k> <Up>
 inoremap <C-k> <Up>
 
+" http://web.archive.org/web/20120621035133/http://www.ibb.net/~anne/keyboard/keyboard.html
 " for RLogin, BS generates ^H, which is same as <C-h>
 " so you will lose BS key functionality with the settings above
 " like "inoremap <C-h> <Left>".
