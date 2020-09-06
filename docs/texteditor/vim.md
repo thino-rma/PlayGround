@@ -136,3 +136,35 @@
     |c   |```<C-\>{num}```|not used|```cnoremap <C-\>1 <C-a>```<br />```cnoremap <C-\>2 <C-b>```<br />```cnoremap <C-\>3 <C-d>```<br />```cnoremap <C-\>4 <C-f>```|
     |c   |```<F7>```|not used|```cnoremap <F7> <C-k>```<br />```cnoremap <M-F7> <C-k>j```|
     
+- InsertとDel
+  - RLoginの設定により、INSERTには修飾コードが付かないが、Delには修飾コードが追加される。
+  - vim設定
+    ```console
+    " <Insert> toggle insert/replace
+    """ with Shift, nop for RLogin PASTE
+    nnoremap <S-Insert> <nop>
+    vnoremap <S-Insert> <nop>
+    inoremap <S-Insert> <nop>
+    
+    " <Del>
+    """ without modifier, delete character under the cursor
+    " using blackhole register
+    nnoremap <Del> "_d<Right>
+    vnoremap <Del> "_d
+    inoremap <Del> <C-o>"_d<Right>
+    
+    """ with Shift, delete character before the cursor
+    " using blackhole register
+    nnoremap <S-Del> "_d<Left>
+    vnoremap <S-Del> "_d
+    inoremap <S-Del> <C-o>"_d<Left>
+    ```
+- Backspace
+  - RLoginの設定により、BSには修飾コードが付かない。さらに、送信されるコードは ```^?``` (= 127 = 0x7f) である。
+  - vim設定
+    ```console
+    nnoremap <Char-0x7f>  <BS>
+    vnoremap <Char-0x7f>  <BS>
+    inoremap <Char-0x7f>  <BS>
+    cnoremap <Char-0x7f>  <BS>
+    ```
