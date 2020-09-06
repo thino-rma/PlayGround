@@ -836,29 +836,18 @@ inoremap <S-Insert> <nop>
 " nnoremap <M-C-S-Insert> <nop> Not Available
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-function! s:EmulateDelete()
-  if col('.') <= strlen(getline('.'))
-    return "\<C-o>\"_x"
-  elseif line('.') < line('$')
-    return "\<C-o>j\<C-o>0\<BS>"
-  endif
-  return ""
-endfunction
-
-""" without modifier, delete character under the cursor
-" <Del>
+""" <Del>
 """ without modifier, delete character under the cursor
 " using blackhole register
-nnoremap <Del> "_x
-vnoremap <Del> "_x
-" inoremap <Del> as is
+nnoremap <Del> "_d<Right>
+vnoremap <Del> "_d
+inoremap <Del> <C-o>"_d<Right>
 
-""" with Shift, delete character under the cursor
+""" with Shift, delete character before the cursor
 " using blackhole register
-nnoremap <S-Del> "_x
-vnoremap <S-Del> "_x
-inoremap <expr> <S-Del> <SID>EmulateDelete()
+nnoremap <S-Del> "_d<Left>
+vnoremap <S-Del> "_d
+inoremap <S-Del> <C-o>"_d<Left>
 
 """ with Alt, erase {pattern} /
 nnoremap <M-Del> :s/<C-r>///I<CR>
