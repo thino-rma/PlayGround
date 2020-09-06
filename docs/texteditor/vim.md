@@ -64,8 +64,8 @@
   - Alternative Keys for h,j,k,l
     |mode|key|action|custom mapping|
     |:--:|:--|:-----|:---|
-    |i  |```<C-h>```|same as <BS>|```inoremap <C-h> <Left>```|
-    |i  |```<C-j>```|same as <CR>|```inoremap <C-j> <Down>```|
+    |i  |```<C-h>```|same as ```<BS>```|```inoremap <C-h> <Left>```|
+    |i  |```<C-j>```|same as ```<CR>```|```inoremap <C-j> <Down>```|
     |i  |```<C-k>```|enter digraph|```inoremap <C-k> <Up>```<br />```inoremap <F7> <C-k>```|
     |i  |```<C-l>```|when 'insertmode' set: Leave Insert mode|```inoremap <C-l> <Right>```<br />```inoremap jj <ESC>```|
     |nv  |```<C-h>```|same as "h"|```nnoremap <C-h> <Left>```<br />```vnoremap <C-h> <Left>```|
