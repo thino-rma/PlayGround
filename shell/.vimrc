@@ -125,6 +125,7 @@ nnoremap <C-k> <Up>
 vnoremap <C-k> <Up>
 inoremap <C-k> <Up>
 
+" https://unix.stackexchange.com/questions/180087/why-pressing-ctrl-h-in-xterm-tmux-sends/180106
 " http://web.archive.org/web/20120621035133/http://www.ibb.net/~anne/keyboard/keyboard.html
 " for RLogin, BS generates ^H, which is same as <C-h>
 " so you will lose BS key functionality with the settings above
