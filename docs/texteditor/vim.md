@@ -255,3 +255,65 @@
 
                                 
   
+### Usage
+- 1. mode
+  - (1) NORMAL mode
+    - just after starting vim, initial mode is NORMAL mode. 
+      > when option 'insertmode' is off (default).
+    - you can back into NORMAL mode with ```<ESC>``` or ```<C-[>``` (may require several times)
+    - in NORMAL mode, each key input is interpreted as a command.
+  - (2) INSERT mode
+    - in INSERT mode, all string key input is interpreted as text input.
+    - to enter INSERT mode from NORMAL mode, type
+      - &#8203;```i``` (input) : start INSERT mode. (input text at cursor position)
+      - &#8203;```I``` (Input) : move cursor at beginning of the line and starts INSERT mode.
+      - &#8203;```a``` (append) : move cursor RIGHT by one CHAR and start INSERT mode. (append text after cursor position)
+      - &#8203;```A``` (Append) : move cursor at the end of the line and start INSERT mode.
+      - &#8203;```o``` (open) : add a new line below the cursor position and start INSERT mode.
+      - &#8203;```O``` (Open) : add a new line above the cursor position and start INSERT mode.
+    - type ```<ESC>``` or ```<C-[>``` to back into NORMAL mode.
+    - some of the famouse commands are cursor move commands and put(paste) command.
+      - &#8203;```h``` moves cursor LEFT.
+      - &#8203;```j``` moves cursor DOWN.
+      - &#8203;```k``` moves cursor UP.
+      - &#8203;```l``` moves cursor RIGHT.
+      - &#8203;```p``` put(paste) yanked text at cursor position.
+      - &#8203;```P``` put(paste) yanked text after cursor position.
+  - (3) VISUAL mode
+    - in VISUAL mode, cursor move changes selection region. you can yank(copy), delete(cut), and so on.
+    - to enter INSERT mode from NORMAL mode, type
+      - &#8203;```v``` (VISUAL) : start characterwise Visual mode.
+      - &#8203;```V``` (LINE VISUAL) : start linewise Visual mode.
+      - &#8203;```<C-v>``` (BLOCK VISUAL) : start blockwise Visual mode.
+    - type ```<ESC>``` or ```<C-[>``` to back into NORMAL mode.
+    - some of the famouse commands are yank command and delete command.
+      - &#8203;```y``` will copy selected textand save into register ```""```. You can put(paste) it with ```p``` (or ```P```) in NORMAL mode.
+      - &#8203;```d``` will delete selected text and save into register ```""```.
+  - (4) Command editing mode
+    - in Command editing mode, all string key input is interpreted as command text input.
+    - to enter Command editing mode from NORMAL mode, type
+      - &#8203;```:``` start entering an Ex command. you should enter command and press ```<CR>``` to execute the command.
+    - type ```<ESC>``` or ```<C-[>``` to back into NORMAL mode.
+      - if you delete ```:``` shown in status line with Backspace key, leaves from Command editing mode.
+    - the most famouse command is substitute.
+      - &#8203;```:s/abc/XYZ/``` will substitute ```abc``` to ```XYZ``` once on cursor line.
+      - &#8203;```:s#abc#XYZ#``` will substitute ```abc``` to ```XYZ``` once on cursor line.
+        > separater char (just after 's') can be '/', '#', '$', ':', '@', '%' and so on...
+  - (5) Operator pending mode (skip if beginner)
+    - Operator pending mode is just after pressing ```operator``` (```d```, ```y```, ```c``` etc...) command and before ```{motion}```.
+    - type ```<ESC>``` or ```<C-[>``` to back into NORMAL mode.
+      - if you delete operator (may be shown in status line) with Backspace key, leaves from Operator pending mode.
+- 2. cursor move
+- 3. cut & yank
+- 4. tab
+- 5. window
+
+### Customize
+- 1. options
+- 2. key bindings
+- 3. Leader
+- 4. Key code
+
+
+
+      
