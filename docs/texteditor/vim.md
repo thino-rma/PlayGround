@@ -47,13 +47,13 @@
 
 - Default key mapping for Cursor move
   - 備忘
-    設定項目 whichwrap には h,l を含めないことが推奨されている。したがって、h,l キーで前行・次行には移動できない。
-    また、h,l を含めても、dl,cl,yl が行をまたぐことはない。
-    その代わり、カーソルキーは含めるので、前行・次行に移動できる。```d<Left>``` などは行をまたぐ。
-    ```console
-    set whichwrap=b,s,<,>,[,]
-    ```
-    そこで、NORMALモード、INSERTモード、VISUALモードの３つで、C-h, C-j, C-k, C-l にそれぞれ <Left>, <Down>, <Up>, <Right> を割り当てておくのがよい。
+    - 設定項目 whichwrap には h,l を含めないことが推奨されている。したがって、h,l キーで前行・次行には移動できない。
+      ```console
+      set whichwrap=b,s,<,>,[,]
+      ```
+    - 設定によらず（＝h,l を含めても含めなくても）、dl,cl,yl が行をまたぐことはない。
+    - カーソルキーは含めるので、前行・次行に移動できる。```d<Right>```,```c<Right>```.```y<Right>```  などは行をまたぐ。
+    - そこで、NORMALモード、INSERTモード、VISUALモードの３つで、C-h, C-j, C-k, C-l にそれぞれ ```<Left>```, ```<Down>```, ```<Up>```, ```<Right>``` を割り当てることにする。
   - Default key action
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
