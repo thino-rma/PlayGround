@@ -2,7 +2,27 @@
 - URL
   - [vim index JP](https://vim-jp.org/vimdoc-ja/vimindex.html)
   - [vim index EN](https://vim-jp.org/vimdoc-en/vimindex.html)
-
+- RLogin側の設定
+  - 制御コード
+    - 「?67 Set BSキーでBSを送信 / Reset BSキーでDELを送信」のチェックをはずす
+      > チェックが入っていると、 BSキーで ```^h```（これは C-h とかぶる） を送信する。チェックを外すと、BSキーで ```^?``` を送信する。
+      > 目的：vimで、BSキーと C-h を別々にマッピングするのに必要。
+  - キーコード
+    - 「1.modifyCursorKeys」を、「UP,DOWN,RIGHT,LEFT,PRIOR,NEXT,HOME,END,DELETE」（INSERTを除く）に対して「0」を設定。
+      > 注意：INSERTを除いていることに注意する。これは、RLogin のショートカットに Shift-Insert を $PASTE にマッピングしているため。
+      > 目的：vimで、カーソルキーなどのキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
+    - 「2.modifyCursorKeys」を、「F1-F12」（デフォルト）に対して「0」を設定。
+      > 目的：vimで、ファンクションキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
+    - 「3.modifyKeypadKeys」を、「PAD0-PAD9,PADMUL,PADADD,PADSEP,PADSUB,PADDEC,PADDIV」（デフォルト）に対して「0」を設定。
+      > 「-1」（デフォルト）の場合、Ctrlとキーパッドの「-」を入力すると、RLoginの挙動が不安定になった。（接続が応答しなくなる）
+      > 「0」にした場合、Ctrlとキーパッドの「-」を入力しても、RLoginの挙動が不安定にならない。
+      > vimの割り付けには使用しない。
+    - 「4.modifyOtherKeys」を、「ESCAPE,RETURN,BACK,TAB」（デフォルト）に対して「-1」（デフォルト）を設定。
+      > vimの割り付けには使用しない。
+    - 「5.modifyStringKeys」を、「SPACE,0-9,A-Z」（デフォルト）に対して「-1」（デフォルト）を設定。
+      > vimの割り付けには使用しない。
+    - 「modifyKeysがメニューのショートカットキー設定より優先する」にチェックを入れる。
+      > 目的：RLogin のショートカットをできる限り無効にしたいため。（RLoginでペイン分割などしたくない）
 - Default key mapping related to ESC
   - Default key action
     |mode|key|action|memo|
@@ -26,6 +46,14 @@
     |c  |```<C-\><C-\>```|not used|```cnoremap <C-\><C-\> <ESC>```|
 
 - Default key mapping for Cursor move
+  - 備忘
+    設定項目 whichwrap には h,l を含めないことが推奨されている。したがって、h,l キーで前行・次行には移動できない。
+    また、h,l を含めても、dl,cl,yl が行をまたぐことはない。
+    その代わり、カーソルキーは含めるので、前行・次行に移動できる。```d<Left>``` などは行をまたぐ。
+    ```console
+    set whichwrap=b,s,<,>,[,]
+    ```
+    そこで、NORMALモード、INSERTモード、VISUALモードの３つで、C-h, C-j, C-k, C-l にそれぞれ <Left>, <Down>, <Up>, <Right> を割り当てておくのがよい。
   - Default key action
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
