@@ -25,6 +25,7 @@ alias servicels='systemctl --no-pager list-units'
 ## date
 alias date_log='date +"%Y-%m-%d %H:%M:%S"'
 alias date_ext='date +"%Y%m%d%H%M%S"'
+alias work_today='mkdir -p ~/work/`date +"%Y%m%d"`; cd ~/work/`date +"%Y%m%d"`'
 
 ## micro
 #### install
