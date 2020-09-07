@@ -182,11 +182,16 @@
     ```
 - keys for mappings
   - option 'insertmode' is off (default)
-  - Default key action (0) 
+  - Default key action (0) Leader key
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
-    |n   |```<Space>```|same as "l"|```let mapleader = "\<Space>"```|
     |n   |```\```|not used|default leader key|
+    |n   |```<Space>```|same as "l"|```let mapleader = "\<Space>"```|
+    |n   |```<C-a>```|add N to number at/after cursor|
+    |n   |```<C-b>```|scroll N screens Backwards|
+    |n   |```<C-q>```|not used, or used for terminal control flow|
+    > default tmux PREFIX is ```<C-b>```, default screen PREFIX is ```<C-a>```
+    > customized tmux PREFIX is ```<C-q>```.
   - Default key action (1) b,f,a,e
     |mode|key|action|memo|
     |:--:|:--|:-----|:---|
@@ -264,8 +269,6 @@
     > |```<C-d>```|delete-char<br />Delete the character at point.| ```"_x``` | ```cnoremap <C-d> <Del>``` |
     > |```<C-u>```|unix-line-discard<br />Kill backward from point to the beginning of the line.| ```"_d0``` | as is |
     > |```<C-k>```|kill-line<br />Kill the text from point to the end of the line.| ```"_d$``` | ```cnoremap <C-k> <C-\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>``` |
-
-                                
   
 ### Usage
 - 1. mode
@@ -316,9 +319,61 @@
     - type ```<ESC>``` or ```<C-[>``` to back into NORMAL mode.
       - if you delete operator (may be shown in status line) with Backspace key, leaves from Operator pending mode.
 - 2. cursor move
-- 3. cut & yank
-- 4. tab
-- 5. window
+  - (1) Left, Down, Up, Right
+    - ```<Left>```. ```<Down>```, ```<Up>```, ```<Right>```
+    - ```h```. ```j```, ```k```, ```l```
+    - customize
+      - ```<C-h>```. ```<C-j>```, ```<C-k>```, ```<C-l>```
+  - (2) begin / end of the line
+    - ```<Home>```. ```<End>```
+    - ```0```. ```$```, ```^```, ```g_```
+    - customize
+      - ```<C-a>```. ```<C-e>```
+  - (3) page
+    - ```<PageUp>```. ```<PageDown>```
+    - ```C-f```, ```C-b``` (One page)
+    - ```C-u```. ```C-d``` (Half a page)
+  - (4) file
+    - ```gg```. ```G```
+    - ```{num}gg```, ```{num}G```
+    - customize
+      - ```<C-Home>```. ```<C-End>```
+- 3. copy & paste
+  - most useful 
+    - ```yy``` (yank line into register "")
+    - ```dd``` (delete line into register "")
+    - ```p``` (put from register "")
+  - copy in VISUAL mode
+    - ```v``` (VISUAL mode) ... cursor move (select region) ... ```y``` (yank into register "")
+    - ```v``` (VISUAL mode) ... cursor move (select region) ... ```"py``` (yank into register "p)
+  - cut in VISUAL mode
+    - ```v``` (VISUAL mode) ... cursor move (select region) ... ```d``` (delete into register "")
+    - ```v``` (VISUAL mode) ... cursor move (select region) ... ```"pd``` (delete into register "p)
+  - copy in NORMAL mode
+    - ```yiw``` (yank inner word), ```yiW``` (yank inner WARD)
+    - ```yaw``` (yank a word), ```yaW``` (yank a WARD)
+    - [Text objects](https://vim-jp.org/vimdoc-en/vimindex.html#objects)
+      - ```i"``` double quoted string without the quotes, ```a"``` double quoted string
+      - ```ib``` inner block (from ```[{``` to ```]}```), ```ab``` a block, ```aB``` a Block
+      - ```is``` inner sentence, ```as``` a sentence
+      - and so on ...
+  - paste in NORMAL mode
+    - ```p``` (put: after cursor from register ""), ```P``` (Put: at cursor from register "")
+    - ```"pp``` (put register "p), ```"pP``` (Put register "p)
+  - cut in NORMAL mode
+    - ```diw``` (delete inner word into register ""), ```diW``` (delete inner WARD into register "")
+    - ```daw``` (delete a word into register ""), ```daW``` (delete a WARD into register "")
+    - ```"pdiw``` (delete inner word into register "p), ```"pdiW``` (delete inner WARD into register "p)
+    - ```"pdaw``` (delete a word into register "p), ```"pdaW``` (delete a WARD into register "p)
+    - ```"_diw``` (delete inner word into blackhole register), ```"_diW``` (delete inner WARD into blackhole register)
+    - ```"_daw``` (delete a word into blackhole register), ```"_daW``` (delete a WARD into blackhole register)
+  
+- 4. Window & tab
+- 5. mark
+  - ```mm``` (set mark m), ```mn``` (set mark n), ```m{A-Za-z}``` (set mark ```{A-Za-z}``` at cursor position)
+  - <pre>`m</pre> or ```'m``` (cursor to mark m), <pre>`n</pre> or ```'n``` (cursor to mark n)
+  - <pre>]`</pre> (cursor to next lowercase mark), <pre>[`</pre> (cursor to previous lowercase mark)
+  
 
 ### Customize
 - 1. options
