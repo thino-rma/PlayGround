@@ -932,7 +932,7 @@ inoremap <M-C-S-Home> <C-o><C-w>T
 """ with Shift, select to end of line
 nnoremap <S-End> v$
 vnoremap <S-End> $
-inoremap <S-End> <C-o>$
+inoremap <S-End> <C-o>v$
 
 """ with Ctrl, cursor to last line
 " [default] nnoremap <C-End> G
