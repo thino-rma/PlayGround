@@ -9,11 +9,12 @@
 
 - Git ssh
   ```console
-  $ ssh-keygen -t rsa -f ./id_rsa -q -N "passphrase"
+  $ mkdir ^-p ~/git_work/.ssh
+  $ ssh-keygen -t rsa -f ~/git_work/.ssh/id_rsa -q -N "passphrase"
   $ vi ~/.ssh/config
   host github github.com
     HostName github.com
-    IdentityFile PATH/TO/id_rsa
+    IdentityFile ~/git_work/.ssh/id_rsa
     User git
   $ chmod 600 ~/.ssh/config
   $ ssh -T github
