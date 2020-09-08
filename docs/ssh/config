@@ -37,3 +37,13 @@ ProxyCommand   ssh -CW %h:%p host1
 
 # cat id_rsa.pub >> ~/.ssh/authorized_keys
 
+### ~/.ssh/config for test host
+Host           tmp_test
+  HostName       192.168.100.XXX
+  User           USER
+  IdentityFile   PATH/TO/key
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+
+# vi .ssh/known_hosts
+
