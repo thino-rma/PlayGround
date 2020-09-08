@@ -27,6 +27,9 @@ alias date_log='date +"%Y-%m-%d %H:%M:%S"'
 alias date_ext='date +"%Y%m%d%H%M%S"'
 alias work_today='mkdir -p ~/work/`date +"%Y%m%d"`; cd ~/work/`date +"%Y%m%d"`'
 
+## ip
+alias ipa='ip a | grep "inet "'
+
 ## micro
 #### install
 #### $ mkdir ~/bin
