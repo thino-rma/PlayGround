@@ -19,4 +19,7 @@
   $ ansible-inventory --list --yaml -i inventory
   $ ansible-playbook playbook.yml -i inventory/hosts --syntax-check
   ```
-  
+- systemctlコマンド
+  ```console
+  $ sudo systemctl list-units --type=service
+  ```
