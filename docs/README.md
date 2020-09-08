@@ -8,6 +8,11 @@
   - vim.md
 
 ### その他 備忘
+- gitコマンド
+  ```console
+  # after add, cancelit (drop file_name from stage)
+  git rm --cached -r file_name
+  ```
 - diffコマンド
   ```console
   $ diff -up orig work
