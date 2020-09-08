@@ -10,8 +10,10 @@
 ### その他 備忘
 - gitコマンド
   ```console
-  # after add, cancelit (drop file_name from stage)
+  # after add, remove it from stage (HEADにないものを)
   git rm --cached -r file_name
+  # after add, reset it (HEADにあるものを）
+  git reset file_name
   ```
 - diffコマンド
   ```console
