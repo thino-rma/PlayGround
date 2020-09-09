@@ -371,8 +371,8 @@
 - 4. Window & tab
 - 5. mark
   - ```mm``` (set mark m), ```mn``` (set mark n), ```m{A-Za-z}``` (set mark ```{A-Za-z}``` at cursor position)
-  - ```&#112;m``` or ```'m``` (cursor to mark m), ```&#112;n``` or ```'n``` (cursor to mark n)
-  - ```]&#112;``` (cursor to next lowercase mark), ```[&#112;``` (cursor to previous lowercase mark)
+  - ``` `m``` or ```'m``` (cursor to mark m), ``` `n``` or ```'n``` (cursor to mark n)
+  - ``` `]``` (cursor to next lowercase mark), ``` `[``` (cursor to previous lowercase mark)
   
 
 ### Customize
