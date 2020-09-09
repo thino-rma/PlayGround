@@ -343,6 +343,9 @@
     - ```yy``` (yank line into register "")
     - ```dd``` (delete line into register "")
     - ```p``` (put from register "")
+    - ```w``` (word), ```W``` (WORD)
+    - ```e``` (end of word), ```E``` (end of WORD)
+    - ```b``` (beginning of word), ```B``` (beginning of WORD)
   - copy in VISUAL mode
     - ```v``` (VISUAL mode) ... cursor move (select region) ... ```y``` (yank into register "")
     - ```v``` (VISUAL mode) ... cursor move (select region) ... ```"py``` (yank into register "p)
@@ -353,10 +356,12 @@
     - ```yiw``` (yank inner word), ```yiW``` (yank inner WARD)
     - ```yaw``` (yank a word), ```yaW``` (yank a WARD)
     - [Text objects](https://vim-jp.org/vimdoc-en/vimindex.html#objects)
+      - ```i'``` single quoted string without the quotes, ```a'``` single quoted string
       - ```i"``` double quoted string without the quotes, ```a"``` double quoted string
       - ```ib``` inner block (from ```[{``` to ```]}```), ```ab``` a block, ```aB``` a Block
       - ```is``` inner sentence, ```as``` a sentence
       - and so on ...
+      > ```i``` means 'inner', ```a``` means 'a' (or 'around'?)
   - paste in NORMAL mode
     - ```p``` (put: after cursor from register ""), ```P``` (Put: at cursor from register "")
     - ```"pp``` (put register "p), ```"pP``` (Put register "p)
@@ -367,13 +372,22 @@
     - ```"pdaw``` (delete a word into register "p), ```"pdaW``` (delete a WARD into register "p)
     - ```"_diw``` (delete inner word into blackhole register), ```"_diW``` (delete inner WARD into blackhole register)
     - ```"_daw``` (delete a word into blackhole register), ```"_daW``` (delete a WARD into blackhole register)
-  
+  - in NORMAL mode, ```{operator}``` like ```c```, ```y```, ```d```　waits for ```{motion}``` like ```w```, ```e```, ```b``` (or Text objects)
+  - in VISAL mode, ```{motion}``` changes selected region, and ```{operator}``` works on selected text
 - 4. Window & tab
+  - window
+    - ```:sp``` (split up and down), ```:vs``` (split left and right)
+    - ```:q``` (close window)
+    - ```<C-w>w``` or ```<C-w><C-w>``` (next window), ```<C-w>W``` (previous window)
+    - ```<C-w>r``` or ```<C-w><C-r>``` (rotate window downwards), ```<C-w>R``` (rotate window upwards)
+  - tab
+    - ```:tabn``` (tab new)
+    - ```:q``` (close tab)
+    - ```gt``` or ```<C-PageDown>``` (next tab), ```gT``` or ```<C-PageUp>``` (previous tab)
 - 5. mark
   - ```mm``` (set mark m), ```mn``` (set mark n), ```m{A-Za-z}``` (set mark ```{A-Za-z}``` at cursor position)
   - ``` `m``` or ```'m``` (cursor to mark m), ``` `n``` or ```'n``` (cursor to mark n)
   - ``` `]``` (cursor to next lowercase mark), ``` `[``` (cursor to previous lowercase mark)
-  
 
 ### Customize
 - 1. options
