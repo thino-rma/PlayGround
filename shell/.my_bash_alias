@@ -4,7 +4,7 @@
 ## $ . ~/.bashrc
 
 ## sudo
-alias sudo='sudo -E '
+alias sudo='sudo -E -i '
 
 ## normal
 alias ls='ls --color=auto'
