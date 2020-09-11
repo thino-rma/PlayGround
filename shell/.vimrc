@@ -689,12 +689,12 @@ function! s:SearchJPLong(key, skey)
 endfunction
 
 function! s:SearchJPMiddle(key, skey)
-  let p ='\(^\S\\|\s\s\+\zs\S\\|[、。！？・（）「」『』【】／/]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
+  let p ='\(^\S\\|\s\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
 function! s:SearchJPShort(key, skey)
-  let p ='\(^\S\\|\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[ぁ-ん]\+[、。！？（）「」『』【】]\+\zs\\|[ぁ-ん]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
+  let p ='\(^\S\\|\s\+\zs\S\\|[、。！？・（）「」『』【】／/]\+\zs\\|[ぁ-ん]\+[、。！？（）「」『』【】]\+\zs\\|[ぁ-ん]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
