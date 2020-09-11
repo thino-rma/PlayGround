@@ -1544,14 +1544,23 @@ function! s:OscyankPut(text)
   redraw!
 endfunction
 
-if v:version < 800
-  nnoremap yy yy:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
-  vnoremap y  y:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
+if ! has("win32") && ! has("win64")
+  if v:version < 800
+    nnoremap yy yy:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
+    vnoremap y  y:<C-u>call <SID>OscyankPut(getreg('"'))<CR>
+  else
+    augroup osc52
+      autocmd!
+      autocmd TextYankPost * if v:event.operator ==# 'y' | call <SID>OscyankPut(getreg(v:event.regname)) | endif
+    augroup END
+  endif
 else
-  augroup osc52
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call <SID>OscyankPut(getreg(v:event.regname)) | endif
-  augroup END
+  nnoremap dd "*dd
+  nnoremap yy "*yy
+  nnoremap d  "*d
+  vnoremap y  "*y
+  vnoremap d  "*d
+  vnoremap y  "*y
 endif
 
 """ auto paste mode
