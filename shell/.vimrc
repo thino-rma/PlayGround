@@ -699,12 +699,12 @@ function! s:SearchJPShort(key, skey)
 endfunction
 
 function! s:Search(key, skey, p)
-  exec 'nnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'vnoremap ' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'inoremap ' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'nnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'vnoremap ' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'inoremap ' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'nnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'vnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'inoremap <silent>' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', '') . '<CR>'
+  exec 'nnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'vnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'inoremap <silent>' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', '') . '<CR>'
 endfunction
 
 """ without Alt
