@@ -689,7 +689,7 @@ function! s:SearchJPLong(key, skey)
 endfunction
 
 function! s:SearchJPMiddle(key, skey)
-  let p ='\(^\S\\|\s\s\+\zs\S\\|[、。！？・（）「」『』【】]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
+  let p ='\(^\S\\|\s\s\+\zs\S\\|[、。！？・（）「」『』【】／/]\+\zs\\|[\x01-\x7f]\zs[^\x01-\x7f]\@=\\|[^\x01-\x7f]\zs[\x01-\x7f]\@=\\|$\)'
   call <SID>Search(a:key, a:skey, p)
 endfunction
 
