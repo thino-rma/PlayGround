@@ -1555,12 +1555,7 @@ if ! has("win32") && ! has("win64")
     augroup END
   endif
 else
-  nnoremap dd "*dd
-  nnoremap yy "*yy
-  nnoremap d  "*d
-  vnoremap y  "*y
-  vnoremap d  "*d
-  vnoremap y  "*y
+  set clipboard=unnamed
 endif
 
 """ auto paste mode
