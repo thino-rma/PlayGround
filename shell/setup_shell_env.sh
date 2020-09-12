@@ -91,7 +91,8 @@ TARGET=.my_bash_alias
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
 TARGET=.tmux.conf
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
-
+TARGET=.tmux.startup.conf
+download ${RAW_GIT}/${TARGET} ~/${TARGET}
 
 if ! grep "~/.my_bash_alias" ~/.bashrc > /dev/null; then
   echo ". ~/.my_bash_alias" >> ~/.bashrc
