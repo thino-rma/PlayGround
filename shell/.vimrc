@@ -719,7 +719,7 @@ endfunction
 call <SID>SearchJPShort('<F9>', '<S-F9>')
 noremap <C-F9>         <nop>
 noremap <C-S-F9>       <nop>
-""" with Alt
+""" with Alt, reserved for tmux
 noremap <M-F9>         <nop>
 noremap <M-S-F9>       <nop>
 noremap <M-C-F9>       <nop>
@@ -732,7 +732,7 @@ noremap <M-C-S-F9>     <nop>
 call <SID>SearchJPMiddle('<F10>', '<S-F10>')
 noremap <C-F10>         <nop>
 noremap <C-S-F10>       <nop>
-""" with Alt
+""" with Alt, reserved for tmux
 noremap <M-F10>         <nop>
 noremap <M-S-F10>       <nop>
 noremap <M-C-F10>       <nop>
@@ -745,7 +745,7 @@ noremap <M-C-S-F10>     <nop>
 call <SID>SearchJPLong('<F11>', '<S-F11>')
 noremap <C-F11>         <nop>
 noremap <C-S-F11>       <nop>
-""" with Alt
+""" with Alt, reserved for tmux
 noremap <M-F11>         <nop>
 noremap <M-S-F11>       <nop>
 noremap <M-C-F11>       <nop>
@@ -756,6 +756,35 @@ noremap <M-C-S-F11>     <nop>
 
 """ without modifire, Toggle number, list, mouse to make it easy to copy/paste
 " <F12>
+nnoremap <silent> <F12> <ESC>:call <SID>ToggleDecoration()<CR>
+inoremap <silent> <F12> <C-o>:call <SID>ToggleDecoration()<CR>
+
+nmenu <silent> 100.320 Toggle.Scroll     :let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
+nmenu <silent> 100.330 Toggle.CursorLine :call <SID>ToggleCursorLine()<CR>
+nmenu <silent> 100.340 Toggle.BashKeymap :call <SID>ToggleBashKeymap()<CR>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
+nmenu <silent> 100.390 Toggle.Number     :call <SID>ToggleDecoration()<CR>
+
+nnoremap <S-F12>        :let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
+inoremap <S-F12>        <nop>
+nnoremap <C-F12>        :call <SID>ToggleCursorLine()<CR>
+inoremap <C-F12>        <nop>
+nnoremap <C-S-F12>      :emenu Toggle.<C-Z>
+inoremap <C-S-F12>      <nop>
+
+""" with Alt, reserved for tmux
+noremap <M-F12>         <nop>
+noremap <M-S-F12>       <nop>
+noremap <M-C-F12>       <nop>
+noremap <M-C-S-F12>     <nop>
+
+""" Toggle number, list, mouse to make it easy to copy/paste
+" if has('mouse')
+"   set mouse=a
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
+" else
+"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
+" endif
+
 function! s:ToggleDecoration()
   if &number
     set nonumber
@@ -767,24 +796,7 @@ function! s:ToggleDecoration()
     set laststatus=2
   endif
 endfunction
-nnoremap <silent> <F12> <ESC>:call <SID>ToggleDecoration()<CR>
-inoremap <silent> <F12> <C-o>:call <SID>ToggleDecoration()<CR>
 
-""" Toggle number, list, mouse to make it easy to copy/paste
-" if has('mouse')
-"   set mouse=a
-"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &mouse != '' ? "set mouse=" : "set mouse=a"<CR>
-" else
-"   noremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>
-" endif
-
-""" with Shift, Toggle scrolloff size (Shift = Scrolloff)
-" <S-F12>
-nnoremap <silent> <S-F12> <ESC>:<C-u>let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
-inoremap <silent> <S-F12> <C-o>:let &scrolloff=999-&scrolloff<CR><C-o>:echo "scrolloff = " . &scrolloff<CR><C-o>zt
-
-""" with Ctrl, Toggle cursorline, cursorcol (Ctrl = Cursorline, Cursorcol)
-" <C-F12>
 function! s:ToggleCursorLine()
   if &cursorline
     set nocursorline
@@ -794,30 +806,6 @@ function! s:ToggleCursorLine()
     set cursorcolumn
   endif
 endfunction
-nnoremap <silent> <C-F12> <ESC>:call <SID>ToggleCursorLine()<CR>
-inoremap <silent> <C-F12> <C-o>:call <SID>ToggleCursorLine()<CR>
-
-""" with Ctrl+Shift, Toggle ignorecase (alternative search/replace condition)
-" <C-S-F12>
-nnoremap <silent> <C-S-F12> <ESC>:set ignorecase!<CR>:set ignorecase?<CR>
-inoremap <silent> <C-S-F12> <C-o>:set ignorecase!<CR><C-o>:set ignorecase?<CR>
-
-""" with Alt, Toggle Bash Keymap
-" <M-F12>
-nnoremap <silent> <M-F12> <ESC>:call <SID>ToggleBashKeymap()<CR>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
-inoremap <silent> <M-F12> <C-o>:call <SID>ToggleBashKeymap()<CR><C-o>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
-
-""" with Alt-Shift
-" <M-S-F12>
-noremap <M-S-F12>       <nop>
-
-""" with Alt-Ctrl
-" <M-C-F12>
-noremap <M-C-F12>       <nop>
-
-""" with Alt-Ctrl-Shift
-" <M-C-S-F12>
-noremap <M-C-S-F12>     <nop>
 
 function! s:ToggleBashKeymap()
   if exists("g:keymap_bash")
