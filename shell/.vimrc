@@ -483,180 +483,35 @@ vnoremap <M-C-S-F6> <ESC>vaW"pPgv
 inoremap <M-C-S-F6> <C-o>vaW"pP
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F7  using digraph
-"                     f<C-k>    cursor to Nth occurrence of {char} to the right
-"               Shift F<C-k>    cursor to the Nth occurrence of {char} to the left
-"          Ctrl       t<C-k>    cursor till before Nth occurrence of {char} right
-"          Ctrl-Shift T<C-k>    cursor till after Nth occurrence of {char} to the left
+" F7  
 
-""" without Alt, f/F/t/T digraph japanese shortcut
-nnoremap <F7>               f<C-k>
-inoremap <F7>               <C-o>f<C-k>
-nnoremap <F7>a              f<C-k>ja
-inoremap <F7>a              <C-o>f<C-k>ja
-nnoremap <F7>i              f<C-k>ji
-inoremap <F7>i              <C-o>f<C-k>ji
-nnoremap <F7>u              f<C-k>ju
-inoremap <F7>u              <C-o>f<C-k>ju
-nnoremap <F7>e              f<C-k>je
-inoremap <F7>e              <C-o>f<C-k>je
-nnoremap <F7>o              f<C-k>jo
-inoremap <F7>o              <C-o>f<C-k>jo
-nnoremap <F7>nn             f<C-k>n5
-inoremap <F7>nn             <C-o>f<C-k>n5
-nnoremap <F7>,              f<C-k>j,
-inoremap <F7>,              <C-o>f<C-k>j,
-nnoremap <F7>.              f<C-k>j.
-inoremap <F7>.              <C-o>f<C-k>j.
-nnoremap <F7><Space>        f<C-k>IS
-inoremap <F7><Space>        <C-o>f<C-k>IS
-nnoremap <S-F7>             F<C-k>
-inoremap <S-F7>             <C-o>F<C-k>
-nnoremap <S-F7>a            F<C-k>ja
-inoremap <S-F7>a            <C-o>F<C-k>ja
-nnoremap <S-F7>i            F<C-k>ji
-inoremap <S-F7>i            <C-o>F<C-k>ji
-nnoremap <S-F7>u            F<C-k>ju
-inoremap <S-F7>u            <C-o>F<C-k>ju
-nnoremap <S-F7>e            F<C-k>je
-inoremap <S-F7>e            <C-o>F<C-k>je
-nnoremap <S-F7>o            F<C-k>jo
-inoremap <S-F7>o            <C-o>F<C-k>jo
-nnoremap <S-F7>nn           F<C-k>n5
-inoremap <S-F7>nn           <C-o>F<C-k>n5
-nnoremap <S-F7>,            F<C-k>j,
-inoremap <S-F7>,            <C-o>F<C-k>j,
-nnoremap <S-F7>.            F<C-k>j.
-inoremap <S-F7>.            <C-o>F<C-k>j.
-nnoremap <S-F7><Space>      F<C-k>IS
-inoremap <S-F7><Space>      <C-o>F<C-k>IS
-nnoremap <C-F7>             t<C-k>
-inoremap <C-F7>             <C-o>t<C-k>
-nnoremap <C-F7>a            t<C-k>ja
-inoremap <C-F7>a            <C-o>t<C-k>ja
-nnoremap <C-F7>i            t<C-k>ji
-inoremap <C-F7>i            <C-o>t<C-k>ji
-nnoremap <C-F7>u            t<C-k>ju
-inoremap <C-F7>u            <C-o>t<C-k>ju
-nnoremap <C-F7>e            t<C-k>je
-inoremap <C-F7>e            <C-o>t<C-k>je
-nnoremap <C-F7>o            t<C-k>jo
-inoremap <C-F7>o            <C-o>t<C-k>jo
-nnoremap <C-F7>nn           t<C-k>n5
-inoremap <C-F7>nn           <C-o>t<C-k>n5
-nnoremap <C-F7>,            t<C-k>j,
-inoremap <C-F7>,            <C-o>t<C-k>j,
-nnoremap <C-F7>.            t<C-k>j.
-inoremap <C-F7>.            <C-o>t<C-k>j.
-nnoremap <C-F7><Space>      t<C-k>IS
-inoremap <C-F7><Space>      <C-o>t<C-k>IS
-nnoremap <C-S-F7>           T<C-k>
-inoremap <C-S-F7>           <C-o>T<C-k>
-nnoremap <C-S-F7>a          T<C-k>ja
-inoremap <C-S-F7>a          <C-o>T<C-k>ja
-nnoremap <C-S-F7>i          T<C-k>ji
-inoremap <C-S-F7>i          <C-o>T<C-k>ji
-nnoremap <C-S-F7>u          T<C-k>ju
-inoremap <C-S-F7>u          <C-o>T<C-k>ju
-nnoremap <C-S-F7>e          T<C-k>je
-inoremap <C-S-F7>e          <C-o>T<C-k>je
-nnoremap <C-S-F7>o          T<C-k>jo
-inoremap <C-S-F7>o          <C-o>T<C-k>jo
-nnoremap <C-S-F7>nn         T<C-k>n5
-inoremap <C-S-F7>nn         <C-o>T<C-k>n5
-nnoremap <C-S-F7>,          T<C-k>j,
-inoremap <C-S-F7>,          <C-o>T<C-k>j,
-nnoremap <C-S-F7>.          T<C-k>j.
-inoremap <C-S-F7>.          <C-o>T<C-k>j.
-nnoremap <C-S-F7><Space>    T<C-k>IS
-inoremap <C-S-F7><Space>    <C-o>T<C-k>IS
+""" without Alt, change pane/tab
+nnoremap <F7>         <C-w>W
+vnoremap <F7>         <ESC><C-w>W
+inoremap <F7>         <ESC><C-w>W
+nnoremap <S-F7>       <C-w>w
+vnoremap <S-F7>       <ESC><C-w>w
+inoremap <S-F7>       <ESC><C-w>w
+nnoremap <C-F7>       gT
+vnoremap <C-F7>       <ESC>gT
+inoremap <C-F7>       <ESC>gT
+nnoremap <C-S-F7>     gt
+vnoremap <C-S-F7>     <ESC>gt
+inoremap <C-S-F7>     <ESC>gt
 
-"     Meta            f<C-k>i   cursor to Nth occurrence of {char} to the right
-"     Meta-     Shift F<C-k>i   cursor to the Nth occurrence of {char} to the left
-"     Meta-Ctrl       t<C-k>i   cursor till before Nth occurrence of {char} right
-"     Meta-Ctrl-Shift T<C-k>i   cursor till after Nth occurrence of {char} to the left
-
-""" with Alt, f/F/t/T digraph japanese shortcut
-nnoremap <M-F7>             f<C-k>j
-inoremap <M-F7>             <C-o>f<C-k>j
-nnoremap <M-F7>a            f<C-k>ja
-inoremap <M-F7>a            <C-o>f<C-k>ja
-nnoremap <M-F7>i            f<C-k>ji
-inoremap <M-F7>i            <C-o>f<C-k>ji
-nnoremap <M-F7>u            f<C-k>ju
-inoremap <M-F7>u            <C-o>f<C-k>ju
-nnoremap <M-F7>e            f<C-k>je
-inoremap <M-F7>e            <C-o>f<C-k>je
-nnoremap <M-F7>o            f<C-k>jo
-inoremap <M-F7>o            <C-o>f<C-k>jo
-nnoremap <M-F7>nn           f<C-k>n5
-inoremap <M-F7>nn           <C-o>f<C-k>n5
-nnoremap <M-F7>,            f<C-k>j,
-inoremap <M-F7>,            <C-o>f<C-k>j,
-nnoremap <M-F7>.            f<C-k>j.
-inoremap <M-F7>.            <C-o>f<C-k>j.
-nnoremap <M-F7><Space>      f<C-k>IS
-inoremap <M-F7><Space>      <C-o>f<C-k>IS
-nnoremap <M-S-F7>           F<C-k>j
-inoremap <M-S-F7>           <C-o>F<C-k>j
-nnoremap <M-S-F7>a          F<C-k>ja
-inoremap <M-S-F7>a          <C-o>F<C-k>ja
-nnoremap <M-S-F7>i          F<C-k>ji
-inoremap <M-S-F7>i          <C-o>F<C-k>ji
-nnoremap <M-S-F7>u          F<C-k>ju
-inoremap <M-S-F7>u          <C-o>F<C-k>ju
-nnoremap <M-S-F7>e          F<C-k>je
-inoremap <M-S-F7>e          <C-o>F<C-k>je
-nnoremap <M-S-F7>o          F<C-k>jo
-inoremap <M-S-F7>o          <C-o>F<C-k>jo
-nnoremap <M-S-F7>nn         F<C-k>n5
-inoremap <M-S-F7>nn         <C-o>F<C-k>n5
-nnoremap <M-S-F7>,          F<C-k>j,
-inoremap <M-S-F7>,          <C-o>F<C-k>j,
-nnoremap <M-S-F7>.          F<C-k>j.
-inoremap <M-S-F7>.          <C-o>F<C-k>j.
-nnoremap <M-S-F7><Space>    F<C-k>IS
-inoremap <M-S-F7><Space>    <C-o>F<C-k>IS
-nnoremap <M-C-F7>           t<C-k>j
-inoremap <M-C-F7>           <C-o>t<C-k>j
-nnoremap <M-C-F7>a          t<C-k>ja
-inoremap <M-C-F7>a          <C-o>t<C-k>ja
-nnoremap <M-C-F7>i          t<C-k>ji
-inoremap <M-C-F7>i          <C-o>t<C-k>ji
-nnoremap <M-C-F7>u          t<C-k>ju
-inoremap <M-C-F7>u          <C-o>t<C-k>ju
-nnoremap <M-C-F7>e          t<C-k>je
-inoremap <M-C-F7>e          <C-o>t<C-k>je
-nnoremap <M-C-F7>o          t<C-k>jo
-inoremap <M-C-F7>o          <C-o>t<C-k>jo
-nnoremap <M-C-F7>nn         t<C-k>n5
-inoremap <M-C-F7>nn         <C-o>t<C-k>n5
-nnoremap <M-C-F7>,          t<C-k>j,
-inoremap <M-C-F7>,          <C-o>t<C-k>j,
-nnoremap <M-C-F7>.          t<C-k>j.
-inoremap <M-C-F7>.          <C-o>t<C-k>j.
-nnoremap <M-C-F7><Space>    t<C-k>IS
-inoremap <M-C-F7><Space>    <C-o>t<C-k>IS
-nnoremap <M-C-S-F7>         T<C-k>j
-inoremap <M-C-S-F7>         <C-o>T<C-k>j
-nnoremap <M-C-S-F7>a        T<C-k>ja
-inoremap <M-C-S-F7>a        <C-o>T<C-k>ja
-nnoremap <M-C-S-F7>i        T<C-k>ji
-inoremap <M-C-S-F7>i        <C-o>T<C-k>ji
-nnoremap <M-C-S-F7>u        T<C-k>ju
-inoremap <M-C-S-F7>u        <C-o>T<C-k>ju
-nnoremap <M-C-S-F7>e        T<C-k>je
-inoremap <M-C-S-F7>e        <C-o>T<C-k>je
-nnoremap <M-C-S-F7>o        T<C-k>jo
-inoremap <M-C-S-F7>o        <C-o>T<C-k>jo
-nnoremap <M-C-S-F7>nn       t<C-k>n5
-inoremap <M-C-S-F7>nn       <C-o>t<C-k>n5
-nnoremap <M-C-S-F7>,        t<C-k>j,
-inoremap <M-C-S-F7>,        <C-o>t<C-k>j,
-nnoremap <M-C-S-F7>.        t<C-k>j.
-inoremap <M-C-S-F7>.        <C-o>t<C-k>j.
-nnoremap <M-C-S-F7><Space>  t<C-k>IS
-inoremap <M-C-S-F7><Space>  <C-o>t<C-k>IS
+""" with Alt, change pane/tab (for tmux, change pane/window)
+nnoremap <M-F7>         <C-w>W
+vnoremap <M-F7>         <ESC><C-w>W
+inoremap <M-F7>         <ESC><C-w>W
+nnoremap <M-S-F7>       <C-w>w
+vnoremap <M-S-F7>       <ESC><C-w>w
+inoremap <M-S-F7>       <ESC><C-w>w
+nnoremap <M-C-F7>       gT
+vnoremap <M-C-F7>       <ESC>gT
+inoremap <M-C-F7>       <ESC>gT
+nnoremap <M-C-S-F7>     gt
+vnoremap <M-C-S-F7>     <ESC>gt
+inoremap <M-C-S-F7>     <ESC>gt
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F8  change pane/tab
@@ -730,7 +585,6 @@ nnoremap <M-S-F9>       <C-w><
 inoremap <M-S-F9>       <nop>
 nnoremap <M-C-S-F9>     5<C-w><
 inoremap <M-C-S-F9>     <nop>
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F10  search jp
