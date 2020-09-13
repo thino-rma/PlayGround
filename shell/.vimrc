@@ -659,12 +659,12 @@ nnoremap <M-C-S-F7><Space>  t<C-k>IS
 inoremap <M-C-S-F7><Space>  <C-o>t<C-k>IS
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F8  <ESC>
+" F8  <ESC> or Window operation
 
 " F8
 nnoremap <F8>           <nop>
-vnoremap <F8>           <nop>
-inoremap <F8>           <nop>
+vnoremap <F8>           <ESC>
+inoremap <F8>           <ESC>
 onoremap <F8>           <nop>
 nnoremap <S-F8>         <nop>
 inoremap <S-F8>         <nop>
@@ -672,17 +672,19 @@ nnoremap <M-F8>         <nop>
 inoremap <M-F8>         <nop>
 nnoremap <M-S-F8>       <nop>
 inoremap <M-S-F8>       <nop>
-nnoremap <C-F8>         <nop>
-inoremap <C-F8>         <nop>
-nnoremap <C-S-F8>       <nop>
-inoremap <C-S-F8>       <nop>
+nnoremap <C-F8>         <C-w>w
+vnoremap <C-F8>         <ESC><C-w>w
+inoremap <C-F8>         <ESC><C-w>w
+nnoremap <C-S-F8>       <C-w>W
+vnoremap <C-S-F8>       <ESC><C-w>W
+inoremap <C-S-F8>       <ESC><C-w>W
 nnoremap <M-C-F8>       <nop>
 inoremap <M-C-F8>       <nop>
 nnoremap <M-C-S-F8>     <nop>
 inoremap <M-C-S-F8>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F9  tab / (Alt) window
+" F9  search jp
 function! s:SearchJPLong(key, skey)
   let p ='\(^\S\\|^\s\+\zs\S\\|[。！？]\+\zs\\|$\)'
   call <SID>Search(a:key, a:skey, p)
@@ -718,7 +720,7 @@ noremap <M-C-F9>       <nop>
 noremap <M-C-S-F9>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F10  nop
+" F10  search jp
 
 """ without Alt
 call <SID>SearchJPMiddle('<F10>', '<S-F10>')
@@ -731,7 +733,7 @@ noremap <M-C-F10>       <nop>
 noremap <M-C-S-F10>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F11  nop
+" F11  search jp
 
 """ without Alt
 call <SID>SearchJPLong('<F11>', '<S-F11>')
