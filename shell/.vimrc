@@ -719,11 +719,18 @@ endfunction
 call <SID>SearchJPShort('<F9>', '<S-F9>')
 noremap <C-F9>         <nop>
 noremap <C-S-F9>       <nop>
-""" with Alt, reserved for tmux
-noremap <M-F9>         <nop>
-noremap <M-S-F9>       <nop>
-noremap <M-C-F9>       <nop>
-noremap <M-C-S-F9>     <nop>
+""" with Alt
+" without Shift, change pane
+nnoremap <M-F9>         <C-w>h
+inoremap <M-F9>         <nop>
+nnoremap <M-C-F9>       <nop>
+inoremap <M-C-F9>       <nop>
+" with Shift, change size
+nnoremap <M-S-F9>       <C-w><
+inoremap <M-S-F9>       <nop>
+nnoremap <M-C-S-F9>     5<C-w><
+inoremap <M-C-S-F9>     <nop>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F10  search jp
@@ -733,10 +740,16 @@ call <SID>SearchJPMiddle('<F10>', '<S-F10>')
 noremap <C-F10>         <nop>
 noremap <C-S-F10>       <nop>
 """ with Alt, reserved for tmux
-noremap <M-F10>         <nop>
-noremap <M-S-F10>       <nop>
-noremap <M-C-F10>       <nop>
-noremap <M-C-S-F10>     <nop>
+" without Shift, change pane
+nnoremap <M-F10>         <C-w>j
+inoremap <M-F10>         <nop>
+nnoremap <M-C-F10>       <nop>
+inoremap <M-C-F10>       <nop>
+" with Shift, change size
+nnoremap <M-S-F10>       <C-w>-
+inoremap <M-S-F10>       <nop>
+nnoremap <M-C-S-F10>     5<C-w>-
+inoremap <M-C-S-F10>     <nop>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F11  search jp
@@ -746,10 +759,16 @@ call <SID>SearchJPLong('<F11>', '<S-F11>')
 noremap <C-F11>         <nop>
 noremap <C-S-F11>       <nop>
 """ with Alt, reserved for tmux
-noremap <M-F11>         <nop>
-noremap <M-S-F11>       <nop>
-noremap <M-C-F11>       <nop>
-noremap <M-C-S-F11>     <nop>
+" without Shift, change pane
+nnoremap <M-F11>         <C-w>k
+inoremap <M-F11>         <nop>
+nnoremap <M-C-F11>       <nop>
+inoremap <M-C-F11>       <nop>
+" with Shift, change size
+nnoremap <M-S-F11>       <C-w>+
+inoremap <M-S-F11>       <nop>
+nnoremap <M-C-S-F11>     5<C-w>+
+inoremap <M-C-S-F11>     <nop>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F12  toggle setting
@@ -772,10 +791,16 @@ nnoremap <C-S-F12>      :emenu Toggle.<C-Z>
 inoremap <C-S-F12>      <nop>
 
 """ with Alt, reserved for tmux
-noremap <M-F12>         <nop>
-noremap <M-S-F12>       <nop>
-noremap <M-C-F12>       <nop>
-noremap <M-C-S-F12>     <nop>
+" without Shift, change pane
+nnoremap <M-F12>         <C-w>l
+inoremap <M-F12>         <nop>
+nnoremap <M-C-F12>       <nop>
+inoremap <M-C-F12>       <nop>
+" with Shift, change size
+nnoremap <M-S-F12>       <C-w>>
+inoremap <M-S-F12>       <nop>
+nnoremap <M-C-S-F12>     5<C-w>>
+inoremap <M-C-S-F12>     <nop>
 
 """ Toggle number, list, mouse to make it easy to copy/paste
 " if has('mouse')
