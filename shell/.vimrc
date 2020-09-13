@@ -668,20 +668,25 @@ inoremap <F8>           <ESC>
 onoremap <F8>           <nop>
 nnoremap <S-F8>         <nop>
 inoremap <S-F8>         <nop>
-nnoremap <M-F8>         <nop>
-inoremap <M-F8>         <nop>
-nnoremap <M-S-F8>       <nop>
-inoremap <M-S-F8>       <nop>
 nnoremap <C-F8>         <C-w>w
 vnoremap <C-F8>         <ESC><C-w>w
 inoremap <C-F8>         <ESC><C-w>w
 nnoremap <C-S-F8>       <C-w>W
 vnoremap <C-S-F8>       <ESC><C-w>W
 inoremap <C-S-F8>       <ESC><C-w>W
-nnoremap <M-C-F8>       <nop>
-inoremap <M-C-F8>       <nop>
-nnoremap <M-C-S-F8>     <nop>
-inoremap <M-C-S-F8>     <nop>
+" with Alt, change window,tab (unable to use through tmux?)
+nnoremap <M-F8>         <C-w>w
+vnoremap <M-F8>         <ESC><C-w>w
+inoremap <M-F8>         <ESC><C-w>w
+nnoremap <M-S-F8>       <C-w>W
+vnoremap <M-S-F8>       <ESC><C-w>W
+inoremap <M-S-F8>       <ESC><C-w>W
+nnoremap <M-C-F8>       gt
+vnoremap <M-C-F8>       <ESC>gt
+inoremap <M-C-F8>       <ESC>gt
+nnoremap <M-C-S-F8>     gT
+vnoremap <M-C-S-F8>     <ESC>gT
+inoremap <M-C-S-F8>     <ESC>gT
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F9  search jp
