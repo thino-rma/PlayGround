@@ -759,10 +759,10 @@ noremap <M-C-S-F11>     <nop>
 nnoremap <silent> <F12> <ESC>:call <SID>ToggleDecoration()<CR>
 inoremap <silent> <F12> <C-o>:call <SID>ToggleDecoration()<CR>
 
-nmenu <silent> 100.320 Toggle.Scroll     :let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
-nmenu <silent> 100.330 Toggle.CursorLine :call <SID>ToggleCursorLine()<CR>
 nmenu <silent> 100.340 Toggle.BashKeymap :call <SID>ToggleBashKeymap()<CR>:echo exists("g:keymap_bash") ? "keymap_bash : on" : "keymap_bash : off"<CR>
-nmenu <silent> 100.390 Toggle.Number     :call <SID>ToggleDecoration()<CR>
+nmenu <silent> 100.410 Toggle.Number     :call <SID>ToggleDecoration()<CR>
+nmenu <silent> 100.420 Toggle.Scroll     :let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
+nmenu <silent> 100.430 Toggle.CursorLine :call <SID>ToggleCursorLine()<CR>
 
 nnoremap <S-F12>        :let &scrolloff=999-&scrolloff<CR>:echo "scrolloff = " . &scrolloff<CR>zt
 inoremap <S-F12>        <nop>
