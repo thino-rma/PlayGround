@@ -107,8 +107,8 @@ VIM_DIR=~/.vim
 AUTOLOAD_DIR=${VIM_DIR}/autoload
 PLUGIN_DIR=${VIM_DIR}/plugin
 
-# makedir $AUTOLOAD_DIR
-# makedir $PLUGIN_DIR
+makedir $AUTOLOAD_DIR
+makedir $PLUGIN_DIR
 
 ### oscyank
 # RAW_GIT=https://raw.githubusercontent.com/greymd/oscyank.vim/master
@@ -121,6 +121,11 @@ PLUGIN_DIR=${VIM_DIR}/plugin
 # RAW_GIT=https://raw.githubusercontent.com/ShikChen/osc52.vim/master
 # TARGET=plugin/osc52.vim
 # download ${RAW_GIT}/${TARGET} ${VIM_DIR}/${TARGET}
+
+### submode.vim
+RAW_GIT=https://raw.githubusercontent.com/kana/vim-submode/master
+TARGET=autoload/submode.vim
+download ${RAW_GIT}/${TARGET} ${VIM_DIR}/${TARGET}
 
 ### packages
 echo "### commands to instal packages ###"
