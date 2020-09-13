@@ -32,7 +32,7 @@ alias work_today='mkdir -p ~/work/`date +"%Y%m%d"`; cd ~/work/`date +"%Y%m%d"`'
 alias ipa='ip a | grep "inet "'
 
 ## tmux
-alias tmn='tmux new \\; source .tmux.startup.conf'
+alias tmn='tmux new \; source .tmux.startup.conf'
 
 ## micro
 #### install
