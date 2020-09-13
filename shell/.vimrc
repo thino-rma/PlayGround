@@ -756,8 +756,19 @@ noremap <M-C-S-F11>     <nop>
 
 """ without modifire, Toggle number, list, mouse to make it easy to copy/paste
 " <F12>
-nnoremap <silent> <F12> <ESC>:set number!<CR>:set list!<CR>:exec &laststatus == 2 ? "set laststatus=1" : "set laststatus=2"<CR>
-inoremap <silent> <F12> <C-o>:set number!<CR><C-o>:set list!<CR><C-o>:exec &laststatus == 2 ? "set laststatus=1" : "set laststatus=2"<CR>
+function! s:ToggleDecoration()
+  if &number
+    set nonumber
+    set nolist
+    set laststatus=1
+  else
+    set number
+    set list
+    set laststatus=2
+  endif
+endfunction
+nnoremap <silent> <F12> <ESC>:call <SID>ToggleDecoration()<CR>
+inoremap <silent> <F12> <C-o>:call <SID>ToggleDecoration()<CR>
 
 """ Toggle number, list, mouse to make it easy to copy/paste
 " if has('mouse')
@@ -774,8 +785,17 @@ inoremap <silent> <S-F12> <C-o>:let &scrolloff=999-&scrolloff<CR><C-o>:echo "scr
 
 """ with Ctrl, Toggle cursorline, cursorcol (Ctrl = Cursorline, Cursorcol)
 " <C-F12>
-nnoremap <silent> <C-F12> <ESC>:set cursorline!<CR>:set cursorcolumn!<CR>
-inoremap <silent> <C-F12> <C-o>:set cursorline!<CR><C-o>:set cursorcolumn!<CR>
+function! s:ToggleCursorLine()
+  if &cursorline
+    set nocursorline
+    set nocursorcolumn
+  else
+    set cursorline
+    set cursorcolumn
+  endif
+endfunction
+nnoremap <silent> <C-F12> <ESC>:call <SID>ToggleCursorLine()<CR>
+inoremap <silent> <C-F12> <C-o>:call <SID>ToggleCursorLine()<CR>
 
 """ with Ctrl+Shift, Toggle ignorecase (alternative search/replace condition)
 " <C-S-F12>
