@@ -659,22 +659,23 @@ nnoremap <M-C-S-F7><Space>  t<C-k>IS
 inoremap <M-C-S-F7><Space>  <C-o>t<C-k>IS
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" F8  <ESC> or Window operation
+" F8  change pane/tab
 
-" F8
-nnoremap <F8>           <nop>
-vnoremap <F8>           <ESC>
-inoremap <F8>           <ESC>
-onoremap <F8>           <nop>
-nnoremap <S-F8>         <nop>
-inoremap <S-F8>         <nop>
-nnoremap <C-F8>         <C-w>w
-vnoremap <C-F8>         <ESC><C-w>w
-inoremap <C-F8>         <ESC><C-w>w
-nnoremap <C-S-F8>       <C-w>W
-vnoremap <C-S-F8>       <ESC><C-w>W
-inoremap <C-S-F8>       <ESC><C-w>W
-" with Alt, change window,tab (unable to use through tmux?)
+" without Alt, change pane/tab
+nnoremap <F8>         <C-w>w
+vnoremap <F8>         <ESC><C-w>w
+inoremap <F8>         <ESC><C-w>w
+nnoremap <S-F8>       <C-w>W
+vnoremap <S-F8>       <ESC><C-w>W
+inoremap <S-F8>       <ESC><C-w>W
+nnoremap <C-F8>       gt
+vnoremap <C-F8>       <ESC>gt
+inoremap <C-F8>       <ESC>gt
+nnoremap <C-S-F8>     gT
+vnoremap <C-S-F8>     <ESC>gT
+inoremap <C-S-F8>     <ESC>gT
+
+" with Alt, change pane/tab (for tmux, change pane/window)
 nnoremap <M-F8>         <C-w>w
 vnoremap <M-F8>         <ESC><C-w>w
 inoremap <M-F8>         <ESC><C-w>w
