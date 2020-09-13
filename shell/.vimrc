@@ -1726,16 +1726,17 @@ endif
 " :%s/xyz\C/XYZ/gc<CR>  all lines(%) substitute 'xyz' to 'XYZ' case sensitive(\C), global(g), confirm(c)
 
 """ (5) window
-" C-w s, :sp<CR>   split window horizontal
-" C-w +, C-W -     change window height (+ for heigher, - for shorter)
-" C-w v, :vs<CR>   split window horizontal
-" C-w >, C-W <     change window width (> for wider, < for narrower)
-" C-w q, :q<CR>    close current window
-" C-w o            only current window (close other windows)
-" C-w w, C-w C-w   next window
-" C-w W            previous window
-" C-w h/j/k/l      move left/down/up/right window
-" C-w r, C-w C-r   rotate window
+" C-w s, C-w C-s, :sp<CR>   split window horizontal
+" C-w +, C-W -              change window height (+ for heigher, - for shorter)
+" C-w v, C-w C-v, :vs<CR>   split window horizontal
+" C-w >, C-W <              change window width (> for wider, < for narrower)
+" C-w q, C-w C-q, :q<CR>    close current window
+" C-w o                     only current window (close other windows)
+" C-w w, C-w C-w            next window
+" C-w W                     previous window
+" C-w h/j/k/l               move left/down/up/right window
+" C-w r, C-w C-r            rotate window
+" C-w R                     rotate window (backward)
 
 """ (6) tabpage
 " :tabnew [filename]     tab new
