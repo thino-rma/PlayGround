@@ -69,8 +69,9 @@ set textwidth=0
 set title
 set virtualedit=block
 set whichwrap=b,s,[,],<,>
+set wildcharm=<C-Z>
 set wildmenu
-set wildmode=list:longest
+set wildmode=full
 
 filetype plugin indent on
 syntax on
