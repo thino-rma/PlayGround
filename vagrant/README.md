@@ -21,4 +21,18 @@
       config.disksize.size = '40GB'
     end
     ```
+    you have to extend the partition size.  
+    download gparted-live iso image (amd64) from https://gparted.org/download.php  
+    mount it (set iso image on VirtualBOX Management Console)  
+    run the guest on VirtualBOX Management Console,  booting from the iso image.  
+    
+    https://howtoubuntu.org/how-to-resize-partitions-with-the-ubuntu-or-gparted-live-cd
+    wait until starting GParted.  
+    Right-click on the partition you wish to shrink.  
+    Select Resize.  
+    Expand into all the free space.  
+    Click Apply  
+    Close Gparted  
+    Click Quit icon and shutdown.  
+    
      
