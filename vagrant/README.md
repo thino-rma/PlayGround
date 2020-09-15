@@ -26,7 +26,7 @@
     mount it (set iso image on VirtualBOX Management Console)  
     run the guest on VirtualBOX Management Console,  booting from the iso image.  
     
-    https://howtoubuntu.org/how-to-resize-partitions-with-the-ubuntu-or-gparted-live-cd
+    https://howtoubuntu.org/how-to-resize-partitions-with-the-ubuntu-or-gparted-live-cd  
     wait until starting GParted.  
     Right-click on the partition you wish to shrink.  
     Select Resize.  
