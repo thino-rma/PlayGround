@@ -1,3 +1,10 @@
+- 新しいイメージを使うときの流れ
+  - 空ディレクトリの作成、Vagrantfileの作成、初回の起動 (vagrant up)
+  - ディスクサイズの確認
+    - vagrant-disksizeプラグインで、ディスクサイズを調整
+    - GParted-live でパーティションサイズを拡大
+    - 起動を確認し、終了してスナップショット作成
+
 - install vagrant plugin
   - vbguest
     ```console
