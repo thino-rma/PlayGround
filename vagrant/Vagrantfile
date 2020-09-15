@@ -14,7 +14,10 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "centos/7"
   config.ssh.insert_key = false
-  config.vbguest.auto_update = false
+  ### [Plugin] $ vagrant plugin install vagrant-vbguest 
+  # config.vbguest.auto_update = false
+  ### [Plugin] $ vagrant plugin install vagrant-disksize
+  # config.disksize.size = '40GB'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
