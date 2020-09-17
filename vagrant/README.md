@@ -1,8 +1,11 @@
+### Vagrantfile
 - sample
+  以下で生成してください。
   ```console
-  # -*- mode: ruby -*-
-  # vi: set ft=ruby :
-  
+  $ vagrant init　centos/8
+  ```
+  先頭２行を除去していることに留意してください。
+  ```console
   Vagrant.configure("2") do |config|
     config.vm.box = "centos/8"
     config.ssh.insert_key = false
@@ -66,6 +69,7 @@
       config.disksize.size = '40GB'
     end
     ```
+  - gparted-livew
     you have to extend the partition size.  
     download gparted-live iso image (amd64) from https://gparted.org/download.php  
     mount it (set iso image on VirtualBOX Management Console)  
@@ -79,5 +83,3 @@
     Click Apply  
     Close Gparted  
     Click Quit icon and shutdown.  
-    
-     
