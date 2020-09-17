@@ -1,3 +1,41 @@
+```console
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/8"
+  config.ssh.insert_key = false
+  ### 
+  config.vbguest.auto_update = false
+  ### 
+  config.disksize.size = '40GB'
+
+  # config.vm.box_check_update = false
+
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # config.vm.network "private_network", ip: "192.168.xxx.yyy"
+
+  config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vm.provider "virtualbox" do |vb|
+    # vb.gui = true
+    vb.cpus = "2"
+    vb.memory = "2048"
+    vb.name = "centos8"
+
+    vb.customize [
+      "modifyvm", :id,
+      "--vram", "256",                  # ビデオメモリ確保
+      "--clipboard", "bidirectional",   # クリップボードの共有
+      "--draganddrop", "bidirectional", # ドラッグアンドドロップ可能に
+      "--ioapic", "on"                  # I/O APICを有効化
+    ]
+  end
+end
+```
+
 - 新しいイメージを使うときの流れ
   - 空ディレクトリの作成、Vagrantfileの作成、初回の起動 (vagrant up)
   - ディスクサイズの確認
