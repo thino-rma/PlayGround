@@ -1145,7 +1145,11 @@ vnoremap <silent> <Leader><Leader> :<C-u>set hlsearch!<CR>gv
 " vnoremap <Leader><CR>     :!/usr/bin/env bash
 
 " reload .vimrc
-nnoremap <silent> <Leader>rr :source ~/.vimrc<CR>:noh<CR>
+if ! has("win32") && ! has("win64")
+  nnoremap <silent> <Leader>rr :source ~/.vimrc<CR>:noh<CR>
+else
+  nnoremap <silent> <Leader>rr :source ~/_vimrc<CR>:noh<CR>
+endif
 
 " insert empty line
 nnoremap <silent> <Leader>o o<ESC>
