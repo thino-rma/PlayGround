@@ -50,7 +50,7 @@ end
     $ vagrant plugin install vagrant-vbguest 
     ```
     if you do not need it, in Vagrantfile
-    ```
+    ```console
     Vagrant.configure('2') do |config|
       config.vm.box = 'ubuntu/xenial64'
       config.vbguest.auto_update = false
@@ -61,7 +61,7 @@ end
     $ vagrant plugin install vagrant-disksize
     ```
     if you want to change disksize, in Vagrantfile
-    ```
+    ```console
     Vagrant.configure('2') do |config|
       config.vm.box = 'ubuntu/xenial64'
       config.disksize.size = '40GB'
