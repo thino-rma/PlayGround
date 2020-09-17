@@ -110,6 +110,9 @@ endfunction
 nnoremap x "_x
 vnoremap x "_x
 
+" copy Ctrl-c in VISUAL mode
+vnoremap <C-c> y
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for Cursor-move
 """ for Ctrl-h,j,k,l
