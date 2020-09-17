@@ -1,3 +1,5 @@
+- sample
+
 ```console
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
