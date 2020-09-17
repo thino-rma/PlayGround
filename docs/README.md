@@ -30,3 +30,21 @@
   ```console
   $ sudo systemctl list-units --type=service
   ```
+
+- netstatコマンド
+  netstatコマンドは非推奨。ss コマンドを使いましょう。
+  TCPのLISTENポートを番号で表示します。
+  ```console
+  $ ss -ltn
+  ```
+
+- lsofコマンド
+  TCPのLISTENポートを番号で表示します。
+  ```console
+  $ lsof -Pi | grep LISTEN
+  ```
+  コマンドが見つからない場合は、以下でインストールできます。
+  ```console
+  $ sudo yum -y install lsof
+  ```
+  
