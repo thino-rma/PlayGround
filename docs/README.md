@@ -42,7 +42,7 @@
 - lsofコマンド
   TCPのLISTENポートを番号で表示します。
   ```console
-  $ lsof -Pi | grep LISTEN
+  $ sudo lsof -Pi | grep LISTEN
   ```
   コマンドが見つからない場合は、以下でインストールできます。
   ```console
