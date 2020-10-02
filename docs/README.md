@@ -100,3 +100,52 @@
   | character_sets_dir       | /usr/share/mariadb/charsets/ |
   +--------------------------+------------------------------+
   ```
+
+### atコマンドの使い方
+- atコマンドの紹介
+  - atdデーモンは予約されたコマンドを指定された日時に実行する。
+  - atコマンドで予約を行う。
+  - atqコマンド（あるいはat -l）で予約を一覧する。
+- 使用
+  - ファイアウォールの設定を変更するとき、変更後にSSH接続できなくなったときのために、ファイアウォールを停止するためのコマンドを予約しておく。
+    ```console
+    echo "systemctl stop firewalld" | at now + 5 minutes
+    ```
+- インストール
+  - CentOS7
+    ```console
+    $ yum install at
+    $ systemctl start atd
+    $ systemctl enable atd
+    ```
+  - CentOS6
+    ```console
+    $ yum install at
+    $ /etc/init.d/atd start
+    $ chkconfig on atd
+    ```
+- コマンド
+  - 登録 対話的（Ctrl-dで終了）
+    ```console
+    $ at 15:00
+    ```
+  - 登録 パイプ
+    ```console
+    $ echo "logger \"test `date`\"" | at 15:00
+    $ echo "systemctl stop firewalld" | at now + 5 minutes
+    ```
+  - 登録 ファイル指定
+    ```console
+    $ at 15:00 -f test.sh
+    ```
+  - 予約リストの表示
+    ```console
+    $ atq
+    $ at -l
+    ```
+  - 予約削除
+    ```console
+    $ atrm JOBNO
+    $ at -r JOBNO
+    $ at -d JOBNO
+    ```
