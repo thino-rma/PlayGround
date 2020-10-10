@@ -51,7 +51,7 @@
   eval "$('/home/vagrant/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
   conda activate flask
   cd /home/vagrant/python_work/flask
-  python -u hello.py -h 0.0.0.0 -p 5000 >> /tmp/hello.log
+  python -u hello.py -h 0.0.0.0 -p 5000 >> /tmp/hello.log 2>&1
   ```
 - サービスのユニットファイル /etc/systemd/system/hello.service 
   ```console
