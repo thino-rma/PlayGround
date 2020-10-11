@@ -27,9 +27,16 @@
   $ ansible-inventory --list --yaml -i inventory/hosts
   $ ansible-playbook playbook.yml -i inventory/hosts --syntax-check
   ```
-- systemctlコマンド
+- systemctlコマンド, journalctlコマンド
   ```console
   $ sudo systemctl list-units --type=service
+  $ sudo systemctl list-unit-files | grep service
+  $ sudo systemctl start service   | systemctl status service
+  $ sudo systemctl restart service | systemctl status service
+  $ sudo systemctl stop service    | systemctl status service
+  $ sudo systemctl status service
+  $ sudo journalctl -u hello
+  $ sudo journalctl -f
   ```
 
 - netstatコマンド
