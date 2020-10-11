@@ -1,6 +1,8 @@
 ### いくつかの忘れやすい事柄
 - git/
   - README.md
+- python/
+  - README.md
 - ssh/
   - Rlogin.md
   - config
