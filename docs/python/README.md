@@ -38,7 +38,8 @@
 
 ### python script の systemd サービス化
 - 起動スクリプト /usr/local/start_service.sh
-  > ポイントは、```python -u script.py``` である。
+  > ポイントは、```export PYTHONUNBUFFERED=1``` である。  
+  > あるいは、pythonコマンドに ```-u``` オプションを指定する。```python -u script.py```
   
   ```console
   $ sudo vim /usr/local/start_service.sh
@@ -51,7 +52,8 @@
   eval "$('/home/vagrant/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
   conda activate flask
   cd /home/vagrant/python_work/flask
-  python -u hello.py -h 0.0.0.0 -p 5000 >> /tmp/hello.log 2>&1
+  export PYTHONUNBUFFERED=1
+  python hello.py -h 0.0.0.0 -p 5000 >> /tmp/hello.log 2>&1
   ```
 - サービスのユニットファイル /etc/systemd/system/hello.service 
   ```console
@@ -74,6 +76,11 @@
   [Install]
   WantedBy = multi-user.target
   ```
+  > ユニットファイルには、環境変数を指定するための仕組みがあります。  
+  > 環境変数 ```PYTHONUNBUFFERED=1``` をエクスポートするために、  
+  > ユニットファイルの ```Environment=``` あるいは ```EnvironmentFile=``` を活用することができます。  
+  > この内容は、一般ユーザが ```systemctl show hello``` を使用して確認することができます。
+
 - サービスの制御
   ```console
   $ sudo systemctl daemon-reload
