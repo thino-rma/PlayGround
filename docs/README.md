@@ -10,6 +10,12 @@
   - vim.md
 
 ### その他 備忘
+- PukiwikiにMarkdownを書く
+  ```console
+  #markdown{{
+  ここにMarkdownを書こう。
+  }}
+  ```
 - gitコマンド
   ```console
   # after add, remove it from stage (HEADにないものを)
