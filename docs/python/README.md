@@ -162,8 +162,9 @@
 - サービスの制御
   ```console
   $ sudo systemctl daemon-reload
-  $ sudo systemctl start hello; sleep 1; sudo systemctl status hello
-  $ sudo systemctl stop  hello; sleep 1; sudo systemctl status hello
+  $ sudo systemctl start   hello; sleep 1; sudo systemctl status hello
+  $ sudo systemctl restart hello; sleep 1; sudo systemctl status hello
+  $ sudo systemctl stop    hello; sleep 1; sudo systemctl status hello
   $ sudo systemctl status hello
   $ sudo journalctl -u hello
   $ sudo journalctl -f -u hello
