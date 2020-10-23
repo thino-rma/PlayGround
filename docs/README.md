@@ -10,6 +10,17 @@
   - vim.md
 
 ### その他 備忘
+- OSごとのパッケージ管理
+  CentOS
+  ```console
+  $ rpm -qa | grep name    # list installed packages
+  $ rpm -ql package_name   # list files from the package
+  ```
+  Ubuntu
+  ```console
+  $ dpkg -l | grep name    # list installed packages
+  $ dpkg -L package_name   # list files from the package
+  ```
 - PukiwikiにMarkdownを書く
   ```console
   #markdown{{
