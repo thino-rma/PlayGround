@@ -10,7 +10,7 @@
   - vim.md
 
 ### その他 備忘
-- OSごとのパッケージ管理
+- OSごとのパッケージ管理  
   CentOS
   ```console
   $ rpm -qa | grep name    # list installed packages
