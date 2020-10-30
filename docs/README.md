@@ -21,6 +21,10 @@
   $ dpkg -l | grep name    # list installed packages
   $ dpkg -L package_name   # list files from the package
   ```
+- ホスト名の設定
+  ```console
+  $ sudo hostnamectl set-hostname paddington
+  ```
 - PukiwikiにMarkdownを書く
   ```console
   #markdown{{
