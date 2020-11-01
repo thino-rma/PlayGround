@@ -68,6 +68,9 @@ fi
 # C-k           kill-line (erase from current position to end of the line)
 # C-u           unix-line-discard (erase from current position to begginning of the line)
 # C-w           unix-word-rubout (erase from current position to the point after the previous word)
+# M-d           kill-word
+# M-Backspace   backward-kill-word
+# C-x Backspace backword-kill-line
 # C-v TAB       tab-insert
 # C-v any       quoted-insert  (C-v C-d inserts '^D')
 
