@@ -4,6 +4,7 @@
   - [vim index EN](https://vim-jp.org/vimdoc-en/vimindex.html)
   - [Consistent BackSpace and Delete Configuration](http://web.archive.org/web/20120621035133/http://www.ibb.net/~anne/keyboard/keyboard.html)
   - [Fix backspace in less](https://thomer.com/howtos/backspace_in_less.html)
+    - これは必要なかった。```stty erase '^?'``` で解決。
   - [How to fix the backspace/ruboff key in Emacs/Xterm](http://www.hypexr.org/linux_ruboff.php)
 - bashのキーバインドについて
   - see .my_bash_alias
@@ -31,14 +32,11 @@
 - (2) (1) に加えて ```stty erase ^?```を実行する。  
   この状況においては、C-hキーで ```^H``` が、Backspaceキーで ```^?``` が送信される。  
   この状況においては、```stty -a``` で ```erace = ^?``` と表示される。  
-  sttyコマンドは、bashには影響するが、vimやsedコマンドには影響しない。
   | 入力          |bash                        |vim ```i C-v```|```sed -n l``` |
   |:-------------:|:---------------------------|:--------------|:--------------|
   |```C-h```      |```^H```                    |```^H```       |カーソル位置の前の文字を削除|
   |```Backspace```|カーソル位置の前の文字を削除|```^?```       |```^?``` ```\177$```|
   |```Delete```   |カーソル位置の文字を削除    |```^[[3~```    |```^[[3~``` ```\033[3~$```|
-  > lessコマンドで、```/```による検索では、Backspaceで```^?```が表示されてしまう。
-  > これを解消するには、???
 - tmux側の設定（tmux経由の場合でも、うまく動くように）
   - オプション
     ```console
@@ -70,17 +68,17 @@
 - RLogin側の設定
   - 制御コード
     - 「?67 Set BSキーでBSを送信 / Reset BSキーでDELを送信」のチェックをはずす
-      > チェックが入っていると、 BSキーで ```^h```（これは C-h とかぶる） を送信する。チェックを外すと、BSキーで ```^?``` を送信する。
+      > チェックが入っていると、 BSキーで ```^h```（これは C-h とかぶる） を送信する。チェックを外すと、BSキーで ```^?``` を送信する。  
       > 目的：vimで、BSキーと C-h を別々にマッピングするのに必要。
   - キーコード
     - 「1.modifyCursorKeys」を、「UP,DOWN,RIGHT,LEFT,PRIOR,NEXT,HOME,END,DELETE」（INSERTを除く）に対して「0」を設定。
-      > 注意：INSERTを除いていることに注意する。これは、RLogin のショートカットに Shift-Insert を $PASTE にマッピングしているため。
+      > 注意：INSERTを除いていることに注意する。これは、RLogin のショートカットに Shift-Insert を $PASTE にマッピングしているため。  
       > 目的：vimで、カーソルキーなどのキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
     - 「2.modifyCursorKeys」を、「F1-F12」（デフォルト）に対して「0」を設定。
       > 目的：vimで、ファンクションキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
     - 「3.modifyKeypadKeys」を、「PAD0-PAD9,PADMUL,PADADD,PADSEP,PADSUB,PADDEC,PADDIV」（デフォルト）に対して「0」を設定。
-      > 「-1」（デフォルト）の場合、Ctrlとキーパッドの「-」を入力すると、RLoginの挙動が不安定になった。（接続が応答しなくなる）
-      > 「0」にした場合、Ctrlとキーパッドの「-」を入力しても、RLoginの挙動が不安定にならない。
+      > 「-1」（デフォルト）の場合、Ctrlとキーパッドの「-」を入力すると、RLoginの挙動が不安定になった。（接続が応答しなくなる）  
+      > 「0」にした場合、Ctrlとキーパッドの「-」を入力しても、RLoginの挙動が不安定にならない。  
       > vimの割り付けには使用しない。
     - 「4.modifyOtherKeys」を、「ESCAPE,RETURN,BACK,TAB」（デフォルト）に対して「-1」（デフォルト）を設定。
       > vimの割り付けには使用しない。
