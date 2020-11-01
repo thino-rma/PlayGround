@@ -50,6 +50,10 @@ alias tmn='tmux new \; source .tmux.startup.conf'
 #### $ conda install -y geopandas matplotlib pillow seaborn
 #### $ python -c "import geopandas"
 
+## erace with '^?' because RLogin Backspace sends '^?'
+if [[ -t 0 ]]; then
+  stty erase ^?
+fi
 ## disable Ctrl-S (stop), Ctrl-Q (start)
 if [[ -t 0 ]]; then
   stty stop undef
