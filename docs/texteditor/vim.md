@@ -2,6 +2,9 @@
 - URL
   - [vim index JP](https://vim-jp.org/vimdoc-ja/vimindex.html)
   - [vim index EN](https://vim-jp.org/vimdoc-en/vimindex.html)
+  - [Consistent BackSpace and Delete Configuration](http://web.archive.org/web/20120621035133/http://www.ibb.net/~anne/keyboard/keyboard.html)
+  - [Fix backspace in less](https://thomer.com/howtos/backspace_in_less.html)
+  - [How to fix the backspace/ruboff key in Emacs/Xterm](http://www.hypexr.org/linux_ruboff.php)
 - tmux側の設定（tmux経由の場合でも、うまく動くように）
   - オプション
     ```console
