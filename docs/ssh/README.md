@@ -1,3 +1,13 @@
+### ssh公開鍵の手動登録
+- 接続したらやること
+  ```console
+  mkdir ~/.ssh
+  chmod 700 ~/.ssh
+  touch ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
+  # add public key
+  vi ~/.ssh/authorized_keys
+  ```
 ### ssh-agent の活用
 - ssh-agentを自動起動する  
   以下のコードを .bashrc に追記
