@@ -79,14 +79,17 @@ syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ IME control
 " https://qiita.com/U25CE/items/0b40662a22162907efae
-" start INSERT mode, IME on
-execute "set t_SI+=\<Esc>[<r"
-" exit INSERT mode, IME mode save, IME off
-execute "set t_EI+=\<Esc>[<s\<ESC>[<0t"
-" terminate, IME off
-execute "set t_te+=\<Esc>[<0t\<ESC>[<s"
-" The time in milliseconds that is waited for a key code or mapped key sequence to complete.
-set ttimeoutlen=100
+if ! has("win32") && ! has("win64")
+else
+  " start INSERT mode, IME on
+  execute "set t_SI+=\<Esc>[<r"
+  " exit INSERT mode, IME mode save, IME off
+  execute "set t_EI+=\<Esc>[<s\<ESC>[<0t"
+  " terminate, IME off
+  execute "set t_te+=\<Esc>[<0t\<ESC>[<s"
+  " The time in milliseconds that is waited for a key code or mapped key sequence to complete.
+  set ttimeoutlen=100
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ input wrapper function
