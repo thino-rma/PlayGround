@@ -85,12 +85,26 @@ get_os_distribution
 ##############################
 
 RAW_GIT=https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/
+
 TARGET=.vimrc
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
+
 TARGET=.my_bash_alias
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
+
 TARGET=.tmux.conf
-download ${RAW_GIT}/${TARGET} ~/${TARGET}
+type tmux > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    _tmux_ver=`tmux -V | sed -E "s/^tmux[^0-9]+([.0-9]+).*$/\1/"`
+    if [ "${_tmux_ver}" = "2.7" ]; then
+        TARGET2=.tmux_27.conf
+        download ${RAW_GIT}/${TARGET2} ~/${TARGET}
+        TARGET2=
+    else
+        download ${RAW_GIT}/${TARGET} ~/${TARGET}
+    fi
+fi
+
 TARGET=.tmux.startup.conf
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
 
