@@ -103,10 +103,10 @@ if [ $? -eq 0 ]; then
     else
         download ${RAW_GIT}/${TARGET} ~/${TARGET}
     fi
+    
+    TARGET=.tmux.startup.conf
+    download ${RAW_GIT}/${TARGET} ~/${TARGET}
 fi
-
-TARGET=.tmux.startup.conf
-download ${RAW_GIT}/${TARGET} ~/${TARGET}
 
 if ! grep "~/.my_bash_alias" ~/.bashrc > /dev/null; then
   echo ". ~/.my_bash_alias" >> ~/.bashrc
