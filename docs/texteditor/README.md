@@ -2,10 +2,10 @@
 - 参考URL
   - http://www.hypexr.org/linux_ruboff.php
   - http://www.afterstep.org/keyboard.html
-- BackspaceとDelete
+- ASCII文字としてのBackspaceとDelete
   - ASCII文字BSは十進数8、16進数で0x08、リテラル表記で'^H'である。
   - ASCII文字DELは十進数127、16進数で0x7f、リテラル表記で'^?'である。
-- vt100ターミナルのエミュレーション（デフォルト）
+- vt100ターミナルのエミュレーション（デフォルト）で送信されるキーコード
   - Ctrl-hキーが押下されると、'^H' (0x08) を送信するため、tty側で delete left が実行される。
   - Backspaceキーが押下されると、'^H' (0x08) を送信するため、tty側で delete left が実行される。
   - Deleteキーが押下されると、"\e[3~" を送信するため、tty側で delete が実行される。
