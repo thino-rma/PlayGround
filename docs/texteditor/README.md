@@ -34,6 +34,12 @@
       DELを送信するキー グループボックスの一覧で  
       「Backspaceキー」のチェックを入れる  
       「Deleteキー」のチェックをはずす
+    - Keyboard ([Setup] メニュー) https://ttssh2.osdn.jp/manual/4/ja/menu/setup-keyboard.html  
+      
+      |Transmit DEL by:|description|
+      |:--------------:|:----------|
+      |Backspace key|このオプションが選択されると backspace キーを押した時に DEL 文字 (ASCII $7F) が送出されます。 選択されないと BS 文字 (ASCII $08) が送出されます。  <br />また、このオプションが選択された(選択されない)時でも Ctrl+Backspace で BS (DEL) 文字を送出できます。|
+      |Delete key|このオプションが選択されると Delete (Del) キーを押した時に DEL 文字が送出されます。 このオプションが選択されない場合、Delete キーの機能は キーボード設定ファイル により決定されます。|
   - RLogin (Windows)
     - サーバ設定から スクリーン &gt; 制御コード  
       エスケープシーケンス グループボックスの一覧で、  
