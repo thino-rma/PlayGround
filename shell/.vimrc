@@ -442,52 +442,61 @@ inoremap <M-C-S-F5> <C-o>"pyaW
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F6  select and put (replace)
-"     without Shift, select word   and put
-"     with    Shift, select WORD   and put
-"     without Ctrl,  select inner  and put
-"     with    Ctrl,  select around and put
-"     without Alt,   select        and put ""
-"     with    Alt,   select        and put "p
+"     without Shift, replace /
+"     with    Shift, replace #
+"     without Ctrl,  replace @/
+"     with    Ctrl,  replace @"
+"     without Alt,   replace with option gc
+"     with    Alt,   replace with option g
 
-""" without modifier, select inner word and put ""
-nnoremap <F6>       viwP:echo 'replaced: ' + @"<CR>
-vnoremap <F6>       <ESC>viwPgv
-inoremap <F6>       <C-o>viwP
+function! s:InputOrDefault(msg, str)
+    let ret = input(a:msg)
+    if ret == ""
+        return substitute(a:str, '/', '\\/', 'g')
+    else
+        return ret
+    endif
+endfunction
 
-""" with Shift, select inner WORD and put ""
-nnoremap <S-F6>     viWP:echo 'replaced: ' + @"<CR>
-vnoremap <S-F6>     <ESC>viWPgv
-inoremap <S-F6>     <C-o>viWP
+""" without modifier, replace current line to last line (delimiter '/')
+nnoremap <expr> <F6>         ":.,$s/".<SID>InputOrDefault("search [".@/."]: ", @/)."//gc<Left><Left><Left>"
+vnoremap <expr> <F6>            ":s/".<SID>InputOrDefault("search [".@/."]: ", @/)."//gc<Left><Left><Left>"
+inoremap <expr> <F6>    "<C-o>:.,$s/".<SID>InputOrDefault("search [".@/."]: ", @/)."//gc<Left><Left><Left>"
 
-""" with Alt, select inner word and put "p
-nnoremap <M-F6>     viw"pP:echo 'replaced: ' + @p<CR>
-vnoremap <M-F6>     <ESC>viw"pPgv
-inoremap <M-F6>     <C-o>viw"pP
+""" with Shift, replace from current line to last line (delimiter '#')
+nnoremap <expr> <S-F6>       ":.,$s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
+vnoremap <expr> <S-F6>          ":s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
+inoremap <expr> <S-F6>  "<C-o>:.,$s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
 
-""" with Alt-Shift, select inner WORD and put "p
-nnoremap <M-S-F6>   viW"pP:echo 'replaced: ' + @p<CR>
-vnoremap <M-S-F6>   <ESC>viW"pPgv
-inoremap <M-S-F6>   <C-o>viW"pP
+""" with Alt, replace from current line to last line (delimiter '/')
+nnoremap <expr> <M-F6>         ":.,$s/".<SID>InputOrDefault("search [".@"."]: ", @/)."//gc<Left><Left><Left>"
+vnoremap <expr> <M-F6>            ":s/".<SID>InputOrDefault("search [".@"."]: ", @/)."//gc<Left><Left><Left>""
+inoremap <expr> <M-F6>    "<C-o>:.,$s/".<SID>InputOrDefault("search [".@"."]: ", @/)."//gc<Left><Left><Left>""
 
-""" with Ctrl, select around word and put ""
-nnoremap <C-F6>     vawP:echo 'replaced: ' + @"<CR>
-vnoremap <C-F6>     <ESC>vawPgv
-inoremap <C-F6>     <C-o>vawP
+""" with Alt-Shift, replace from current line to last line (delimiter '#')
+nnoremap <expr> <M-S-F6>       ":.,$s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
+vnoremap <expr> <M-S-F6>          ":s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
+inoremap <expr> <M-S-F6>  "<C-o>:.,$s#".<SID>InputOrDefault("search [".@/."]: ", @/)."##gc<Left><Left><Left>"
 
-""" with Ctrl-Shift, select around WORD and put ""
-nnoremap <C-S-F6>   vaWP:echo 'replaced: ' + @"<CR>
-vnoremap <C-S-F6>   <ESC>vaWPgv
-inoremap <C-S-F6>   <C-o>vaWP
+""" with Ctrl, replace from current line to last line (delimiter '/')
+nnoremap <expr> <C-F6>           ":.,$s/".@/."//g<Left><Left>"
+vnoremap <expr> <C-F6>              ":s/".@/."//g<Left><Left>"
+inoremap <expr> <C-F6>      "<C-o>:.,$s/".@/."//g<Left><Left>"
 
-""" with Alt-Ctrl, select around word and put "p
-nnoremap <M-C-F6>   vaw"pP:echo 'replaced: ' + @p<CR>
-vnoremap <M-C-F6>   <ESC>vaw"pPgv
-inoremap <M-C-F6>   <C-o>vaw"pP
+""" with Ctrl-Shift, replace from current line to last line (delimiter '#')
+nnoremap <expr> <C-S-F6>         ":.,$s#".@/."##g<Left><Left>"
+vnoremap <expr> <C-S-F6>            ":s#".@/."##g<Left><Left>"
+inoremap <expr> <C-S-F6>    "<C-o>:.,$s#".@/."##g<Left><Left>"
 
-""" with Alt-Ctrl-Shift, select around WORD and put "p
-nnoremap <M-C-S-F6> vaW"pP:echo 'replaced: ' + @p<CR>
-vnoremap <M-C-S-F6> <ESC>vaW"pPgv
-inoremap <M-C-S-F6> <C-o>vaW"pP
+""" with Alt-Ctrl, replace from current line to last line (delimiter '/')
+nnoremap <expr> <M-C-F6>         ":.,$s/".@"."//g<Left><Left>"
+vnoremap <expr> <M-C-F6>            ":s/".@"."//g<Left><Left>"
+inoremap <expr> <M-C-F6>    "<C-o>:.,$s/".@"."//g<Left><Left>"
+
+""" with Alt-Ctrl-Shift, replace from current line to last line (delimiter '#')
+nnoremap <expr> <C-S-F6>         ":.,$s#".@"."##g<Left><Left>"
+vnoremap <expr> <C-S-F6>            ":s#".@"."##g<Left><Left>"
+inoremap <expr> <C-S-F6>    "<C-o>:.,$s#".@"."##g<Left><Left>"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " F7  
@@ -569,12 +578,12 @@ function! s:SearchJPShort(key, skey)
 endfunction
 
 function! s:Search(key, skey, p)
-  exec 'nnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'vnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'inoremap <silent>' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', '') . '<CR>'
-  exec 'nnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'vnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', '') . '<CR>'
-  exec 'inoremap <silent>' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', '') . '<CR>'
+  exec 'nnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', 'g') . '<CR>'
+  exec 'vnoremap <silent>' . a:key  . '      /' . substitute(a:p, '/', '\\/', 'g') . '<CR>'
+  exec 'inoremap <silent>' . a:key  . ' <C-o>/' . substitute(a:p, '/', '\\/', 'g') . '<CR>'
+  exec 'nnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', 'g') . '<CR>'
+  exec 'vnoremap <silent>' . a:skey . '      ?' . substitute(a:p, '?', '\\?', 'g') . '<CR>'
+  exec 'inoremap <silent>' . a:skey . ' <C-o>?' . substitute(a:p, '?', '\\?', 'g') . '<CR>'
 endfunction
 
 """ without Alt
