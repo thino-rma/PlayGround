@@ -5,7 +5,12 @@
   - SELinuxを解除（略）
   - ファイアウォールを停止（略）
   - リモートデスクトップ環境
-  
+    ```console
+    sudo dnf install epel-release
+    sudo dnf -y install xrdp tigervnc-server
+    sudo systemctl enable xrdp
+    sudo systemctl start xrdp
+    ```
   - xrdpのカスタマイズ
     - xrdp.iniの修正と画像の配置 https://github.com/xtremeperf/xrdp-modern-login/blob/master/etc/xrdp/xrdp.ini
       修正結果
