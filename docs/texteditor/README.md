@@ -1,6 +1,7 @@
 ### Ctrl-hとBackspaceが同じキーコードとなる問題
 - 参考URL
   - http://www.hypexr.org/linux_ruboff.php
+  - http://www.afterstep.org/keyboard.html
 - BackspaceとDelete
   - ASCII文字BSは十進数8、16進数で0x08、リテラル表記で'^H'である。
   - ASCII文字DELは十進数127、16進数で0x7f、リテラル表記で'^?'である。
@@ -30,15 +31,28 @@
   - Xterm (GNOME)
   - TeraTerm (Windows)
   - RLogin (Windows)
+    - スクリーン &gt; 制御コード  
+      エスケープシーケンス グループボックスの一覧で、  
+      「67 BSキーでBS(08)を送信 BSキーでDEL(7F)を送信」のチェックを外す
+    - 2.7.7 拡張オプション一覧 http://nanno.dip.jp/softlib/man/rlogin/ctrlcode.html#OPT
+      |番号|略号|設定 DECSET （CSI ?Pn h)|解除 DECRST （CSI ?Pn l)|
+      |:--:|:--:|:--:|:--:|
+      |67|DECBKM|BSキーでBS(08)を送信|BSキーでDEL(7F)を送信 (2.22.7から修正)|
+    - 備考：接続後のTERM環境変数は ```xterm```である。
   - iTerm (Mac)
   - 確認方法
-    以下のコマンドを実行し、任意のキー（Ctrl-h、Backspace、Deleteなど）を押下して Enter を押下すると、送られたコードが表示される。Ctrl-D（あるいはCtrl-C）で終了できる。
-    ```console
-    $ sed -n l
-    ```
+    - 以下のコマンドを実行し、任意のキー（Ctrl-h、Backspace、Deleteなど）を押下して Enter を押下すると、送られたコードが表示される。Ctrl-D（あるいはCtrl-C）で終了できる。
+      ```console
+      $ sed -n l
+      ```
   - 備考
     - Ctrl-d は実行中のプロセス（上記ではsedコマンドのプロセス）に標準入力の終了を通知する。（実行中のプロセスは標準入力からeofを読み込む。）
     - Ctrl-c は実行中のプロセス（上記ではsedコマンドのプロセス）を終了を通知する。（実行中のプロセスがSIGINTシグナルを受信する。）
+    - TERM環境変数により、端末アプリケーションの情報を識別します。これらの情報はterminfoとよばれ、infocmpコマンドで表示することができる。
+    - tmuxは、デフォルト設定にて起動すると、TERM環境変数が ```screen``` となる。あるいは ~/.tmux.conf にて ```set -g default-terminal "screen-256color"``` を設定すれば、TERM環境変数が ```screen-256color``` となり、24bitカラー表示を可能にする。
+      > Fedora の /usr/share/terminfo/s/screen-256color を CentOS にコピー（rsinc）しただけで、うまくいくようです。  
+      > ```rsync -tv /usr/share/terminfo/s/screen-256color root@the_host:/usr/share/terminfo/s```
+    
 - 設定B
   - bashセッションで読み込まれる ```~/.bashrc``` に以下を追記する。（直接 ```$ stty erace '^?'```と実行してもよい）
     ```console
