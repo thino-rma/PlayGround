@@ -260,7 +260,24 @@
       #channel.xrdpvr=true
       ```
   - VirtualBox CentOS向けのrpmを手動でダウンロードし、ダブルクリック、install
-  - VirtualBox 追加の作業
+  - VirtualBox 注意事項
+    以下で、モジュールに署名します。可能ならSECURE BOOTをDisableにするという方法もあります。
+    署名に必要なキーを生成し、パスワードを設定します。このパスワードは、初回の再起動時の鍵の登録と、ずっとあとに削除のために必要となります。
+    削除方法については、以下のようにして鍵の番号を特定して削除します。さらに、再起動時に同じフィンガープリントのキーを削除する必要があり、このときに（登録時に設定した）パスワードが必要です。
+    https://askubuntu.com/questions/805152/is-it-possible-to-delete-an-enrolled-key-using-mokutil-without-the-original-der
+    ```console
+    $ mkdir ~/test
+    $ cd ~/test
+    $ mokutil --export
+    $ ls -1 MOK*
+    $ mokutil --list-enrolled
+    # mokutil --delete MOK-00XX.der
+    ```
+    なお、登録しているキーをすべて問答無用に削除することができます。この場合でも、再起動時にそれぞれのフィンガープリントのキーを削除する必要があり、このときに（登録時に設定した）パスワードが必要です。
+    ```console
+    $ sudo mokutil --reset
+    ```
+  - VirtualBox 追加の作業（モジュールへの署名）  
     ```console
     $ sudo su -
     # yum install elfutils-libelf-devel
