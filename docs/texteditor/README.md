@@ -28,10 +28,14 @@
     - (C-2) 基本的に '^?' (0x7f) で delete left を実行する。
     - (C-3) 基本的に "\e[3~" で delete を実行する。（これはデフォルトの挙動なので設定は不要。）
 - 設定A
-  - Xterm (GNOME)
+  - GNOME Terminal (Linux GNOMEデスクトップ)
   - TeraTerm (Windows)
+    - メニューから「設定→キーボード」を選択。  
+      DELを送信するキー グループボックスの一覧で  
+      「Backspaceキー」のチェックを入れる  
+      「Deleteキー」のチェックをはずす
   - RLogin (Windows)
-    - スクリーン &gt; 制御コード  
+    - サーバ設定から スクリーン &gt; 制御コード  
       エスケープシーケンス グループボックスの一覧で、  
       「67 BSキーでBS(08)を送信 BSキーでDEL(7F)を送信」のチェックを外す
     - 2.7.7 拡張オプション一覧 http://nanno.dip.jp/softlib/man/rlogin/ctrlcode.html#OPT
