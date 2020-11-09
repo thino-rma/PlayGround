@@ -29,13 +29,16 @@
     - (C-3) 基本的に "\e[3~" で delete を実行する。（これはデフォルトの挙動なので設定は不要。）
 - 設定A
   - GNOME Terminal (Linux GNOMEデスクトップ)
+    - open the Edit manu and click on Profile preferences. Switch to the Compatibility tab and you should get these options:  
+      Preferences - New Profile - Compatiblity Tab - Backspace key generates: ASCII DELL (change from ASCII BS)  
+      Preferences - New Profile - Compatiblity Tab - Delete key generates: Escape sequence (as default)  
+    - See https://askubuntu.com/questions/946492/backspace-doesnt-work-inside-running-bash-script
   - TeraTerm (Windows)
     - メニューから「設定→キーボード」を選択。  
       DELを送信するキー グループボックスの一覧で  
       「Backspaceキー」のチェックを入れる  
       「Deleteキー」のチェックをはずす
     - Keyboard ([Setup] メニュー) https://ttssh2.osdn.jp/manual/4/ja/menu/setup-keyboard.html  
-      
       |Transmit DEL by:|description|
       |:--------------:|:----------|
       |Backspace key|このオプションが選択されると backspace キーを押した時に DEL 文字 (ASCII $7F) が送出されます。 選択されないと BS 文字 (ASCII $08) が送出されます。  <br />また、このオプションが選択された(選択されない)時でも Ctrl+Backspace で BS (DEL) 文字を送出できます。|
@@ -49,7 +52,6 @@
       |:--:|:--:|:--:|:--:|
       |67|DECBKM|BSキーでBS(08)を送信|BSキーでDEL(7F)を送信 (2.22.7から修正)|
     - 備考：接続後のTERM環境変数は ```xterm```である。
-  - iTerm (Mac)
   - 確認方法
     - 以下のコマンドを実行し、任意のキー（Ctrl-h、Backspace、Deleteなど）を押下して Enter を押下すると、送られたコードが表示される。Ctrl-D（あるいはCtrl-C）で終了できる。
       ```console
