@@ -23,7 +23,7 @@
     - (B-1) "^H" で delete left を実行する。（これはデフォルトの挙動なので設定は不要。）
     - (B-2) '^?' (0x7f) で delete left を実行する。（これには設定Bが必要。）
     - (B-3) "\e[3~" で delete  を実行する。（これはデフォルトの挙動なので設定は不要。）
-  - テキストエディタ側で、必要に応じて、以下の挙動を示すように設定する。
+  - ソフトウェア（テキストエディタなど）側で、必要に応じて、以下の挙動を示すように設定する。
     - (C-1) 基本的に "^H" で 任意の機能を実行する。
     - (C-2) 基本的に '^?' (0x7f) で delete left を実行する。
     - (C-3) 基本的に "\e[3~" で delete を実行する。（これはデフォルトの挙動なので設定は不要。）
@@ -77,10 +77,26 @@
     ```
 - 設定C
   - Vim
+    - .vimrc に設定を行う
+      ```console
+      " set '^?' (0x7f) to Backspace
+      noremap <Char-0x7f> <BS>
+      
+      " set 'C-h'(='^H') to Left
+      nnoremap <C-h> <Left>
+      ```
   - Vimでの確認方法
+    - insert mode で C-v を押下した後、任意のキーを入力すると、キーコードが表示される。
   - Emacs
   - Emacsでの確認方法
   - nano
   - nanoでの確認方法
   - micro
   - microでの確認方法
+  - tmux
+    - .tmux.conf に設定を行う
+      ```console
+      # set '^?' (0x7f) to 'C-h'
+      # in tmux command mode, use C-h or C-u to delete left
+      bind-key -n Bspace send-keys C-h
+      ```
