@@ -1,0 +1,90 @@
+{
+    "Alt-/": "lua:comment.comment",
+    "CtrlUnderscore": "lua:comment.comment",
+    "\u007f": "Backspace",
+    "ShiftUp": "SelectUp",
+    "ShiftDown": "SelectDown",
+    "ShiftLeft": "SelectLeft",
+    "ShiftRight": "SelectRight",
+    "Ctrl-h":          "CursorLeft",
+    "Ctrl-j":          "CursorDown",
+    "Ctrl-k":          "CursorUp",
+    "Ctrl-l":          "CursorRight",
+
+    // "\u001bctrlback": "DeleteWordLeft",
+    
+    // ANSI Escape Sequences
+    // Standard escape codes are prefixed with Escape:
+    // Ctrl-Key: ^[
+    // Octal: \033
+    // Unicode: \u001b
+    // Hexadecimal: \x1b
+    // Decimal: 27
+
+    "\u001b[2A": "SelectUp",                       // Shift-Up
+    "\u001b[3A": "command-edit:AltlUp",            // Alt-Up
+    "\u001b[4A": "command-edit:ShiftAltlUp",       // Shift-Alt-Up
+    "\u001b[5A": "command-edit:CtrlUp",            // Ctrl-Up
+    "\u001b[6A": "command-edit:ShiftCtrlUp",       // Shift-Ctrl-Up
+    "\u001b[7A": "command-edit:CtrlAltUp",         // Ctrl-Alt-Up
+    "\u001b[8A": "command-edit:ShiftCtrlAlt",      // Shift-Ctrl-Alt-Up
+
+    "\u001b[2B": "SelectDown",                     // Shift-Down
+    "\u001b[3B": "command-edit:AltDown",           // Alt-Down
+    "\u001b[4B": "command-edit:ShiftAltDown",      // Shift-Alt-Down
+    "\u001b[5B": "command-edit:CtrlDown",          // Ctrl-Down
+    "\u001b[6B": "command-edit:ShiftCtrlDown",     // Shift-Ctrl-Down
+    "\u001b[7B": "command-edit:CtrlAltDown",       // Ctrl-Alt-Down
+    "\u001b[8B": "command-edit:ShiftCtrlAltDown",  // Shift-Ctrl-Alt-Down
+
+    "\u001b[2C": "SelectRight",                    // Shift-Right
+    "\u001b[3C": "command-edit:AltRight",          // Alt-Right
+    "\u001b[4C": "command-edit:ShiftAltRight",     // Shift-Alt-Right
+    "\u001b[5C": "command-edit:CtrlRight",         // Ctrl-Right
+    "\u001b[6C": "command-edit:ShiftCtrlRight",    // Shift-Ctrl-Right
+    "\u001b[7C": "command-edit:CtrlAltRight",      // Ctrl-Alt-Right
+    "\u001b[8C": "command-edit:ShiftCtrlAltRight", // Shift-Ctrl-Alt-Right
+
+    "\u001b[2D": "SelectLeft",                     // Shift-Left
+    "\u001b[3D": "command-edit:AltLeft",           // Alt-Left
+    "\u001b[4D": "command-edit:ShiftAltLeft",      // Shift-Alt-Left
+    "\u001b[5D": "command-edit:CtrlLeft",          // Ctrl-Left
+    "\u001b[6D": "command-edit:ShiftCtrlLeft",     // Shift-Ctrl-Left
+    "\u001b[7D": "command-edit:CtrlAltLeft",       // Ctrl-Alt-Left
+    "\u001b[8D": "command-edit:ShiftCtrlAltLeft",  // Shift-Ctrl-Alt-Left
+
+    "Shift-Delete": "command-edit:ShiftDelete",    // Shift-Delete
+    
+    "\u001b[2H": "SelectToStartOfLine",            // Shift-Home
+    "\u001b[3H": "command-edit:AltHome",           // Alt-Home
+    "\u001b[4H": "command-edit:ShiftAltHome",      // Shift-Alt-Home
+    "\u001b[5H": "command-edit:CtrlHome",          // Ctrl-Home
+    "\u001b[6H": "command-edit:ShiftCtrlHome",     // Shift-Ctrl-Home
+    "\u001b[7H": "command-edit:CtrlAltHome",       // Ctrl-Alt-Home
+    "\u001b[8H": "command-edit:ShiftCtrlAltHome",  // Shift-Ctrl-Alt-Home
+                                                  
+    "\u001b[2F": "SelectToEndOfLine",              // Shift-End
+    "\u001b[3F": "command-edit:AltEnd",            // Alt-End
+    "\u001b[4F": "command-edit:ShiftAltEnd",       // Shift-Alt-End
+    "\u001b[5F": "command-edit:CtrlEnd",           // Ctrl-End
+    "\u001b[6F": "command-edit:ShiftCtrlEnd",      // Shift-Ctrl-End
+    "\u001b[7F": "command-edit:CtrlAltEnd",        // Ctrl-Alt-End
+    "\u001b[8F": "command-edit:ShiftCtrlAltEnd",   // Shift-Ctrl-Alt-End
+
+    "Shift-PageUp":            "command-edit:ShiftPageUp",          // Shift-PageUp
+    "Alt-PageUp":              "command-edit:AltPageUp",            // Alt-PageUp
+    "Shift-Alt-PageUp":        "command-edit:ShiftAltPageUp",       // Shift-Alt-PageUp
+    "Ctrl-PageUp":             "command-edit:CtrlPageUp",           // Ctrl-PageUp
+    "Shift-Ctrl-PageUp":       "command-edit:ShiftCtrlPageUp",      // Shift-Ctrl-PageUp
+    "Ctrl-Alt-PageUp":         "command-edit:CtrlAltPageUp",        // Ctrl-Alt-PageUp
+    "Shift-Ctrl-Alt-PageUp":   "command-edit:ShiftCtrlAltPageUp",   // Shift-Ctrl-Alt-PageUp
+
+    "Shift-PageDown":          "command-edit:ShiftPageDown",        // Shift-PageDown
+    "Alt-PageDown":            "command-edit:AltPageDown",          // Alt-PageDown
+    "Shift-Alt-PageDown":      "command-edit:ShiftAltPageDown",     // Shift-Alt-PageDown
+    "Ctrl-PageDown":           "command-edit:CtrlPageDown",         // Ctrl-PageDown
+    "Shift-Ctrl-PageDown":     "command-edit:ShiftCtrlPageDown",    // Shift-Ctrl-PageDown
+    "Ctrl-Alt-PageDown":       "command-edit:CtrlAltPageDown",      // Ctrl-Alt-PageDown
+    "Shift-Ctrl-Alt-PageDown": "command-edit:ShiftCtrlAltPageDown", // Shift-Ctrl-Alt-PageDown
+
+    "Ctrl-g": "command-edit:help "}
