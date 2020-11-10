@@ -95,6 +95,7 @@
   - nano
   - nanoでの確認方法
   - micro
+    - 参考URL https://qiita.com/ht_deko/items/c47fb602d090e5a2bfa8
   - microでの確認方法
   - tmux
     - .tmux.conf に設定を行う
