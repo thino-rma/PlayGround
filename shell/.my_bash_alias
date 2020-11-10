@@ -3,6 +3,12 @@
 ## $ echo ". .my_bash_alias" >> ~/.bashrc
 ## $ . ~/.bashrc
 
+## less option
+# i: ignore case
+# R: output color sequence in "raw" form'
+# X: exit without clearing the screen
+export LESS='iRX'
+
 ## sudo
 # alias sudo='sudo -E '
 alias sudo='sudo -i '
@@ -53,7 +59,8 @@ alias tmn='tmux new \; source .tmux.startup.conf'
 # If this has a terminal for STDIN
 if [[ -t 0 ]]; then
   ## erase with '^?' sent by Backspace RLogin.
-  stty erase ^?
+  ## this is not needed.
+  # stty erase ^?
   ## disable Ctrl-S (stop), Ctrl-Q (start)
   stty stop undef
   stty start undef
