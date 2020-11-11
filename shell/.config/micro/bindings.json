@@ -21,6 +21,20 @@
     // Hexadecimal: \x1b
     // Decimal: 27
 
+    // on bash
+    "\u001b[2A": "SelectUp",                       // Shift-Up
+    "\u001b[2B": "SelectDown",                     // Shift-Down
+    "\u001b[2C": "SelectRight",                    // Shift-Right
+    "\u001b[2D": "SelectLeft",                     // Shift-Left
+
+    // on tmux
+    "\u001bO2A": "SelectUp",                       // Shift-Up
+    "\u001bO2B": "SelectDown",                     // Shift-Down
+    "\u001bO2C": "SelectRight",                    // Shift-Right
+    "\u001bO2D": "SelectLeft",                     // Shift-Left
+
+
+    // check
     "\u001b[2A": "SelectUp",                       // Shift-Up
     "\u001b[3A": "command-edit:AltlUp",            // Alt-Up
     "\u001b[4A": "command-edit:ShiftAltlUp",       // Shift-Alt-Up
