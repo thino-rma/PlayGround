@@ -9,7 +9,7 @@
 
 - Git ssh
   ```console
-  $ mkdir ^-p ~/git_work/.ssh
+  $ mkdir -p ~/git_work/.ssh
   $ ssh-keygen -t rsa -f ~/git_work/.ssh/id_rsa -q -N "passphrase"
   $ vi ~/.ssh/config
   host github github.com
@@ -18,7 +18,7 @@
     User git
   $ chmod 600 ~/.ssh/config
   $ ssh -T github
-  $ git clone [-b BRANCHNAME] git@github.com:USER/REPO
+  $ git clone [-b BRANCHNAME] git@github.com:USER/REPO   # git clone git@github.com:thino-rma/PlayGround
   $ git checkout BRANCHANEM
   ```
 
