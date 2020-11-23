@@ -10,6 +10,18 @@
   - vim.md
 
 ### その他 備忘
+- dateコマンド
+  ```console
+  $ echo `date '+%F'`                  # %F   full date: same as %Y-%m-%d
+  $ echo `date '+%F %R'`               # %R   24-hour hour and minute: same as %H:%M
+  $ echo `date '+%F %T'`               # %T   time : same as %H:%M:%S
+  $ echo `date '+%Y-%m-%d'`
+  $ echo `date '+%Y%m%d-%H%M%S'`       # 年月日-時分秒
+  $ echo `date '+%Y%m%d-%H%M%S.%3N'`   # 年月日-時分秒.ミリ秒
+  ```
+- dateコマンド 年月日-時分秒
+  ```console
+  ```
 - OSごとのパッケージ管理  
   CentOS
   ```console
