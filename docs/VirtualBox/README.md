@@ -1,4 +1,56 @@
 ### VirtualBox
+### CentOS8のアップデートでVirtualBoxが動作しなくなった件の対処方法
+- 結論
+  ```console
+  1. check the key enrolled
+    $ sudo mokutil --list-enrolled
+  2. build modules and sign them
+    $ sudo su -
+    # cd ~/signed-modules
+    # /sbin/vboxconfig       ## this complaines, but ignore it.
+    # ./sign-virtual-box
+  3. load kernel module(s)
+    # modprobe vboxdrv
+  ```
+- そもそも、VirtualBoxのモジュールの生成と署名の手順は、以下になる。
+  ```console
+  1. create RSA key under new folder
+    $ sudo su -
+    # mkdir /root/signed-modules
+    # cd /root/signed-modules
+    # openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=VirtualBox/"
+    # chmod 600 MOK.priv
+     if you want to check the contents, type command below:
+    # openssl x509 -inform der -text -in MOK.der
+    # openssl rsa -text -in MOK.priv
+  2. import key, and type password (required when reboot)
+    # mokutil --import MOK.der
+  3. reboot your system, and type password when requested
+    # reboot
+     you will see the prompt from BIOS, follow displayed instructions.
+  4. check the key enrolled after rebooting.
+    $ sudo mokutil --list-enrolled
+  5. create the script which signs modules with the key created on Step 1.
+    $ sudo su -
+    # cd /root/signed-modules
+    # vi sign-virtual-box
+    # cat sign-virtual-box
+    #!/bin/bash
+    
+    for modfile in $(dirname $(modinfo -n vboxdrv))/*.ko; do
+      echo "Signing $modfile"
+      /usr/src/kernels/$(uname -r)/scripts/sign-file sha256 \
+                                    /root/signed-modules/MOK.priv \
+                                    /root/signed-modules/MOK.der "$modfile"
+    done
+    # chmod 700 sign-virtual-box
+  6. build modules and sign them
+    # /sbin/vboxconfig       ## this complaines, but ignore it.
+    # ./sign-virtual-box
+  7. load kernel module(s)
+    # modprobe vboxdrv
+  ```
+
 ### CentOS8へのインストール
 - how to install
   - ssh接続環境（略）
@@ -260,11 +312,11 @@
       #channel.xrdpvr=true
       ```
   - VirtualBox CentOS向けのrpmを手動でダウンロードし、ダブルクリック、install
-  - VirtualBox 注意事項
-    以下で、モジュールに署名します。可能ならSECURE BOOTをDisableにするという方法もあります。
-    署名に必要なキーを生成し、パスワードを設定します。このパスワードは、初回の再起動時の鍵の登録と、ずっとあとに削除のために必要となります。
-    削除方法については、以下のようにして鍵の番号を特定して削除します。さらに、再起動時に同じフィンガープリントのキーを削除する必要があり、このときに（登録時に設定した）パスワードが必要です。
-    https://askubuntu.com/questions/805152/is-it-possible-to-delete-an-enrolled-key-using-mokutil-without-the-original-der
+  - VirtualBox 注意事項  
+    以下で、モジュールに署名します。可能ならSECURE BOOTをDisableにするという方法もあります。  
+    署名に必要なキーを生成し、パスワードを設定します。このパスワードは、初回の再起動時の鍵の登録と、ずっとあとに削除のために必要となります。  
+    削除方法については、以下のようにして鍵の番号を特定して削除します。さらに、再起動時に同じフィンガープリントのキーを削除する必要があり、このときに（登録時に設定した）パスワードが必要です。  
+    https://askubuntu.com/questions/805152/is-it-possible-to-delete-an-enrolled-key-using-mokutil-without-the-original-der  
     ```console
     $ mkdir ~/test
     $ cd ~/test
