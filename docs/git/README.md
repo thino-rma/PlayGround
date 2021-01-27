@@ -11,6 +11,7 @@
   ```console
   $ mkdir -p ~/git_work/.ssh
   $ ssh-keygen -t rsa -f ~/git_work/.ssh/id_rsa -q -N "passphrase"
+  ## github - Settings - SSH and GPG keys - New SSH Key
   $ vi ~/.ssh/config
   host github github.com
     HostName github.com
@@ -18,6 +19,7 @@
     User git
   $ chmod 600 ~/.ssh/config
   $ ssh -T github
+  $ cd ~/git_work/
   $ git clone [-b BRANCHNAME] git@github.com:USER/REPO   # git clone git@github.com:thino-rma/PlayGround
   $ git checkout BRANCHANEM
   ```
