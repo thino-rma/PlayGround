@@ -11,6 +11,8 @@
   ```console
   $ mkdir -p ~/git_work/.ssh
   $ ssh-keygen -t rsa -f ~/git_work/.ssh/id_rsa -q -N "passphrase"
+  ## add SSH key to ssh-agent (See PlayGround/docs/ssh/README.md)
+  $ ssh-add ~/git_work/.ssh/id_rsa
   ## github - Settings - SSH and GPG keys - New SSH Key
   $ vi ~/.ssh/config
   host github github.com
