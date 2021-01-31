@@ -300,9 +300,11 @@ int main(int argc, char **argv)
     struct pollfd fds[1];  /* for poll()       */
     struct context ctx;    /* context          */
 
+#ifdef HEADER_DT    
     char buffer[20];       /* yyyy-mm-dd HH:MM:SS  */
                            /* 12345678901234567890 */
     time_t timer;          /* current time for log header */
+#endif
 
     ctx = parse_args(argc, argv);
 
@@ -356,6 +358,8 @@ int main(int argc, char **argv)
 # ifdef DEBUG
             printf("[DEBUG] main: polling... \n");
 # endif
+
+# ifdef MASK_POLL
             sigprocmask(SIG_BLOCK, &set, NULL);
             poll_rc = poll(fds, 1, 333);
             sigprocmask(SIG_UNBLOCK, &set, NULL);
@@ -364,6 +368,9 @@ int main(int argc, char **argv)
                 fprintf(stderr, "revents=%d\n", fds[0].revents);
                 goto end;
             }
+# else
+            poll_rc = poll(fds, 1, 333);
+# endif
 
             if (flag_sigusr1 == 1) { /* rotation by signal */
 # ifdef DEBUG
@@ -392,11 +399,11 @@ int main(int argc, char **argv)
 
             if (poll_rc > 0) { break; }
         }
-        
+
 # ifdef DEBUG
         printf("[DEBUG] main: fgets()...\n");
 # endif
-        
+
         sigprocmask(SIG_BLOCK, &set, NULL); /* BLOCK signal SIGUSR1 from here */
         p = fgets(line, ctx.line_maxlen, s_in);
         if (p == NULL && ferror(s_in)) { goto end;  /* normal end */ }
@@ -411,6 +418,7 @@ int main(int argc, char **argv)
                 goto end;
             }
 
+# ifdef HEADER_DT
             /* tv_sec is second, in Hexadecimal 0 - ffffffff */
             /* tv_nsec is nanosecond, 0 - 999999999, in Hexadecimal 0 - 3b9ac9ff */
             /*
@@ -438,6 +446,8 @@ int main(int argc, char **argv)
                 es = 31; err_msg(es, "main: fprintf", errno);
                 goto end;
             }
+# endif
+
 # ifdef DEBUG
             fputs(line, stdout);
 # endif
