@@ -1,6 +1,6 @@
 # Makefile
 .PHONY: all
-all: outputkeeper logger logconv;
+all: outputkeeper outlog logger logconv;
 
 logger: logger.c
 	gcc -Wall -O2 -o logger logger.c
@@ -10,6 +10,10 @@ outputkeeper: outputkeeper.c
 	# gcc -DHEADER_DT -Wall -O2 -o outputkeeper outputkeeper.c
 	gcc -DHEADER_DT -Wall -O2 -o outputkeeper outputkeeper.c
  
+outlog: outlog.c
+	# gcc -DDEBUG -Wall -O2 -o outlog outlog.c
+	gcc -Wall -O2 -o outlog outlog.c
+
 logconv: logconv.c
 	gcc -Wall -O2 -o logconv logconv.c
 
