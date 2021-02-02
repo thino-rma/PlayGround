@@ -7,13 +7,17 @@
  */
 
 #include <errno.h>
+#include <fcntl.h>
 #include <limits.h>
 #include <poll.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <time.h>
+#include <unistd.h>
 
 #define CONST_EXT_DT_FORMAT_LEN (16)
 #define CONST_DT_FORMAT_LEN (20)
@@ -28,6 +32,8 @@ const char *EXT_DT_FORMAT = ".%Y%m%d%H%M%S";             /* extention of log fil
 
 struct context {
     char   *fpath;       /* log file path */
+    char   *ppath;       /* pid file path */
+    int    pid_fd;       /* pid file descriptor */
     size_t line_maxlen;  /* line max length */
     time_t interval;     /* rotate interval in seconds */
     time_t delay;        /* rotate delay in seconds */
@@ -39,47 +45,71 @@ struct context {
 };
 
 void show_usage(const char * const arg0) {
-    printf("Description:\n");
-    printf("    This is a logging program, reads from stdin, writes to logfile.");
-    printf("    If interval > 0, rotate log when new input arrived.");
-    printf("    This program uses fgets().");
+    char* p = strrchr(arg0, '/');
+    if (p == NULL) { p = (char *)arg0; } else { p++; }
+
+    printf("Description:\n"
+           "    %s - logging program, reads from stdin, writes to logfile.\n"
+           "    If INTERVAL > 0, log file will be saved as another name (time based).\n"
+           "    Even if INTERVAL = 0, you can send SIGUSR1 to cause log rotation.\n"
+           , p);
     printf("Usage:\n");
-    printf("    %s -h|--help\n", arg0);
-    printf("    command | %s [--dry-run] -f FILE [-l length] [-i interval] [-d delay]\n", arg0);
-    printf("Caution:\n");
-    printf("    If specified value is out of range, it will be rounded.\n");
-    printf("    Use '--dry-run' to check how the arguments were parsed.\n");
-    printf("Options:\n");
-    printf("    -h|--help        show usage and exit.\n");
-    printf("    --dry-run        show parsed arguments and exit.\n");
-    printf("    --pid-file FILE  pid file name\n");
-    printf("                     SIGUSR1 causes to immediately rotate log file.\n");
-    printf("    -f FILE          log file name\n");
-    printf("    -l LENGTH        line size in bytes (integer)\n");
-    printf("                     this must includes terminating null character.\n");
-    printf("                     default is %d.\n", DEFAULT_LINE_MAXLEN);
-    printf("                       (min, max)=(%d, %d)\n", DEFAULT_LINE_MINLEN, INT_MAX);
-    printf("    -i INTERVAL      log rotate interval in seconds.\n");
-    printf("                     rotation occures when new input arrives.\n");
-    printf("                     default is 0.\n");
-    printf("                       (min, max)=(%d, %d)\n", 5, INT_MAX);
-    printf("                     negative: treated as 0\n");
-    printf("                                    0 : no rotation\n");
-    printf("                                  1-4 : treated as 5\n");
-    printf("                           60 (=1min) : minutely.\n");
-    printf("                         3600 (=1hr)  : hourly.\n");
-    printf("                        86400 (=1day) : daily.\n");
-    printf("                       604800 (=7day) : daily.\n");
-    printf("                     if negative will be treated as 0.\n");
-    printf("                     if 1-4 will be treated as 5.\n");
-    printf("    -d DELAY         log rotate delay in seconds.\n");
-    printf("                     ignored when DELAY is 0.\n");
-    printf("                       (min, max)=(%d, %d)\n", INT_MIN, INT_MAX);
-    printf("                        86400 (=1day), 172800 (=2day),  259200 (=3day)\n");
-    printf("                       345600 (=4day), 432000 (=5day),  518400 (=6day)\n");
-    printf("Signals:\n");
-    printf("    SIGUSR1          causes to immediately rotate the log.\n");
-    printf("                     if \"-f a.log\" then rotated file name will be \"a.log.1\"\n");
+    printf("    %s -h|--help\n"
+           "    %s --dry-run -f LOGFILE [OPTIONS ...]\n"
+           "    command | %s -f LOGFILE [OPTIONS ...]\n"
+           , p, p, p);
+    printf("Caution:\n"
+           "    If specified value is out of range, it will be rounded.\n"
+           "    Use '--dry-run' to check how the arguments were parsed.\n");
+    printf("Options:\n"
+           "    -h|--help       Show usage and exit.\n"
+           "    --dry-run       Parse arguments, show next rotation path and exit.\n"
+           "    -f LOGFILE      Log file path [mandatory]\n"
+           "    -p PIDFILE      PID file path\n");
+    printf("    -l LENGTH       Line length in bytes (integer)\n"
+           "                    This must includes terminating null character.\n"
+           "                    Default is %d.\n"
+           "                      (min, max)=(%d, %d)\n"
+           , DEFAULT_LINE_MAXLEN, DEFAULT_LINE_MINLEN, INT_MAX);
+    printf("    -i INTERVAL     Log rotation interval in seconds.\n"
+           "                    Default is 0 (means no rotation).\n"
+           "                      (min, max)=(%d, %d)\n"
+           "                    If \"-f a.log\" then rotated file name will be\n"
+           "                    \"a.log.YYYYmmddHHMMSS\".\n"
+           , 5, INT_MAX);
+    printf("                    If negative will be treated as 0.\n"
+           "                    If 1-4 will be treated as 5.\n");
+    printf("                                     0 : no rotation\n"
+           "                                   1-4 : treated as 5\n"
+           "                            60 (=1min) : minutely.\n"
+           "                          3600 (=1hr)  : hourly.\n"
+           "                         86400 (=1day) : daily.\n"
+           "                        604800 (=7day) : daily.\n");
+    printf("    -d DELAY        Log rotate delay in seconds.\n"
+           "                    Ignored when DELAY is 0.\n"
+           "                      (min, max)=(%d, %d)\n"
+           , INT_MIN, INT_MAX);
+    printf("                         86400 (=1day), 172800 (=2day),  259200 (=3day)\n"
+           "                        345600 (=4day), 432000 (=5day),  518400 (=6day)\n");
+    printf("    -m METADATA     Specify metadata. this is not used in program.\n"
+           "                    This can be useful to find the process.\n");
+    printf("Signals:\n"
+           "    SIGUSR1         Causes to immediately rotate the log.\n"
+           "                    If \"-f a.log\" then rotated file name will be \"a.log.1\".\n"
+           "                    You can periodically send signal using crond.\n");
+    printf("Example:\n"
+           "    no roatation\n" 
+           "        $ command | %s -f a.log\n"
+           "    roatate daily at 02:00\n" 
+           "        $ command | %s -f a.log -i 86400 -d 7200\n"
+           "    rotate weekly at 22:00\n"
+           "        $ command | %s -f a.log -i 604800 -d -7200\n"
+           "    rotate on signal SIGUSR1\n"
+           "        $ command | %s -f a.log -p ok.pid -m XYZ\n"
+           "        $ kill -SIGUSR1 `cat ok.pid`\n"
+           "        $ [ -f a.log.1 ] && mv a.log.1 a.log.`date +'%%Y%%m%%d%%H%%M%%S'`\n"
+           , p, p, p, p);
+    printf("\n");
     fflush(stdout);
 }
 
@@ -89,6 +119,8 @@ struct context parse_args(int argc, char **argv) {
 
     struct context ctx;
     ctx.fpath = NULL;
+    ctx.ppath = NULL;
+    ctx.pid_fd = -1;
     ctx.line_maxlen = DEFAULT_LINE_MAXLEN;
     ctx.interval = 0; /* 0 means no rotation.  */
     ctx.delay = 0;    /* 0 means no delay. */
@@ -119,8 +151,20 @@ struct context parse_args(int argc, char **argv) {
             /* already been dieled with. */
         } else if (strcmp(*(argv+i), "-f") == 0) {
             if (++i < argc) {
-                ctx.fpath = *(argv+i);
-            } else { --i; msg = "requires filename."; break; }
+                if (ctx.fpath == NULL) { 
+                    ctx.fpath = *(argv+i);
+                } else {
+                    --i; msg ="appeared twice."; break;
+                } 
+            } else { --i; msg = "requires log filename."; break; }
+        } else if (strcmp(*(argv+i), "-p") == 0) {
+            if (++i < argc) {
+                if (ctx.ppath == NULL) {
+                    ctx.ppath = *(argv+i);
+                } else {
+                    --i; msg ="appeared twice."; break;
+                }
+            } else { --i; msg = "requires pid filename."; break; }
         } else if (strcmp(*(argv+i), "-l") == 0) {
             if (++i < argc) {
                 v = strtol(*(argv+i), endptr, 10);
@@ -143,16 +187,20 @@ struct context parse_args(int argc, char **argv) {
                 else if ( INT_MAX < v ) { v = INT_MAX; }
                 ctx.delay = (int)v;
             } else { --i; msg = "requires delay in seconds."; break; }
+        } else if (strcmp(*(argv+i), "-m") == 0) {
+            if (++i < argc) {
+                /* do nothing. */
+            } else { --i; msg = "requires metadata."; break; }
         } else {
             msg = "is unknown parameter."; break;
         }
     }
-    if (ctx.fpath == NULL) {
-        fprintf(stderr, "Invalid argument : '-f' required.\n");
-        show_usage(*argv); exit(1);
-    }
     if (msg != NULL) {
         fprintf(stderr, "Invalid argument : '%s' %s\n", *(argv+i), msg);
+        show_usage(*argv); exit(1);
+    }
+    if (ctx.fpath == NULL) {
+        fprintf(stderr, "Invalid argument : '-f' required.\n");
         show_usage(*argv); exit(1);
     }
     return ctx;
@@ -209,9 +257,9 @@ int rotate_log(FILE **s_out, const char *from, const char *to) {
 # ifdef DEBUG
             printf("... NULL\n");
 # endif
-            es = 25; err_msg(es, "rotate_log; fopen()", errno);
+            es = 25; err_msg(es, "rotate_log: fopen()", errno);
             fprintf(stderr, "filename=%s\n", from);
-            exit(es);
+            return es;
         }
 # ifdef DEBUG
         printf("... NOT NULL\n");
@@ -268,11 +316,17 @@ void prepare_rotation(struct context *ctx) {
 /* no DEBUGs */
 void exit_if_dry_run(const struct context *ctx) {
     if (ctx->dry_run) {
-        printf("== dry run result ==\n");
-        printf("parsed arguments   : -f %s -l %ld -i %ld -d %ld --dry-run\n",
-                ctx->fpath, ctx->line_maxlen, ctx->interval, ctx->delay);
-        printf("logfile path       : %s\n", ctx->fpath);
-        printf("next rotation file : %s\n", ctx->newpath); 
+        printf("=== dry run result ===\n");
+        printf("parsed arguments\n");
+        printf(" --dry-run\n");
+        printf(" -f %s\n", ctx->fpath);
+        printf(" -p %s\n", ctx->ppath);
+        printf(" -l %ld\n", ctx->line_maxlen);
+        printf(" -i %ld\n", ctx->interval);
+        printf(" -d %ld\n", ctx->delay);
+        printf("logfile path          : %s\n", ctx->fpath);
+        printf("next rotation path    : %s\n", ctx->newpath); 
+        printf("SIGUSR1 rotation path : %s\n", ctx->sigpath); 
         fflush(stdout);
         exit(0);
     }
@@ -325,6 +379,30 @@ int main(int argc, char **argv)
 
     exit_if_dry_run(&ctx);
 
+    /* create pid file */
+    if (ctx.ppath != NULL) {
+        ctx.pid_fd = open(ctx.ppath, O_RDWR|O_CREAT, 0640);
+        if (ctx.pid_fd < 0) {
+            es = 12; err_exit(es, "main: ctx.pid_fd = open()", errno);
+            goto end;
+        }
+        if (lockf(ctx.pid_fd, F_TLOCK, 0) < 0) {
+            es = 12; err_exit(es, "main: lockf()", errno);
+            goto end;
+        }
+        char str[256];
+        sprintf(str, "%d\n", getpid());
+        rc = write(ctx.pid_fd, str, strlen(str));
+        if (rc == -1) {
+            es = 21; err_msg(es, "main: write()", rc);
+            goto end;
+        }
+        fsync(ctx.pid_fd);
+# ifdef DEBUG
+        printf("[DEBUG] main: created pid file.\n");
+# endif
+    }
+
     /* prepare signal handler */
     sigset_t set;
     sigemptyset(&set);
@@ -334,16 +412,22 @@ int main(int argc, char **argv)
     sa.sa_handler = handler_sigusr1;
     sa.sa_flags = 0;
     rc = sigemptyset(&sa.sa_mask);
-    if (rc == -1) { es = 21; err_exit(es, "main: sigemptyset()", rc); }
+    if (rc == -1) {
+        es = 21; err_msg(es, "main: sigemptyset()", rc);
+        goto end;
+    }
     rc = sigaction(SIGUSR1, &sa, NULL);
-    if (rc == -1) { es = 21; err_exit(es, "main: sigaction()", rc); }
+    if (rc == -1) {
+        es = 21; err_msg(es, "main: sigaction()", rc);
+        goto end;
+    }
 
     /* need_to_end_section from here.: s_out */
     s_out = fopen(ctx.fpath, "a");  /* append mode. */
-    if (s_out == NULL) { 
-        err_msg(es, "main: s_out = fopen()", errno);
+    if (s_out == NULL) {
+        es = 21; err_msg(es, "main: s_out = fopen()", errno);
         fprintf(stderr, "filename=%s\n", ctx.fpath);
-        exit(es);
+        goto end;
     }
 
     /* from here,
@@ -360,14 +444,14 @@ int main(int argc, char **argv)
 # endif
 
 # ifdef MASK_POLL
-            sigprocmask(SIG_BLOCK, &set, NULL);
+            // sigprocmask(SIG_BLOCK, &set, NULL);
             poll_rc = poll(fds, 1, 333);
-            sigprocmask(SIG_UNBLOCK, &set, NULL);
-            if (poll_rc == -1) {  /* error occured. */
-                es = 22; err_msg(es, "main: poll()", errno);
-                fprintf(stderr, "revents=%d\n", fds[0].revents);
-                goto end;
-            }
+            // sigprocmask(SIG_UNBLOCK, &set, NULL);
+            // if (poll_rc == -1) {  /* error occured. */
+            //     es = 22; err_msg(es, "main: poll()", errno);
+            //     fprintf(stderr, "revents=%d\n", fds[0].revents);
+            //     goto end;
+            // }
 # else
             poll_rc = poll(fds, 1, 333);
 # endif
@@ -384,8 +468,8 @@ int main(int argc, char **argv)
             if (ctx.interval > 0) {
                 rc = timespec_get(&ctx.current_time, TIME_UTC);
                 if (rc == 0) {
-                    err_msg(23, "main: timespec_get()", errno);
-                    es = 23; goto end;
+                    es = 23; err_msg(es, "main: timespec_get()", errno);
+                    goto end;
                 }
                 if (ctx.rotate_time.tv_sec <= ctx.current_time.tv_sec) {
 # ifdef DEBUG
@@ -406,7 +490,10 @@ int main(int argc, char **argv)
 
         sigprocmask(SIG_BLOCK, &set, NULL); /* BLOCK signal SIGUSR1 from here */
         p = fgets(line, ctx.line_maxlen, s_in);
-        if (p == NULL && ferror(s_in)) { goto end;  /* normal end */ }
+        if (p == NULL && ferror(s_in) == 0) {
+            es = 0;  /* normal end */
+            goto end;
+        }
         if (p == NULL) {
             es = 31; err_msg(es, "main: fgets() 1st", errno);
             goto end;
@@ -419,8 +506,10 @@ int main(int argc, char **argv)
             }
 
 # ifdef HEADER_DT
-            /* tv_sec is second, in Hexadecimal 0 - ffffffff */
-            /* tv_nsec is nanosecond, 0 - 999999999, in Hexadecimal 0 - 3b9ac9ff */
+            /* tv_sec  is second,                    *
+             *         in Hexadecimal 0 - ffffffff   */
+            /* tv_nsec is nanosecond, 0 - 999999999, * 
+             *         in Hexadecimal 0 - 3b9ac9ff   */
             /*
 # ifdef DEBUG
             fprintf(stdout, "@%08lx.%08lx\t",
@@ -437,7 +526,8 @@ int main(int argc, char **argv)
              */
 
             timer = time(NULL);  /* for header of log line */ 
-            strftime(buffer, CONST_DT_FORMAT_LEN, DT_FORMAT, localtime(&timer));
+            strftime(buffer, CONST_DT_FORMAT_LEN, DT_FORMAT,
+                     localtime(&timer));
 # ifdef DEBUG
             fprintf(stdout, "%s\t", buffer);
 # endif
@@ -478,7 +568,10 @@ int main(int argc, char **argv)
             /* discard the remaining data in stream */
             while (p != NULL && *(line + strlen(line) - 1) != '\n') {
                 p = fgets(line, ctx.line_maxlen, s_in);
-                if (p == NULL && ferror(s_in)) { goto end;  /* normal end */ }
+                if (p == NULL && ferror(s_in) == 0) {
+                    es = 0;  /* normal end */
+                    goto end;
+                }
                 if (p == NULL) {
                     es = 31; err_msg(es, "main: fgets() 2nd", errno);
                     goto end;
@@ -490,7 +583,12 @@ int main(int argc, char **argv)
     es = 0;
 
 end:
-    if (s_out !=NULL) { fclose(s_out); }
+    if (s_out != NULL) { fclose(s_out); }
+    if (ctx.pid_fd != -1) {
+        lockf(ctx.pid_fd, F_ULOCK, 0);
+        close(ctx.pid_fd);
+    }
+    if (ctx.ppath != NULL) { unlink(ctx.ppath); }
 # ifdef DEBUG
     printf("[DEBUG] main: return(%d)\n", es);
 # endif
