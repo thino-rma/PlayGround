@@ -180,12 +180,6 @@ int main(int argc, char **argv) {
     rc = sigaction(SIGUSR1, &sa, NULL);
 
     /* need_to_end_section from here.: s_out */
-    // s_out = fopen(ctx.fpath, "a");  /* append mode. */
-    // if (s_out == NULL) {
-    //     es = 21; err_msg(es, "main: s_out = fopen()", errno);
-    //     fprintf(stderr, "filename=%s\n", ctx.fpath);
-    //     goto end;
-    // }
     reopen_log(&s_out, ctx.fpath); /* first open */ 
 
     fds[0].fd      = fileno(s_in);
