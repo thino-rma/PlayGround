@@ -1,0 +1,80 @@
+#!/usr/bin/env python3.6
+
+import argparse
+import os
+import select
+import signal
+import sys
+
+
+def parse_args():
+    desc = "dumn - tiny logging plogram."
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument("-f", dest="logpath", required=True)
+    parser.add_argument("-p", dest="pidpath", default=None)
+    return parser.parse_args()
+
+
+class Context:
+    def __init__(self, logpath, pidpath=None):
+        self.logfile = None
+        self.logpath = logpath
+        self.pidpath = pidpath
+
+
+flag_signal = 0
+
+
+def signal_handler(signum, frame):
+    global flag_signal
+    flag_signal = signum
+
+
+def main():
+    global flag_signal
+    args = parse_args()
+
+    sig_mask = (signal.SIGUSR1,)
+    signal.signal(sig_mask[0], signal_handler)
+    poller = select.poll()
+    poller.register(sys.stdin, select.POLLIN)
+
+    ctx = Context(args.logpath, args.pidpath)
+    if ctx.pidpath:
+        with open(ctx.pidpath, "w") as f:
+            f.write("{}\n".format(os.getpid()))
+
+    try:
+        ctx.logfile = open(ctx.logpath, mode="a")
+
+        while True:
+            events = poller.poll()
+
+            if len(events) == 0:
+                continue
+
+            if flag_signal == signal.SIGUSR1:
+                ctx.logfile.flush()
+                ctx.logfile.close()
+                ctx.logfile = None
+                ctx.logfile = open(ctx.logpath, mode="a")
+
+            if events[0][1] == select.POLLIN:
+                signal.pthread_sigmask(signal.SIG_BLOCK, sig_mask)
+                ctx.logfile.write(sys.stdin.readline())
+                ctx.logfile.flush()
+                signal.pthread_sigmask(signal.SIG_UNBLOCK, sig_mask)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        if ctx.logfile:
+            ctx.logfile.flush()
+            ctx.logfile.close()
+
+        if ctx.pidpath:
+            if os.path.exists(ctx.pidpath):
+                os.remove(ctx.pidpath)
+
+
+if __name__ == "__main__":
+    main()
