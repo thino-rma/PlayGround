@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
 
         sigprocmask(SIG_BLOCK, &sa.sa_mask, NULL); /* BLOCK signal*/
         if (flag_signal == SIGUSR1) { /* reopen by signal */
-            printf("[DEBUG] SIGUSR1 reopening\n");
+            // printf("[DEBUG] SIGUSR1 reopening\n");
             rc = fclose(s_out);
             if (rc == EOF) {
                 es = 23; err_msg(es, "fclose()", errno);
