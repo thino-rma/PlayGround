@@ -10,7 +10,9 @@ import sys
 def parse_args():
     desc = """\
 dumn - tiny logging program.
-  signal SIGUSR1 cause to reopen the logfile.\
+  Signal SIGUSR1 cause to reopen the logfile.
+  This program uses readline(), so input should be terminated with LF.
+  If not terminated with LF, readline() waits for LF, blocks signal SIGUSR1.\
 """
     epil = """\
 Example of usage:
