@@ -3,8 +3,6 @@ usage: dumb [-h] -f LOGPATH [-p PIDPATH]
 
 dumn - tiny logging program.
   Signal SIGUSR1 cause to reopen the logfile.
-  This program uses readline(), so input should be terminated with LF.
-  If not terminated with LF, readline() waits for LF, blocks signal SIGUSR1.
 
 optional arguments:
   -h, --help  show this help message and exit
