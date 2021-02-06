@@ -67,7 +67,7 @@ def main():
                 break
 
             signal.pthread_sigmask(signal.SIG_BLOCK, sig_mask)
-            print("DEBUG", events)
+            # print("DEBUG", events)
             if flag_signal == signal.SIGUSR1:
                 ctx.logfile.flush()
                 ctx.logfile.close()
