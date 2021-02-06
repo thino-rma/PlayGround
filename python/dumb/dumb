@@ -49,9 +49,7 @@ def main():
 
         while True:
             events = poller.poll()
-
-            if len(events) == 0:
-                continue
+            print(events)
 
             if flag_signal == signal.SIGUSR1:
                 ctx.logfile.flush()
@@ -59,11 +57,15 @@ def main():
                 ctx.logfile = None
                 ctx.logfile = open(ctx.logpath, mode="a")
 
-            if events[0][1] == select.POLLIN:
+            if len(events) == 0:
+                continue
+            elif events[0][1] == select.POLLIN:
                 signal.pthread_sigmask(signal.SIG_BLOCK, sig_mask)
                 ctx.logfile.write(sys.stdin.readline())
                 ctx.logfile.flush()
                 signal.pthread_sigmask(signal.SIG_UNBLOCK, sig_mask)
+            elif events[0][1] == select.POLLHUP:
+                break
     except KeyboardInterrupt:
         pass
     finally:
