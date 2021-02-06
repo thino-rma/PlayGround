@@ -58,13 +58,13 @@ def main():
     poller = select.poll()
     poller.register(sys.stdin, select.POLLIN)
 
-    if ctx.pidpath:
-        # create pid file
-        with open(ctx.pidpath, "w") as f:
-            f.write("{}\n".format(os.getpid()))
-
     try:
         ctx.logfile = open(ctx.logpath, mode="ab")
+
+        if ctx.pidpath:
+            # create pid file
+            with open(ctx.pidpath, "w") as f:
+                f.write("{}\n".format(os.getpid()))
 
         while True:
             events = poller.poll()
@@ -92,13 +92,13 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        if ctx.logfile:
-            ctx.logfile.flush()
-            ctx.logfile.close()
-
         if ctx.pidpath:
             if os.path.exists(ctx.pidpath):
                 os.remove(ctx.pidpath)
+
+        if ctx.logfile:
+            ctx.logfile.flush()
+            ctx.logfile.close()
 
 
 if __name__ == "__main__":
