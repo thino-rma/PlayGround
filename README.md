@@ -1,6 +1,11 @@
 # PlayGround
 Miscellaneous code
 
+- 2021/02/07
+  - dumb - tiny logging program
+    - clang/logger/dumb.c
+    - python/dumb/dumb
+
 - 2020/04/27
   - clang/pg-loader/pg-loader.c
   - clang/pg-loader/pg-version.c
