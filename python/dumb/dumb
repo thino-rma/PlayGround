@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 
 import argparse
+import fcntl
 import os
 import select
 import signal
@@ -11,8 +12,6 @@ def parse_args():
     desc = """\
 dumn - tiny logging program.
   Signal SIGUSR1 cause to reopen the logfile.
-  This program uses readline(), so input should be terminated with LF.
-  If not terminated with LF, readline() waits for LF, blocks signal SIGUSR1.\
 """
     epil = """\
 Example of usage:
@@ -47,19 +46,25 @@ def signal_handler(signum, frame):
 def main():
     global flag_signal
     args = parse_args()
+    ctx = Context(args.logpath, args.pidpath)
 
+    # make stdin non-blocking mode.
+    orig_fl = fcntl.fcntl(sys.stdin, fcntl.F_GETFL)
+    fcntl.fcntl(sys.stdin, fcntl.F_SETFL, orig_fl | os.O_NONBLOCK)
+
+    # initialize poller object
     sig_mask = (signal.SIGUSR1,)
     signal.signal(sig_mask[0], signal_handler)
     poller = select.poll()
     poller.register(sys.stdin, select.POLLIN)
 
-    ctx = Context(args.logpath, args.pidpath)
     if ctx.pidpath:
+        # create pid file
         with open(ctx.pidpath, "w") as f:
             f.write("{}\n".format(os.getpid()))
 
     try:
-        ctx.logfile = open(ctx.logpath, mode="a")
+        ctx.logfile = open(ctx.logpath, mode="ab")
 
         while True:
             events = poller.poll()
@@ -68,17 +73,21 @@ def main():
             elif events[0][1] == select.POLLHUP:
                 break
 
+            # signal BLOCKING section
             signal.pthread_sigmask(signal.SIG_BLOCK, sig_mask)
-            # print("DEBUG", events)
             if flag_signal == signal.SIGUSR1:
+                # reopen
                 ctx.logfile.flush()
                 ctx.logfile.close()
                 ctx.logfile = None
-                ctx.logfile = open(ctx.logpath, mode="a")
+                ctx.logfile = open(ctx.logpath, mode="ab")
 
             if events[0][1] == select.POLLIN:
-                ctx.logfile.write(sys.stdin.readline())
-                ctx.logfile.flush()
+                # read and write
+                buf = os.read(sys.stdin.fileno(), 1024)
+                if buf:
+                    ctx.logfile.write(buf)
+                    ctx.logfile.flush()
             signal.pthread_sigmask(signal.SIG_UNBLOCK, sig_mask)
     except KeyboardInterrupt:
         pass
