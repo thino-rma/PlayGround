@@ -16,11 +16,12 @@ dumn - tiny logging program.
 Example of usage:
   command | dumb -f test.log
   command | dumb -f test.log -p dumb.pid
-You can rotate log with commands below:  
+You can rotate log with commands below:
   mv test.log test.log.`date +'%Y%m%d%H%M%S'`; kill -SIGUSR1 `cat dumb.pid`\
 """
-    parser = argparse.ArgumentParser(description=desc, epilog=epil
-            , formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(
+            description=desc, epilog=epil,
+            formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-f", dest="logpath", required=True)
     parser.add_argument("-p", dest="pidpath", default=None)
     return parser.parse_args()
