@@ -21,8 +21,6 @@ const char *ERR_FORMAT  = "[%d] Error: %s [%d] %s\n"; /* Error message */
 struct context {
     char   *fpath;       /* log file path */
     char   *ppath;       /* pid file path */
-    int    pid_fd;       /* pid file descriptor */
-    char   *sigpath;     /* strlen(fpath) + 2 - 1 */
 };
 
 void show_usage_exit(const char * const arg0, int exit_code) {
@@ -31,7 +29,6 @@ void show_usage_exit(const char * const arg0, int exit_code) {
 
     printf("Description:\n"
            "    %s - tiny logging program.\n"
-           "    this program uses fgets() / fputs().\n"
            , p);
     printf("Usage:\n");
     printf("    %s -h|--help\n"
@@ -45,17 +42,16 @@ void show_usage_exit(const char * const arg0, int exit_code) {
            "    SIGUSR1         Causes to immediately reopen the log.\n");
     printf("Example:\n"
            "    reopen on signal SIGUSR1\n"
-           "        $ command | %s -f a.log -p $s.pid > err.log 2>&1 &\n"
-           "        $ mv a.log a.log.`date +'%%Y%%m%%d%%H%%M%%S'`\n"
+           "        $ command | %s -f a.log -p %s.pid > err.log 2>&1 &\n"
+           "        $ mv test.log test.log.`date +'%%Y%%m%%d%%H%%M%%S'`\n"
            "        $ kill -SIGUSR1 `cat %s.pid`\n"
-           , p, p);
+           , p, p, p);
     printf("\n"); fflush(stdout); exit(exit_code);
 }
 
 struct context parse_args(int argc, char **argv) {
     int i = 0; char *msg = NULL; struct context ctx;
-    ctx.fpath = NULL; ctx.ppath = NULL; ctx.sigpath = NULL;
-    ctx.pid_fd = -1;
+    ctx.fpath = NULL; ctx.ppath = NULL;
 
     if (argc == 0) return ctx;
     for (i = 1; i < argc; i++)
@@ -107,69 +103,37 @@ char *malloc_str(const size_t size) {
     return buf;
 }
 
-int reopen_log(FILE **s_out, const char *from) {
-    int rc, es;  /* return code, error status  */
-    if (*s_out != NULL) {
-        rc = fclose(*s_out);
-        if (rc == EOF) {
-            es = 23; err_msg(es, "fclose()", errno);
-            return es;
-        }
-    }
-    *s_out = fopen(from, "a");
-    if (*s_out == NULL) {
-        es = 24; err_msg(es, "fopen()", errno);
-        fprintf(stderr, "filename=%s\n", from);
-        return es;
-    }
-    return 0;
-}
-
 volatile int flag_signal = 0;
 void handler_signal(int signum) {
     flag_signal = signum;
 }
 
 int main(int argc, char **argv) {
-    char *line = NULL;     /* line for log     */
-    char pid[64];          /* pid for pid file */
-    FILE *s_in = stdin;    /* stream_in        */
-    FILE *s_out = NULL;    /* stream_out       */
-    int rc = 0;            /* return code      */
-    int es = 1;            /* exit status      */
-    int poll_rc = 0;       /* poll return code */
-    struct pollfd fds[1];  /* for poll()       */
-    struct context ctx;    /* context          */
+    int fd_flag = 0;       /* file descriptor flag */
+    char *line = NULL;     /* line for log         */
+    char pid[64];          /* pid for pid file     */
+    FILE *s_in = stdin;    /* stream_in            */
+    FILE *s_out = NULL;    /* stream_out           */
+    FILE *p_out = NULL;    /* stream_out for pid   */
+    int rc = 0;            /* return code          */
+    int es = 1;            /* exit status          */
+    int poll_rc = 0;       /* poll return code     */
+    struct pollfd fds[1];  /* for poll()           */
+    struct context ctx;    /* context              */
 
     ctx = parse_args(argc, argv);
 
     line = malloc_str(BUFSIZ);
     if (line == NULL)
-        err_exit(11, "main: line = malloc()", errno);
+        err_exit(11, "malloc_str()", errno);
 
-    ctx.sigpath = malloc_str(strlen(ctx.fpath) + 2 - 1);
-    if (ctx.sigpath == NULL)
-        err_exit(11, "main: ctx.sigpath = malloc()", errno);
-
-    strcpy(ctx.sigpath, ctx.fpath);
-    strcpy(ctx.sigpath + strlen(ctx.fpath), ".1");
-
-    /* create pid file */
-    if (ctx.ppath != NULL) {
-        ctx.pid_fd = open(ctx.ppath, O_RDWR|O_CREAT, 0640);
-        if (ctx.pid_fd < 0) {
-            es = 12; err_msg(es, "open()", errno); goto end;
-        }
-        if (lockf(ctx.pid_fd, F_TLOCK, 0) < 0) {
-            es = 12; err_msg(es, "lockf()", errno); goto end;
-        }
-
-        sprintf(pid, "%d\n", getpid());
-        if (write(ctx.pid_fd, pid, strlen(pid)) == -1) {
-            es = 21; err_msg(es, "write()", rc); goto end;
-        }
-        fsync(ctx.pid_fd);
-    }
+    /* make stdin non-blocking */
+    fd_flag = fcntl(fileno(stdin), F_GETFL);
+    if (fd_flag == -1)
+        err_exit(11, "fcntl(stdin, F_GETFL)", errno);
+    fd_flag = fcntl(fileno(stdin), F_SETFL, fd_flag | O_NONBLOCK);
+    if (fd_flag == -1)
+        err_exit(11, "fcntl(stdin, F_SETFL, ...)", errno);
 
     /* prepare signal handler */
     struct sigaction sa;
@@ -179,48 +143,76 @@ int main(int argc, char **argv) {
     sigaddset(&sa.sa_mask, SIGUSR1);
     rc = sigaction(SIGUSR1, &sa, NULL);
 
-    /* need_to_end_section from here.: s_out */
-    reopen_log(&s_out, ctx.fpath); /* first open */ 
-
+    /* initialize polling target infomations */ 
     fds[0].fd      = fileno(s_in);
     fds[0].events  = POLLIN;
     fds[0].revents = 0;
 
-    while(! feof(stdin)) {
-        while (TRUE) { /* polling block */
-            poll_rc = poll(fds, 1, -1);
-            if (flag_signal == SIGUSR1) { /* reopen by signal */
-                rc = reopen_log(&s_out, ctx.fpath);
-                if (rc != 0) { es = rc; goto end; }
-                flag_signal = 0;    /* clear flag after reopen. */
-            }
-            if (poll_rc > 0) break;
+    /* need_to_end_section from here.: s_out */
+    s_out = fopen(ctx.fpath, "a");
+    if (s_out == NULL)
+        err_exit(12, "logpath fopen()", errno);
+
+    /* create pid file */
+    if (ctx.ppath != NULL) {
+        p_out = fopen(ctx.ppath, "w");
+        if (p_out == NULL) {
+            es = 13; err_msg(es, "pidpath fopen()", errno);
+            goto end;
+        }
+        sprintf(pid, "%d\n", getpid());
+        if (fputs(pid, p_out) == EOF) {
+            es = 13; err_msg(es, "pidpath fputs()", errno);
+            goto end;
+        }
+        fflush(p_out); fclose(p_out);
+    }
+
+    while(TRUE) {
+        // printf("[DEBUG] poll()...\n"); 
+        poll_rc = poll(fds, 1, -1);
+        // printf("[DEBUG] poll_rc = %d\n", poll_rc);
+        if (poll_rc < 0 && errno != EINTR) {
+            es = 21; err_msg(es, "poll()", errno);
+            goto end;
         }
 
         sigprocmask(SIG_BLOCK, &sa.sa_mask, NULL); /* BLOCK signal*/
-        while (TRUE) {
+        if (flag_signal == SIGUSR1) { /* reopen by signal */
+            printf("[DEBUG] SIGUSR1 reopening\n");
+            rc = fclose(s_out);
+            if (rc == EOF) {
+                es = 23; err_msg(es, "fclose()", errno);
+                goto end;
+            }
+            s_out = fopen(ctx.fpath, "a");
+            if (s_out == NULL) {
+                es = 24; err_msg(es, "fopen()", errno);
+                goto end;
+            }
+            if (rc != 0) { es = rc; goto end; }
+            flag_signal = 0;    /* clear flag after reopen. */
+        }
+        if (poll_rc > 0 && fds[0].revents | POLLIN) {
             if (fgets(line, BUFSIZ, s_in) == NULL) {
-                if (ferror(s_in) == 0) break;
+                /* Ctrl-D cause errno = 11          *
+                 * Resource temporarily unavailable */
+                if (feof(s_in)) break;
                 es = 31; err_msg(es, "fgets()", errno); goto end;
+            } else {
+                if (fputs(line, s_out) == EOF) {
+                    es = 32; err_msg(es, "fputs()", errno); goto end;
+                }
+                fflush(s_out);
             }
-            if (fputs(line, s_out) == EOF) {
-                es = 32; err_msg(es, "fputs()", errno); goto end;
-            }
-            fflush(s_out);
-
-            if (*(line + strlen(line) - 1) == '\n') break;
         }
         sigprocmask(SIG_UNBLOCK, &sa.sa_mask, NULL); /* UNBLOCK signal */
     }
     es = 0;
 
 end:
-    if (s_out != NULL) fclose(s_out);
-    if (ctx.pid_fd != -1) {
-        lockf(ctx.pid_fd, F_ULOCK, 0);
-        close(ctx.pid_fd);
-    }
-    if (ctx.ppath != NULL) unlink(ctx.ppath);
+    if (s_out != NULL) { fflush(s_out); fclose(s_out); }
+    if (ctx.ppath != NULL) { unlink(ctx.ppath); }
     return es;
 }
 
