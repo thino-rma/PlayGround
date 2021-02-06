@@ -8,8 +8,19 @@ import sys
 
 
 def parse_args():
-    desc = "dumn - tiny logging plogram."
-    parser = argparse.ArgumentParser(description=desc)
+    desc = """\
+dumn - tiny logging program.
+  signal SIGUSR1 cause to reopen the logfile.\
+"""
+    epil = """\
+Example of usage:
+  command | dumb -f test.log
+  command | dumb -f test.log -p dumb.pid
+You can rotate log with commands below:  
+  mv test.log test.log.`date +'%Y%m%d%H%M%S'`; kill -SIGUSR1 `cat dumb.pid`\
+"""
+    parser = argparse.ArgumentParser(description=desc, epilog=epil
+            , formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-f", dest="logpath", required=True)
     parser.add_argument("-p", dest="pidpath", default=None)
     return parser.parse_args()
@@ -49,7 +60,7 @@ def main():
 
         while True:
             events = poller.poll()
-            print(events)
+            # print("DEBUG", events)
 
             if flag_signal == signal.SIGUSR1:
                 ctx.logfile.flush()
