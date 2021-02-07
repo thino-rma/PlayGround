@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3
 
 import argparse
 import fcntl
@@ -6,6 +6,8 @@ import os
 import select
 import signal
 import sys
+
+BUFSIZ = 8192  # buffer size
 
 
 def parse_args():
@@ -59,10 +61,12 @@ def main():
     poller.register(sys.stdin, select.POLLIN)
 
     try:
+        # open logfile first, open pidfile later.
         ctx.logfile = open(ctx.logpath, mode="ab")
 
         if ctx.pidpath:
             # create pid file
+            # Files are automatically flushed while closing them.
             with open(ctx.pidpath, "w") as f:
                 f.write("{}\n".format(os.getpid()))
 
@@ -84,7 +88,7 @@ def main():
 
             if events[0][1] == select.POLLIN:
                 # read and write
-                buf = os.read(sys.stdin.fileno(), 1024)
+                buf = os.read(sys.stdin.fileno(), BUFSIZ)
                 if buf:
                     ctx.logfile.write(buf)
                     ctx.logfile.flush()
@@ -92,6 +96,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
+        # remove pidfile first, close logfile later.
         if ctx.pidpath:
             if os.path.exists(ctx.pidpath):
                 os.remove(ctx.pidpath)
