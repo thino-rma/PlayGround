@@ -1,3 +1,9 @@
+### See also
+- See forked mcmd on https://github.com/thino-rma/mcmd
+  - add ```n=``` option to msortf command, which specify the header line for output.
+  - add ```skipRows=``` option to msortf command, which specify the count of lines to be skipped for input.
+
+### This work is out of date.
 - msortf_add_n.patch
   - for mcmd version 3:1:0:0
   - patch file to add ```n=``` option to msortf command, which specify the header line for output.
