@@ -61,6 +61,8 @@ def main():
     poller.register(sys.stdin, select.POLLIN)
 
     try:
+        # replace stdin with non-buffering binary mode
+        sys.stdin = os.fdopen(sys.stdin.fileno(), 'rb', buffering=0)
         # open logfile first, open pidfile later.
         ctx.logfile = open(ctx.logpath, mode="ab")
 
