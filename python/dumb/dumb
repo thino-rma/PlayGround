@@ -86,7 +86,7 @@ def main():
                 ctx.logfile = None
                 ctx.logfile = open(ctx.logpath, mode="ab")
 
-            if events[0][1] == select.POLLIN:
+            if events[0][1] | select.POLLIN:
                 # read and write
                 buf = os.read(sys.stdin.fileno(), BUFSIZ)
                 if buf:
