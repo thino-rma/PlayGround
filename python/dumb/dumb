@@ -14,27 +14,38 @@ def parse_args():
     desc = """\
 dumb - tiny logging program.
   Signal SIGUSR1 cause to reopen the logfile.
+  Permission of the newly created files will be 640 ('rw-r-----')
+  by calling os.umask(0o137) at the start.
 """
     epil = """\
 Example of usage:
-  command | dumb -f test.log
-  command | dumb -f test.log -p dumb.pid
-You can rotate log with commands below:
-  mv test.log test.log.`date +'%Y%m%d%H%M%S'`; kill -SIGUSR1 `cat dumb.pid`
+  Simple usage:
+    command | dumb -f test.log
+    command | dumb -f test.log -p dumb.pid
+  You can rotate log with commands below:
+    mv test.log{,.`date +'%Y%m%d%H%M%S'`}; kill -SIGUSR1 `cat dumb.pid`
+
+Hint:
+  Set the setgid permission on a log directory:
+    mkdir -p ./log && chown root:zabbix ./log && chmod g+s ./log
+    command | dumb -f ./log/test.log -p dumb.pid
+    mv ./log/test.log{,.`date +'%Y%m%d%H%M%S'`}; kill -SIGUSR1 `cat dumb.pid`
 """
     parser = argparse.ArgumentParser(
             description=desc, epilog=epil,
             formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-f", dest="logpath", required=True)
-    parser.add_argument("-p", dest="pidpath", default=None)
+    parser.add_argument("-f", dest="logpath", required=True,
+                        help='Log file path')
+    parser.add_argument("-p", dest="pidpath", default=None,
+                        help='PID file path')
     return parser.parse_args()
 
 
 class Context:
-    def __init__(self, logpath, pidpath=None):
+    def __init__(self, args):
         self.logfile = None
-        self.logpath = logpath
-        self.pidpath = pidpath
+        self.logpath = args.logpath
+        self.pidpath = args.pidpath
 
 
 flag_signal = 0
@@ -48,7 +59,8 @@ def signal_handler(signum, frame):
 def main():
     global flag_signal
     args = parse_args()
-    ctx = Context(args.logpath, args.pidpath)
+    ctx = Context(args)
+    os.umask(0o137)
 
     # make stdin non-blocking mode.
     orig_fl = fcntl.fcntl(sys.stdin, fcntl.F_GETFL)
@@ -68,7 +80,7 @@ def main():
 
         if ctx.pidpath:
             # create pid file
-            # Files are automatically flushed while closing them.
+            # Files are automatically flushed when closing them.
             with open(ctx.pidpath, "w") as f:
                 f.write("{}\n".format(os.getpid()))
 

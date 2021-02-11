@@ -1,17 +1,26 @@
 
 usage: dumb [-h] -f LOGPATH [-p PIDPATH]
 
-dumn - tiny logging program.
+dumb - tiny logging program.
   Signal SIGUSR1 cause to reopen the logfile.
+  Permission of the newly created files will be 640 ('rw-r-----')
+  by calling os.umask(0o137) at the start.
 
 optional arguments:
   -h, --help  show this help message and exit
-  -f LOGPATH
-  -p PIDPATH
+  -f LOGPATH  Log file path
+  -p PIDPATH  PID file path
 
 Example of usage:
-  command | dumb -f test.log
-  command | dumb -f test.log -p dumb.pid
-You can rotate log with commands below:
-  mv test.log test.log.`date +'%Y%m%d%H%M%S'`; kill -SIGUSR1 `cat dumb.pid`
+  Simple usage:
+    command | dumb -f test.log
+    command | dumb -f test.log -p dumb.pid
+  You can rotate log with commands below:
+    mv test.log{,.`date +'%Y%m%d%H%M%S'`}; kill -SIGUSR1 `cat dumb.pid`
+
+Hint:
+  Set the setgid permission on a log directory:
+    mkdir -p ./log && chown root:zabbix ./log && chmod g+s ./log
+    command | dumb -f ./log/test.log -p dumb.pid
+    mv ./log/test.log{,.`date +'%Y%m%d%H%M%S'`}; kill -SIGUSR1 `cat dumb.pid`
 
