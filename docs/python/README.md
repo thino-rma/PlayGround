@@ -24,6 +24,21 @@
   conda remove -n myenv1 --all
   ```
 
+- often used packages
+  ```console
+  # for jupyter
+  conda install -n myenv -c conda-forge numpy pandas matplotlib seaborn scipy jupyter
+  # for geopandas
+  conda install -n myenv -c conda-forge geopandas descartes contextily folium cesiumpy
+  ### pip install keplergl
+  # for flask/gunicorn
+  conda install -n myenv -c conda-forge flask gunicorn
+  # for PostgreSQL
+  conda install -n myenv -c conda-forge psycopg2
+  # for selenium/chrome
+  conda install -n myenv -c conda-forge selenium chromedriver-binary
+  ```
+
 ### 静的コード解析
 - flake8
   指摘してくれる。
