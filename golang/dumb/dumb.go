@@ -59,20 +59,28 @@ func parse_args() Context {
     return Context{logpath, pidpath}
 }
 
+func err_exit(exit_code int, func_name string, err error) {
+    fmt.Fprintf(os.Stderr, "[%d] Error: %s\n", exit_code, func_name)
+    fmt.Fprintf(os.Stderr, "err.Error() = %s\n", err.Error())
+    os.Exit(exit_code)
+}
+
 func main() {
     ctx := parse_args()
 
     // create PIDFILE
     pidfile, err := os.OpenFile(ctx.pidpath, os.O_WRONLY|os.O_CREATE, 0640)
-    if err != nil { panic(err) }
+    if err != nil { err_exit(11, "os.OpenFile(PIDFILE)", err) }
+
     fmt.Fprintf(pidfile, "%d\n", os.Getpid())
-    if err := pidfile.Close(); err != nil { panic(err) }
+    err = pidfile.Close()
+    if err != nil { err_exit(12, "os.Close(PIDFILE)", err) }
     defer func() {
         // remove PIDFILE
         _, err := os.Stat(ctx.pidpath);
         if os.IsNotExist(err) { return }
         err = os.Remove(ctx.pidpath)
-        if err != nil { panic(err) }
+        if err != nil { err_exit(13, "os.Remove(PIDFILE)", err) }
     }()
 
     // prepare signal channel
@@ -95,7 +103,7 @@ func main() {
 
     // open LOGFILE
     logfile, err := os.OpenFile(ctx.logpath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0640)
-    if err != nil { panic(err) }
+    if err != nil { err_exit(21, "os.OpenFile(LOGFILE)", err) }
 loop:
     for {
         select {
@@ -103,16 +111,16 @@ loop:
             if ! ok { break loop }
             // write to LOGFILE
             _, err = logfile.Write(buf)
-            if err != nil { panic(err) }
+            if err != nil { err_exit(22, "logfile.Write(buf)", err) }
         case _ = <-sigs:
             // reopen LOGFILE
             err = logfile.Close()
-            if err != nil { panic(err) }
+            if err != nil { err_exit(23, "logfile.Close()", err) }
             logfile, err = os.OpenFile(ctx.logpath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0640)
-            if err != nil { panic(err) }
+            if err != nil { err_exit(24, "os.OpenFile(LOGFILE)", err) }
         }
     }
     // close LOGFILE
     err = logfile.Close()
-    if err != nil { panic(err) }
+    if err != nil { err_exit(25, "logfile.Close()", err) }
 }
