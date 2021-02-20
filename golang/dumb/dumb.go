@@ -18,8 +18,7 @@ type Context struct {
 
 func parse_args() Context {
     var pname string   // program name
-    var logpath string // LOGPATH
-    var pidpath string // PIDPATH
+    ctx := Context{"", ""}
 
     _, pname = filepath.Split(os.Args[0])
     flag.Usage = func() {
@@ -53,10 +52,10 @@ func parse_args() Context {
         fmt.Fprintf(os.Stderr, "automated log rotation:\n")
         fmt.Fprintf(os.Stderr, "  use cron or logrotate.\n")
     }
-    flag.StringVar(&logpath, "f", pname + ".log", "Log file path")
-    flag.StringVar(&pidpath, "p", pname + ".pid", "PID file path")
+    flag.StringVar(&ctx.logpath, "f", pname + ".log", "Log file path")
+    flag.StringVar(&ctx.pidpath, "p", pname + ".pid", "PID file path")
     flag.Parse()
-    return Context{logpath, pidpath}
+    return ctx
 }
 
 // func dbg_msg(exit_code int, msg string) {
