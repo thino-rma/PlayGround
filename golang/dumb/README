@@ -1,4 +1,14 @@
+### How to build
+```
+wget https://raw.githubusercontent.com/thino-rma/PlayGround/master/golang/dumb/dumb.go
+go build -o dumb dumb.go
+mkdir ~/bin
+mv dumb ~/bin
+```
 
+### Help
+```
+$ dumb -h
 usage: dumb [-h] [-f LOGPATH] [-p PIDPATH]
 
 dumb - tiny logging program.
@@ -28,4 +38,21 @@ setting setgid permission to the log directory:
 
 automated log rotation:
   use cron or logrotate.
+```
 
+### Log rotate
+```
+$ cat rotatelog.sh
+#!/bin/bash
+
+LOGFILE=/var/log/test.log
+PIDFILE=/var/run/test.pid
+if [ -f ${PIDFILE} ]; then
+    PID=`cat ${PIDFILE}`
+    ps aux | grep -v grep | grep "$PID" | grep "dumb -f ${LOGFILE} -p ${PIDFILE}" &> /dev/null
+    if [ $? -eq 0 ]; then
+        mv ${LOGFILE}{,.`date +'%Y%m%d%H%M%S'`}
+        kill -SIGUSR1 ${PID}
+    fi
+fi
+```
