@@ -59,68 +59,148 @@ func parse_args() Context {
     return Context{logpath, pidpath}
 }
 
-func err_exit(exit_code int, func_name string, err error) {
-    fmt.Fprintf(os.Stderr, "[%d] Error: %s\n", exit_code, func_name)
+// func dbg_msg(exit_code int, msg string) {
+//    fmt.Fprintf(os.Stderr, "[%d] Debug: %s\n", exit_code, msg)
+// }
+
+func err_msg(exit_code int, msg string, err error) {
+    fmt.Fprintf(os.Stderr, "[%d] Error: %s\n", exit_code, msg)
     fmt.Fprintf(os.Stderr, "err.Error() = %s\n", err.Error())
+}
+func err_exit(exit_code int, func_name string, err error) {
+    err_msg(exit_code, func_name, err)
     os.Exit(exit_code)
 }
 
-func main() {
-    ctx := parse_args()
-
-    // create PIDFILE
-    pidfile, err := os.OpenFile(ctx.pidpath, os.O_WRONLY|os.O_CREATE, 0640)
-    if err != nil { err_exit(11, "os.OpenFile(PIDFILE)", err) }
-
-    fmt.Fprintf(pidfile, "%d\n", os.Getpid())
-    err = pidfile.Close()
-    if err != nil { err_exit(12, "os.Close(PIDFILE)", err) }
-    defer func() {
-        // remove PIDFILE
-        _, err := os.Stat(ctx.pidpath);
-        if os.IsNotExist(err) { return }
-        err = os.Remove(ctx.pidpath)
-        if err != nil { err_exit(13, "os.Remove(PIDFILE)", err) }
-    }()
-
-    // prepare signal channel
+func loop(ctx Context, logfile *os.File) int {
+    var err error
+    ec := 31  // section select loop
+    // dbg_msg(ec, "section select loop")
+    // dbg_msg(ec, "prepare signal channel")
     sigs := make(chan os.Signal)
     signal.Notify(sigs, syscall.SIGUSR1)
 
-    // prepare read channel
+    // dbg_msg(ec, "prepare read channel")
     ch := make(chan []byte)
-    go func(ch chan []byte) {
+    go func() {
         buf := make([]byte, 4096)
         in := bufio.NewReader(os.Stdin)
+        n := 0
         for {
-            // read from stdin
-            n, err := in.Read(buf)
+            // dbg_msg(ec, "read from stdin")
+            // dbg_msg(ec, "in.Read(buf)...")
+            n, err = in.Read(buf)
+            // dbg_msg(ec, fmt.Sprintf("in.Read(buf) returned %d", n))
             if n > 0 { ch <- buf[:n] }
             if err == io.EOF { break }
         }
         close(ch)
-    }(ch)
+    }()
 
-    // open LOGFILE
-    logfile, err := os.OpenFile(ctx.logpath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0640)
-    if err != nil { err_exit(21, "os.OpenFile(LOGFILE)", err) }
 loop:
+    // dbg_msg(ec, "loop")
     for {
         select {
         case buf, ok := <-ch:
-            if ! ok { break loop }
-            // write to LOGFILE
-            _, err = logfile.Write(buf)
-            if err != nil { err_exit(22, "logfile.Write(buf)", err) }
+            if ! ok { ec = 0; break loop }
+            // dbg_msg(ec, "write to LOGFILE")
+            // dbg_msg(ec, "logfile.Write(buf)...")
+            _, err := logfile.Write(buf)
+            // n, err := logfile.Write(buf)
+            // dbg_msg(ec, fmt.Sprintf("logfile.Write(buf) returned %d", n))
+            if err != nil {
+                err_msg(ec, "logfile.Write(buf)", err)
+                break loop
+            }
         case _ = <-sigs:
-            // reopen LOGFILE
+            // dbg_msg(ec, "reopen LOGFILE")
+            // dbg_msg(ec, "os.Close(LOGFILE)...")
             err = logfile.Close()
-            if err != nil { err_exit(23, "logfile.Close()", err) }
-            logfile, err = os.OpenFile(ctx.logpath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0640)
-            if err != nil { err_exit(24, "os.OpenFile(LOGFILE)", err) }
+            if err != nil {
+                err_msg(ec, "logfile.Close()", err)
+                break loop
+            }
+            // dbg_msg(ec, "os.Open(LOGFILE)...")
+            flag := os.O_WRONLY|os.O_CREATE|os.O_APPEND
+            logfile, err = os.OpenFile(ctx.logpath, flag, 0640)
+            if err != nil {
+                err_msg(ec, "os.OpenFile(LOGFILE)", err)
+                break loop
+            }
         }
     }
-    // close LOGFILE
-    err = logfile.Close()
-    if err != nil { err_exit(25, "logfile.Close()", err) }
+    return ec
+}
+
+func do_work(ctx Context) int {
+    var err error
+    ec := 21
+    // dbg_msg(ec, "section create PIDFILE")
+    // dbg_msg(ec, "os.OpenFile(PIDFILE)...")
+    flag := os.O_WRONLY|os.O_CREATE
+    pidfile, err := os.OpenFile(ctx.pidpath, flag, 0640)
+    if err != nil {
+        err_exit(ec, "os.OpenFile(PIDFILE)", err)
+        return ec
+    }
+
+    // dbg_msg(ec, "fmt.Fprintf(pidfile, PID)...")
+    fmt.Fprintf(pidfile, "%d\n", os.Getpid())
+    // dbg_msg(ec, "pidfile.Close()...")
+    err = pidfile.Close()
+    if err != nil {
+        err_msg(ec, "os.Close(PIDFILE)", err)
+        return ec
+    }
+    defer func() {
+        // dbg_msg(99, "remove PIDFILE")
+        // dbg_msg(99, "os.Stat(ctx.pidpath)...")
+        _, err = os.Stat(ctx.pidpath);
+        if ! os.IsNotExist(err) {
+            // dbg_msg(99, "os.Remove(ctx.pidpath)...")
+            // # Remove() may return error : "file does not exist"
+            // # Ignore the error because the situation can't be improved.
+            _ = os.Remove(ctx.pidpath)
+            // err = os.Remove(ctx.pidpath)
+            // if err != nil {
+            //     err_msg(99, "defer os.Remove(PIDFILE)", err)
+            // }
+        }
+    }()
+
+    ec = 22
+    // dbg_msg(ec, "section open LOGFILE")
+    // dbg_msg(ec, "os.OpenFile(LOGFILE)...")
+    flag = os.O_WRONLY|os.O_CREATE|os.O_APPEND
+    logfile, err := os.OpenFile(ctx.logpath, flag, 0640)
+    if err != nil {
+        err_msg(ec, "os.OpenFile(LOGFILE)", err)
+        return ec
+    }
+
+    ec = 23
+    // dbg_msg(ec, "section loop")
+    // dbg_msg(ec, "loop(ctx, logfile)...")
+    ec = loop(ctx, logfile)
+    // dbg_msg(ec, fmt.Sprintf("loop(ctx, logfile) returned %d", ec))
+
+    // ec = 24
+    // dbg_msg(ec, "section close LOGFILE")
+    // # Close() sometimes return error : "file already closed"
+    // # Ignore the error because the situation can't be improved.
+    _ = logfile.Close()
+    // err = logfile.Close()
+    // if err != nil {
+    //     err_msg(ec, "logfile.Close()", err)
+    // }
+    return ec
+}
+
+func main() {
+    // dbg_msg(11, "parse_args)...")
+    ctx := parse_args()
+    // dbg_msg(11, "do_work(ctx)...")
+    ec := do_work(ctx)
+    // dbg_msg(11, fmt.Sprintf("do_work(ctx) returned %d", ec))
+    os.Exit(ec)
 }
