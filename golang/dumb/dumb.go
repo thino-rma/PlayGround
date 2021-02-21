@@ -59,7 +59,7 @@ func parse_args() Context {
 }
 
 // func dbg_msg(exit_code int, msg string) {
-//    fmt.Fprintf(os.Stderr, "[%d] Debug: %s\n", exit_code, msg)
+//     fmt.Fprintf(os.Stderr, "[%d] Debug: %s\n", exit_code, msg)
 // }
 
 func err_msg(exit_code int, msg string, err error) {
@@ -77,7 +77,7 @@ func loop(ctx Context, logfile *os.File) int {
 	// dbg_msg(ec, "section select loop")
 	// dbg_msg(ec, "prepare signal channel")
 	sigs := make(chan os.Signal)
-	signal.Notify(sigs, syscall.SIGUSR1)
+	signal.Notify(sigs, syscall.SIGUSR1, syscall.SIGTERM, syscall.SIGINT)
 
 	// dbg_msg(ec, "prepare read channel")
 	ch := make(chan []byte)
@@ -118,19 +118,30 @@ loop:
 				err_msg(ec, "logfile.Write(buf)", err)
 				break loop
 			}
-		case _ = <-sigs:
-			// dbg_msg(ec, "reopen LOGFILE")
-			// dbg_msg(ec, "os.Close(LOGFILE)...")
-			err = logfile.Close()
-			if err != nil {
-				err_msg(ec, "logfile.Close()", err)
+		case signal := <-sigs:
+			switch signal {
+			case syscall.SIGUSR1:
+				// dbg_msg(ec, "reopen LOGFILE")
+				// dbg_msg(ec, "os.Close(LOGFILE)...")
+				err = logfile.Close()
+				if err != nil {
+					err_msg(ec, "logfile.Close()", err)
+					break loop
+				}
+				// dbg_msg(ec, "os.Open(LOGFILE)...")
+				flag := os.O_WRONLY | os.O_CREATE | os.O_APPEND
+				logfile, err = os.OpenFile(ctx.logpath, flag, 0640)
+				if err != nil {
+					err_msg(ec, "os.OpenFile(LOGFILE)", err)
+					break loop
+				}
+			case syscall.SIGINT:
+				// dbg_msg(ec, "signal SIGINT...")
+				ec = 128 + 2 // SIGINT=2
 				break loop
-			}
-			// dbg_msg(ec, "os.Open(LOGFILE)...")
-			flag := os.O_WRONLY | os.O_CREATE | os.O_APPEND
-			logfile, err = os.OpenFile(ctx.logpath, flag, 0640)
-			if err != nil {
-				err_msg(ec, "os.OpenFile(LOGFILE)", err)
+			case syscall.SIGTERM:
+				// dbg_msg(ec, "signal SIGTERM...")
+				ec = 128 + 15 // SIGTERM=15
 				break loop
 			}
 		}
@@ -184,7 +195,7 @@ func do_work(ctx Context) int {
 		return ec
 	}
 
-	ec = 23
+	// ec = 23
 	// dbg_msg(ec, "section loop")
 	// dbg_msg(ec, "loop(ctx, logfile)...")
 	ec = loop(ctx, logfile)
