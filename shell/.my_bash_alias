@@ -39,7 +39,7 @@ alias ipa='ip a | grep "inet "'
 
 ## tmux
 alias tmux='tmux -2'
-alias tmn='tmux -2 new \; source .tmux.startup.conf'
+alias tmn='tmux -2 new \; source ~/.tmux.startup.conf'
 
 ## micro
 #### install
