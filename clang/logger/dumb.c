@@ -47,13 +47,39 @@ void show_usage_exit(const char * const p, int exit_code) {
     printf("\n"); fflush(stdout); exit(exit_code);
 }
 
+char *malloc_str(const size_t size) {
+    char *buf = NULL;
+    buf = (char *)malloc(size);
+    if (buf != NULL) { *(buf + size - 1) = '\0'; } // for safety
+    return buf;
+}
+
+void dbg_msg(const int exit_code, const char * const msg,
+        const int value) {
+    fprintf(stderr, "[%d] Debug: %s %d\n", exit_code, msg, value);
+}
+
+void perr_msg(const int exit_code, const char * const msg,
+        const int revents) {
+    fprintf(stderr, ERR_FORMAT, exit_code, msg,
+            revents, "");
+}
+
+void err_msg(const int exit_code, const char * const msg,
+        const int error_no) {
+    fprintf(stderr, ERR_FORMAT, exit_code, msg,
+            error_no, strerror(error_no));
+}
+
+void err_exit(const int exit_code, const char * const msg,
+        const int error_no) {
+    err_msg(exit_code, msg, error_no); exit(exit_code);
+}
+
 struct context parse_args(int argc, char **argv) {
     int i = 0; char *msg = NULL; struct context ctx;
     char* p = strrchr(*argv, '/');
     if (p == NULL) { p = (char *)argv; } else { p++; }
-
-    // TODO use p
-    ctx.fpath = "dumb.log"; ctx.ppath = "dumb.pid";
 
     if (argc == 0) return ctx;
     for (i = 1; i < argc; i++)
@@ -76,29 +102,20 @@ struct context parse_args(int argc, char **argv) {
         fprintf(stderr, "Invalid argument : '%s' %s\n", *(argv+i), msg);
         show_usage_exit(p, 1);
     }
+    if (ctx.fpath == NULL) {
+        ctx.fpath = malloc_str(strlen(p) + 4);
+        if (ctx.fpath == NULL)
+            err_exit(11, "fpath = malloc_str()", errno);
+        sprintf(ctx.fpath, "%s.log", p);
+    }
+    if (ctx.ppath == NULL) {
+        ctx.ppath = malloc_str(strlen(p) + 4);
+        if (ctx.ppath == NULL)
+            err_exit(11, "ppath = malloc_str()", errno);
+        sprintf(ctx.fpath, "%s.pid", p);
+    }
+
     return ctx;
-}
-
-void dbg_msg(const int exit_code, const char * const msg) {
-    fprintf(stderr, "[%d] Debug: %s\n", exit_code, msg);
-}
-
-void err_msg(const int exit_code, const char * const msg,
-        const int error_no) {
-    fprintf(stderr, ERR_FORMAT, exit_code, msg,
-            error_no, strerror(error_no));
-}
-
-void err_exit(const int exit_code, const char * const msg,
-        const int error_no) {
-    err_msg(exit_code, msg, error_no); exit(exit_code);
-}
-
-char *malloc_str(const size_t size) {
-    char *buf = NULL;
-    buf = (char *)malloc(size);
-    if (buf != NULL) { *(buf + size - 1) = '\0'; } // for safety
-    return buf;
 }
 
 volatile int flag_signal = 0;
@@ -124,15 +141,7 @@ int main(int argc, char **argv) {
 
     buf = malloc_str(BUFSIZ);
     if (buf == NULL)
-        err_exit(11, "malloc_str()", errno);
-
-    /* make stdin non-blocking */
-    // fd_flag = fcntl(fileno(stdin), F_GETFL);
-    // if (fd_flag == -1)
-    //     err_exit(11, "fcntl(stdin, F_GETFL)", errno);
-    // fd_flag = fcntl(fileno(stdin), F_SETFL, fd_flag | O_NONBLOCK);
-    // if (fd_flag == -1)
-    //     err_exit(11, "fcntl(stdin, F_SETFL, ...)", errno);
+        err_exit(11, "buf = malloc_str()", errno);
 
     /* prepare signal handler */
     struct sigaction sa;
@@ -150,82 +159,89 @@ int main(int argc, char **argv) {
     /* need_to_end_section from here.: fd_log */
     fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
     if (fd_log < 0)
-        err_exit(12, "open(LOGFILE)", errno);
+        err_exit(12, "open(LOGFILE)", errno);  // open error.
 
     /* create pid file */
     fd_pid = open(ctx.ppath, O_WRONLY|O_CREAT|O_TRUNC, 0640);
     if (fd_pid < 0) {
         es = 13; err_msg(es, "open(PIDFILE)", errno);
-        goto end;
+        goto end;  // open error.
     }
     cnt_wrote = sprintf(buf, "%d\n", getpid());
     if (write(fd_pid, buf, cnt_wrote) == EOF) {
         es = 13; err_msg(es, "write(PIDFILE, pid)", errno);
-        goto end;
+        goto end;  // write error.
     }
     fsync(fd_pid); close(fd_pid);
 
+    dbg_msg(13, "BUFSIZ =", BUFSIZ);
     while(TRUE) {
-        // printf("[DEBUG] poll()...\n"); 
         poll_rc = poll(fds, 1, -1);
-        // printf("[DEBUG] poll_rc = %d\n", poll_rc);
+        dbg_msg(21, "poll_rc =", poll_rc);
         if (poll_rc < 0 && errno != EINTR) {
             es = 21; err_msg(es, "poll()", errno);
-            goto end;
+            goto end;  // poll error.
         }
 
         sigprocmask(SIG_BLOCK, &sa.sa_mask, NULL); /* BLOCK signal*/
+        dbg_msg(22, "flag_signal =", flag_signal);
         if (flag_signal == SIGUSR1) { /* reopen by signal */
-            // printf("[DEBUG] SIGUSR1 reopening\n");
             rc = close(fd_log);
             if (rc < 0) {
                 es = 23; err_msg(es, "close(LOGFILE)", errno);
-                goto end;
+                goto end;  // close error.
             }
             fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
             if (fd_log < 0) {
                 es = 24; err_msg(es, "open(LOGFILE)", errno);
-                goto end;
+                goto end;  // open error.
             }
             flag_signal = 0;    /* clear flag after reopen. */
         }
-        if (poll_rc > 0 && fds[0].revents | POLLIN) {
-            cnt_read = read(fd_in, buf, BUFSIZ);
-            if (cnt_read <= 0) {
-                if (cnt_read == 0) {
-                    es = 0; goto end;
-                }
-                if (fcntl(fd_log, F_GETFD) == -1 && errno == EBADF) {
-                    es = 0; goto end;
-                }
+        if (poll_rc > 0) {
+            dbg_msg(31, "fds[0].revents =", fds[0].revents);
+            dbg_msg(31, "POLLIN =", fds[0].revents & POLLIN);
+            dbg_msg(31, "POLLPRI =", fds[0].revents & POLLPRI);
+            dbg_msg(31, "POLLERR =", fds[0].revents & POLLERR);
+            dbg_msg(31, "POLLHUP =", fds[0].revents & POLLHUP);
+            dbg_msg(31, "POLLNVAL =", fds[0].revents & POLLNVAL);
+
+            if (fds[0].revents & POLLIN) {
+                cnt_read = read(fd_in, buf, BUFSIZ);
+                dbg_msg(31, "cnt_read =", cnt_read);
                 if (cnt_read < 0) {
                     es = 31; err_msg(es, "read(STDIN)", errno);
-                    goto end;
+                    goto end;  // read error.
                 }
-            } else {
                 cnt_written = 0;
                 while (cnt_written < cnt_read) {
-                    cnt_wrote = write(fd_log, buf + cnt_written, cnt_read - cnt_written);
+                    cnt_wrote = write(fd_log,
+                                      buf + cnt_written,
+                                      cnt_read - cnt_written);
+                    dbg_msg(31, "cnt_wrote =", cnt_wrote);
                     if (cnt_wrote < 0) {
                         es = 31; err_msg(es, "write(LOGFILE)", errno);
-                        goto end;
+                        goto end;  // write error
                     }
                     cnt_written += cnt_wrote;
+                    dbg_msg(31, "cnt_written =", cnt_written);
                 }
                 fsync(fd_log);
+            } else {
+                if (fds[0].revents & POLLHUP) {
+                    break;  // stdin is closed. normal exit.
+                }
+                if (fds[0].revents & (POLLERR | POLLNVAL)) {
+                    es = 31;
+                    perr_msg(es, "poll() fds[0].revents error",
+                            fds[0].revents);
+                    goto end;  // error.
+                }
+                es = 31;
+                perr_msg(es, "poll() fds[0].revents unknown",
+                        fds[0].revents);
+                goto end;  // unknown.
             }
-
-            // if (fgets(line, BUFSIZ, s_in) == NULL) {
-            //     /* Ctrl-D cause errno = 11          *
-            //      * Resource temporarily unavailable */
-            //     if (feof(s_in)) break;
-            //     es = 31; err_msg(es, "fgets()", errno); goto end;
-            // } else {
-            //     if (fputs(line, s_out) == EOF) {
-            //         es = 32; err_msg(es, "fputs()", errno); goto end;
-            //     }
-            //     fflush(s_out);
-            // }
         }
         sigprocmask(SIG_UNBLOCK, &sa.sa_mask, NULL); /* UNBLOCK signal */
     }
@@ -236,6 +252,4 @@ end:
     unlink(ctx.ppath);
     return es;
 }
-
-
 
