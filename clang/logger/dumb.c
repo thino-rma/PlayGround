@@ -54,10 +54,12 @@ char *malloc_str(const size_t size) {
     return buf;
 }
 
+/*
 void dbg_msg(const int exit_code, const char * const msg,
         const int value) {
     fprintf(stderr, "[%d] Debug: %s %d\n", exit_code, msg, value);
 }
+ */
 
 void perr_msg(const int exit_code, const char * const msg,
         const int revents) {
@@ -139,6 +141,7 @@ int main(int argc, char **argv) {
 
     ctx = parse_args(argc, argv);
 
+    // dbg_msg(11, "BUFSIZ =", BUFSIZ);
     buf = malloc_str(BUFSIZ);
     if (buf == NULL)
         err_exit(11, "buf = malloc_str()", errno);
@@ -174,17 +177,16 @@ int main(int argc, char **argv) {
     }
     fsync(fd_pid); close(fd_pid);
 
-    dbg_msg(13, "BUFSIZ =", BUFSIZ);
     while(TRUE) {
         poll_rc = poll(fds, 1, -1);
-        dbg_msg(21, "poll_rc =", poll_rc);
+        // dbg_msg(21, "poll_rc =", poll_rc);
         if (poll_rc < 0 && errno != EINTR) {
             es = 21; err_msg(es, "poll()", errno);
             goto end;  // poll error.
         }
 
         sigprocmask(SIG_BLOCK, &sa.sa_mask, NULL); /* BLOCK signal*/
-        dbg_msg(22, "flag_signal =", flag_signal);
+        // dbg_msg(22, "flag_signal =", flag_signal);
         if (flag_signal == SIGUSR1) { /* reopen by signal */
             rc = close(fd_log);
             if (rc < 0) {
@@ -199,32 +201,31 @@ int main(int argc, char **argv) {
             flag_signal = 0;    /* clear flag after reopen. */
         }
         if (poll_rc > 0) {
-            dbg_msg(31, "fds[0].revents =", fds[0].revents);
-            dbg_msg(31, "POLLIN =", fds[0].revents & POLLIN);
-            dbg_msg(31, "POLLPRI =", fds[0].revents & POLLPRI);
-            dbg_msg(31, "POLLERR =", fds[0].revents & POLLERR);
-            dbg_msg(31, "POLLHUP =", fds[0].revents & POLLHUP);
-            dbg_msg(31, "POLLNVAL =", fds[0].revents & POLLNVAL);
+            // dbg_msg(31, "fds[0].revents =", fds[0].revents);
+            // dbg_msg(31, "POLLIN =", fds[0].revents & POLLIN);      //  1
+            // dbg_msg(31, "POLLPRI =", fds[0].revents & POLLPRI);    //  2
+            // dbg_msg(31, "POLLERR =", fds[0].revents & POLLERR);    //  8
+            // dbg_msg(31, "POLLHUP =", fds[0].revents & POLLHUP);    // 16
+            // dbg_msg(31, "POLLNVAL =", fds[0].revents & POLLNVAL);  // 32
 
             if (fds[0].revents & POLLIN) {
                 cnt_read = read(fd_in, buf, BUFSIZ);
-                dbg_msg(31, "cnt_read =", cnt_read);
+                // dbg_msg(31, "cnt_read =", cnt_read);
                 if (cnt_read < 0) {
                     es = 31; err_msg(es, "read(STDIN)", errno);
                     goto end;  // read error.
                 }
                 cnt_written = 0;
-                while (cnt_written < cnt_read) {
-                    cnt_wrote = write(fd_log,
-                                      buf + cnt_written,
+                while (cnt_written < cnt_read) {  // write all data
+                    cnt_wrote = write(fd_log, buf + cnt_written,
                                       cnt_read - cnt_written);
-                    dbg_msg(31, "cnt_wrote =", cnt_wrote);
+                    // dbg_msg(31, "cnt_wrote =", cnt_wrote);
                     if (cnt_wrote < 0) {
                         es = 31; err_msg(es, "write(LOGFILE)", errno);
                         goto end;  // write error
                     }
                     cnt_written += cnt_wrote;
-                    dbg_msg(31, "cnt_written =", cnt_written);
+                    // dbg_msg(31, "cnt_written =", cnt_written);
                 }
                 fsync(fd_log);
             } else {
@@ -252,4 +253,3 @@ end:
     unlink(ctx.ppath);
     return es;
 }
-
