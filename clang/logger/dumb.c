@@ -79,7 +79,9 @@ void err_exit(const int exit_code, const char * const msg,
 }
 
 struct context parse_args(int argc, char **argv) {
-    int i = 0; char *msg = NULL; struct context ctx;
+    int i = 0;
+    char *msg = NULL;
+    struct context ctx = { NULL, NULL };
     char* p = strrchr(*argv, '/');
     if (p == NULL) { p = (char *)argv; } else { p++; }
 
@@ -108,13 +110,13 @@ struct context parse_args(int argc, char **argv) {
         ctx.fpath = malloc_str(strlen(p) + 4);
         if (ctx.fpath == NULL)
             err_exit(11, "fpath = malloc_str()", errno);
-        sprintf(ctx.fpath, "%s.log", p);
+        sprintf(ctx.fpath, "%s.log", "dumb");
     }
     if (ctx.ppath == NULL) {
         ctx.ppath = malloc_str(strlen(p) + 4);
         if (ctx.ppath == NULL)
             err_exit(11, "ppath = malloc_str()", errno);
-        sprintf(ctx.fpath, "%s.pid", p);
+        sprintf(ctx.ppath, "%s.pid", "dumb");
     }
 
     return ctx;
@@ -140,7 +142,6 @@ int main(int argc, char **argv) {
     struct context ctx;           /* context               */
 
     ctx = parse_args(argc, argv);
-
     // dbg_msg(11, "BUFSIZ =", BUFSIZ);
     buf = malloc_str(BUFSIZ);
     if (buf == NULL)
@@ -148,6 +149,7 @@ int main(int argc, char **argv) {
 
     /* prepare signal handler */
     struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handler_signal;
     sa.sa_flags = 0;
     rc = sigemptyset(&sa.sa_mask);
@@ -187,19 +189,6 @@ int main(int argc, char **argv) {
 
         sigprocmask(SIG_BLOCK, &sa.sa_mask, NULL); /* BLOCK signal*/
         // dbg_msg(22, "flag_signal =", flag_signal);
-        if (flag_signal == SIGUSR1) { /* reopen by signal */
-            rc = close(fd_log);
-            if (rc < 0) {
-                es = 23; err_msg(es, "close(LOGFILE)", errno);
-                goto end;  // close error.
-            }
-            fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
-            if (fd_log < 0) {
-                es = 24; err_msg(es, "open(LOGFILE)", errno);
-                goto end;  // open error.
-            }
-            flag_signal = 0;    /* clear flag after reopen. */
-        }
         if (poll_rc > 0) {
             // dbg_msg(31, "fds[0].revents =", fds[0].revents);
             // dbg_msg(31, "POLLIN =", fds[0].revents & POLLIN);      //  1
@@ -230,6 +219,7 @@ int main(int argc, char **argv) {
                 fsync(fd_log);
             } else {
                 if (fds[0].revents & POLLHUP) {
+                    // dbg_msg(31, "POLLHUP =", fds[0].revents);
                     break;  // stdin is closed. normal exit.
                 }
                 if (fds[0].revents & (POLLERR | POLLNVAL)) {
@@ -243,6 +233,19 @@ int main(int argc, char **argv) {
                         fds[0].revents);
                 goto end;  // unknown.
             }
+        }
+        if (flag_signal == SIGUSR1) { /* reopen by signal */
+            rc = close(fd_log);
+            if (rc < 0) {
+                es = 23; err_msg(es, "close(LOGFILE)", errno);
+                goto end;  // close error.
+            }
+            fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
+            if (fd_log < 0) {
+                es = 24; err_msg(es, "open(LOGFILE)", errno);
+                goto end;  // open error.
+            }
+            flag_signal = 0;    /* clear flag after reopen. */
         }
         sigprocmask(SIG_UNBLOCK, &sa.sa_mask, NULL); /* UNBLOCK signal */
     }
