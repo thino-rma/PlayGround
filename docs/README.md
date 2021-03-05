@@ -19,8 +19,9 @@
   $ echo `date '+%Y%m%d-%H%M%S'`       # 年月日-時分秒
   $ echo `date '+%Y%m%d-%H%M%S.%3N'`   # 年月日-時分秒.ミリ秒
   ```
-- dateコマンド 年月日-時分秒
+- findコマンド
   ```console
+  find `pwd` -name "test.log.*" -daystart -mtime +3 | xargs -n4 rm -f
   ```
 - OSごとのパッケージ管理  
   CentOS
