@@ -44,17 +44,19 @@
 - findコマンド
   ```console
   ### 通常ファイル、深さ１、名前指定、日付判定、３日以上経過
-  find ./log/ -type f -maxdepth 1 -name "test.log.*" -daystart -mtime +3 | grep `pwd`
+  $ find ./log/ -type f -maxdepth 1 -name "test.log.*" -daystart -mtime +3 | grep `pwd`
   ### grepでカレントディレクトリの相対パス以下に制限
-  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
+  $ find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
   ### 相対ディレクトリだけに制限する
-  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
+  $ find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
   ### 絶対パスを除外する
-  find ./ -name "test.log.*" -daystart -mtime +3 | grep -v "^/"
+  $ find ./ -name "test.log.*" -daystart -mtime +3 | grep -v "^/"
   ### 末尾が .YYYYMMDD など数字が続くもの
-  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | grep -P ".\d+$" |
+  $ find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | grep -P ".\d+$" |
   ### 10件ずつ削除する
-  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | xargs -n10 rm -f
+  $ find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | xargs -r -n 10 rm
+  ### リネーム
+  $ find ./ -name "test.log.*" -daystart -mtime +3 -print0 | xargs -0 -r -I% echo % %.bak 
   ```
 - OSごとのパッケージ管理  
   CentOS
