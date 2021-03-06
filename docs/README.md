@@ -10,6 +10,28 @@
   - vim.md
 
 ### その他 備忘
+- 代替コマンド
+  - htopコマンド (topコマンドの代替)
+    ```console
+    sudo apt -y install htop
+    sudo dnf -y install htop
+    ```
+    ```console
+    $ htop
+    ```
+    キー```F1```でヘルプを参照できる。
+  - ncduコマンド (duコマンドの代替)
+    ```console
+    sudo apt install ncdu
+    sudo yum install ncdu 
+    ```
+    ```console
+    $ ncdu 
+    ```
+    キー```?```でヘルプを参照できる。
+  - fdコマンド (findコマンドの代替)
+    fd-find
+     
 - dateコマンド
   ```console
   $ echo `date '+%F'`                  # %F   full date: same as %Y-%m-%d
@@ -21,7 +43,18 @@
   ```
 - findコマンド
   ```console
-  find `pwd` -name "test.log.*" -daystart -mtime +3 | xargs -n4 rm -f
+  ### 通常ファイル、深さ１、名前指定、日付判定、３日以上経過
+  find ./log/ -type f -maxdepth 1 -name "test.log.*" -daystart -mtime +3 | grep `pwd`
+  ### grepでカレントディレクトリの相対パス以下に制限
+  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
+  ### 相対ディレクトリだけに制限する
+  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./`
+  ### 絶対パスを除外する
+  find ./ -name "test.log.*" -daystart -mtime +3 | grep -v "^/"
+  ### 末尾が .YYYYMMDD など数字が続くもの
+  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | grep -P ".\d+$" |
+  ### 10件ずつ削除する
+  find ./ -name "test.log.*" -daystart -mtime +3 | grep `\./` | xargs -n10 rm -f
   ```
 - OSごとのパッケージ管理  
   CentOS
