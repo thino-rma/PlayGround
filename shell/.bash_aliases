@@ -10,5 +10,7 @@ fi
 fi
 
 if [ -f /usr/bin/vim ]; then
+if [ -f ~/.vimrc.${_USER} ]; then
     alias vim='vim -u ~/.vimrc.'${_USER}
+fi
 fi
