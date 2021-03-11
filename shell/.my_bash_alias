@@ -8,9 +8,15 @@
 # R: output color sequence in "raw" form'
 # X: exit without clearing the screen
 export LESS='iRX'
+# for sudoedit
 if [ -f /usr/bin/vim ]; then
   export SUDO_EDITOR='/usr/bin/vim'
 fi
+alias sudovi='sudoedit'
+sudopage () {
+  sudo -i /usr/bin/cat $@
+}
+alias sudocat='sudopage'
 
 ## sudo
 # alias sudo='sudo -E '
