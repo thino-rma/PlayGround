@@ -25,3 +25,10 @@
   $ ssh-add
   $ ssh-add ~/.ssh/id_rsa
   ```
+
+### ssh秘密鍵から公開鍵を作成
+- 方法
+  ```console
+  ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+  ```
+  秘密鍵のパーミッションは600に設定しておくこと。
