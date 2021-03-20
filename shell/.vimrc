@@ -114,7 +114,25 @@ nnoremap x "_x
 vnoremap x "_x
 
 " copy Ctrl-c in VISUAL mode
+""" original <C-c> stop Visual mode
+""" use ESC to stop Visual mode
 vnoremap <C-c> y
+
+" paste in insert mode
+""" use original <C-r>"
+""" use original <C-o>p
+
+" paste in command mode
+""" use original  <C-r>"
+cnoremap <C-o>p <C-r>"
+
+" paste Ctrl-v
+inoremap <C-v> <C-r>"
+cnoremap <C-v> <C-r>"
+
+" original Ctrl-v can be called with Ctrl-\ Ctrl-v 
+inoremap <C-\><C-v> <C-v>
+cnoremap <C-\><C-v> <C-v>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for Cursor-move
