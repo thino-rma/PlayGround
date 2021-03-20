@@ -7,6 +7,9 @@
   - キーボードのみで操作
   - ホットキー設定：```Ctrl-Insert``` ClaftLaunchにフォーカス
   - Pythonで拡張可能
+- vim
+  - https://www.vim.org/download.php
+  - テキストエディタ
 - RLogin
   - https://nanno.dip.jp/softlib/man/rlogin/
   - SSHクライアント
