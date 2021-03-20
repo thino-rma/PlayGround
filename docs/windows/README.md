@@ -1,6 +1,5 @@
 ## Windows向け
 
-
 ### ソフトウェア
 - CraftLaunch
   - https://sites.google.com/site/craftware/clnch
@@ -25,7 +24,11 @@
   - ```Ctrl-2```
   - ```Ctrl-3```
   - ```Ctrl-4```
+
 ### その他
 - Ctrl2cap
   - https://docs.microsoft.com/en-us/sysinternals/downloads/ctrl2cap
   - Caps Lock キーを Ctrlキーにする。
+
+### 引っ越し
+- EaseUS Partition Manager
