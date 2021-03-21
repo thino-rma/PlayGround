@@ -1,0 +1,22 @@
+[[ $OSTYPE == *@(darwin|freebsd|solaris|cygwin|openbsd)* ]] || _userland GNU \
+    || return 1
+
+_tmux()
+{
+    local cur prev words opts
+    _get_comp_words_by_ref -n : cur prev cword
+    if [ 1 -eq ${cword} ]; then
+        opts="att has kill-server kill-session ls new rename"
+    elif [ 2 -eq ${cword} ]; then
+        if [ "ls" != "${prev}" -a "kill-session" != "${prev}" ]; then
+            opts="-t"
+        fi
+    elif [ 3 -eq ${cword} ]; then
+        opts=$(tmux ls | awk '{ print $1 }' | sed -e 's/:$//')
+    fi
+    if [ -n "${opts}" ]; then
+        COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+    fi
+    return 0
+} &&
+complete -F _tmux tmux apropos whatis
