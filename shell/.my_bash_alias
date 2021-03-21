@@ -10,6 +10,7 @@
 export LESS='iRX'
 # for sudoedit
 if [ -f /usr/bin/vim ]; then
+  export EDITOR='/usr/bin/vim'
   export SUDO_EDITOR='/usr/bin/vim'
 fi
 alias sudovi='sudoedit'
