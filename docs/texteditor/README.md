@@ -110,6 +110,16 @@
       bind-key -n Bspace send-keys C-h
       ```
 - 補足事項
+  - 確認すべき挙動
+    - RLogin-Bashでの入力
+    - RLogin-Bash-vimでの入力
+    - RLogin-Bash-ssh-Bashでの入力
+    - RLogin-Bash-ssh-Bash-vimでの入力
+    - RLogin-Bash-tmux-コマンドモードでの入力
+    - RLogin-Bash-tmux-Bashでの入力
+    - RLogin-Bash-tmux-Bash-vimでの入力
+    - RLogin-Bash-tmux-Bash-ssh-Bashでの入力
+    - RLogin-Bash-tmux-Bash-ssh-Bash-vimでの入力
   - 設定D tmuxには、キーバインド設定として、以下のようにする例が見つかる。
     ```console
     bind-key -n Bspace send-keys C-h
@@ -118,4 +128,3 @@
   - 設定A あり、設定B なし、設定D あり　の場合、tmux起動直後のCtrl-hが ```^H``` のままになるが、tmuxセッション内でのコマンドモードのBackSpaceが ```^?``` （豆腐表示）となってしまう。
   - 設定A あり、設定B あり、設定D なし　の場合、よさそう
   - 設定A あり、設定B あり、設定D あり　の場合、tmux起動直後のBackSpaceが ```^H``` となってしまう。
-
