@@ -70,8 +70,7 @@ alias tmn='tmux -2 new \; source ~/.tmux.startup.conf'
 # If this has a terminal for STDIN
 if [[ -t 0 ]]; then
   ## erase with '^?' sent by Backspace RLogin.
-  ## this is not needed.
-  # stty erase ^?
+  stty erase ^?
   ## disable Ctrl-S (stop), Ctrl-Q (start)
   stty stop undef
   stty start undef
