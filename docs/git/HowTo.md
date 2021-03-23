@@ -12,20 +12,25 @@
   - 流れ
     - ある日、gitでローカルリポジトリを作り、バージョン管理を始める。
     - やがて、GitHubにリポジトリを移行したい、と考える。
-  - やりかた
-    (1) リモートリポジトリoriginのpush用URLを移行先に変更し、  
-    (2) 移行先にmirrorモードでpushする。
+  - やりかた（検証済み）
+    (1) リモートリポジトリoriginのpush用URLを移行先に変更し、
+    (2) masterブランチをmainブランチに変更して、
+    (3) 移行先にmirrorモードでpushする。
     ```console
+    ### (0) ローカルでリポジトリを作成
+    ~/work/hoge $ git init
     ### (1)
-    ~/git_work $ git remote add origin git@github.com:hogehoge/hoge.git
+    ~/work/hoge $ git remote add origin git@github.com:thino-rma/hoge.git
     ### (2)
-    ~/bit_work $ git push --mirror
+    ~/work/hoge $ git branch -M main
+    ### (3)
+    ~/work/hoge $ git push -u origin main
     ```
 - Bitbucketからgithubに移行する
   - 流れ
     - ある日、GitHubでリモートリポジトリを作り、バージョン管理を始める。
     - やがて、別のリポジトリを移行したい、と考える。
-  - やりかた
+  - やりかた（未検証）
     (1) 移行元からmirrorモードでcloneして  
     (2) リモートリポジトリoriginのpush用URLを移行先に変更し、  
     (3) 移行先にmirrorモードでpushする。  
