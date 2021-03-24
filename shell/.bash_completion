@@ -6,13 +6,24 @@ _tmux()
     local cur prev words opts
     _get_comp_words_by_ref -n : cur prev cword
     if [ 1 -eq ${cword} ]; then
-        opts="att has kill-server kill-session ls new rename"
+        opts="attach has kill-server kill-session ls lsc lscm new rename"
     elif [ 2 -eq ${cword} ]; then
-        if [ "ls" != "${prev}" -a "kill-session" != "${prev}" ]; then
-            opts="-t"
+        if [ "new" = "${prev}" ]; then
+            opts="-s"  # session-name
+        elif [ "kill-server" = "${prev}" ]; then
+            :
+        elif [ "ls" = "${prev}" -o "lscm" = "${prev}" ]; then
+            : opts="-F"  # format
+        elif [ "lsc" = "${prev}" ]; then
+            : opts="-F -t"  # format target-session
+            opts="-t"  # target-session
+        else
+            opts="-t"  # target-session
         fi
     elif [ 3 -eq ${cword} ]; then
-        opts=$(tmux ls | awk '{ print $1 }' | sed -e 's/:$//')
+        if [ "-t" = "${prev}" ]; then
+            opts=$(tmux ls | awk '{ print $1 }' | sed -e 's/:$//')
+        fi
     fi
     if [ -n "${opts}" ]; then
         COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
