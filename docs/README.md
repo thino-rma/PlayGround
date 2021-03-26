@@ -1,6 +1,16 @@
 ### いくつかの忘れやすい事柄
 - html
   - ゼロ幅スペース &#8203;```&#8203;```
+- products
+  - trickle 帯域制限
+  - websocketd [joewalnes/websocketd](https://github.com/joewalnes/websocketd)
+    - websocketd is a small command-line tool that will wrap an existing command-line interface program, and allow it to be accessed via a WebSocket.
+  - moosefs
+    - オープンソースのPOSIX準拠の分散ファイルシステム オープンソース版では単一障害点あり
+  - bcachefs
+    - 次世代の CoW ファイルシステム
+  - ChironFS FUSE based filesystem that implements replication at the filesystem level like RAID 1 does at the device level.
+    - [Rustで学ぶFUSE (1) リードオンリーなファイルシステムの実装](https://qiita.com/narumatt/items/2dfc3aedf3aafd459e81)
 - git/
   - README.md
 - python/
