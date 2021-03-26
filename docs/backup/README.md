@@ -119,3 +119,28 @@
   - リモートホストに増分バックアップを作りたい時
     - 初回は手段③で複製を作成する。
     - ２回目以降は、前回に作ったものを手段②で複製バックアップを作ってから、手段④で同期する。
+- SSH接続でコマンドを制限する
+  - 参考URL：[rsync+ssh2の設定の巻](http://www.sea-bird.org/pukiwiki_utf/index.php?rsync%2Bssh2%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%81%AE%E5%B7%BB)
+    > rsyncコマンドのみを許す設定
+    > サーバ側のsshに「PermitRootLogin forced-commands-only」と指定したことにより、ssh経由でrootユーザでの実行が可能となります。ただし許可されたコマンドのみ実行が可能なので、その登録方法を説明します。  
+    > ここでも説明もこんがらがるので、サーバ側、バックアップ側として説明します。  
+    > サーバ側で、実際に実行するrsyncコマンドを実行してみます。
+    > ```console 
+    > server# /usr/bin/rsync -vv -az -e "ssh -2 -i/root/.ssh/rsync" /backup/ root@192.168.0.xxx:/backup/
+    > opening connection using ssh -2 -i/root/.ssh/rsync -l root 192.168.0.xxx rsync --server -vvlogDtprz . /backup/
+    > protocol version mismatch - is your shell clean?
+    > (see the rsync man page for an explanation)
+    > rsync error: protocol incompatibility (code 2) at compat.c(60)
+    > ```
+    > 必ずエラーとなります  
+    > rsync error: protocol incompatibility (code 2) at compat.c(60)  
+    > 上記のエラーが表示されますが、ここでの注目して欲しい点は、「rsync --server -vvlogDtprz . /backup/」です。  
+    > このコマンド結果をバックアップ側に登録します。  
+    > 
+    > バックアップ側の、/root/.ssh/authorized_keys ファイルを開き rsyncの公開鍵(rsync.pub)で登録した行の先頭に上記で注目してという「rsync --server -vvlogDtprz . /backup/」を追加します。  
+    > 実際には command="" というのを追加します。
+    > 
+    > ```console 
+    > backup# vi /root/.ssh/authorized_keys         
+    > command="rsync --server -vvlogDtprz . /backup/" ssh-dss xxxxxxxxx
+    > ```
