@@ -101,6 +101,8 @@
   - ```$ tmux ls``` list session namews
   - ```$ tmux att -t mysession``` attach session to named
   - ```PREFIX d``` detach from the session
+    > if you want to change session-name in the session, you can use command-mode starting with ```:``` (colon)  
+    > ```:rename-session mysession``` 
 - copy and paste (5 items)
   > you may be happy if you make clipboard writable with OSC52 (or PASTE64) to share the contents you copy in tmux with host's clipboad.
   
