@@ -22,6 +22,14 @@
   - vim.md
 
 ### その他 備忘
+- Ubuntu apache2設定
+  - http://www.yamamo10.jp/yamamoto/comp/home_server/WEB_server3/apache/index.php
+  - apachectl
+  - a2ensite / a2dissite
+  - a2enconf / a2disconf
+  - a2enmod / a2dismod
+  - a2ensite / a2dissite
+  - なぜコマンドを分ける？サブコマンドにまとめて、タブ補完するべき。
 - 代替コマンド
   - htopコマンド (topコマンドの代替)
     ```console
@@ -122,11 +130,18 @@
   $ sudo journalctl -f
   ```
 
-- netstatコマンド
+- netstatコマンド ssコマンド 
   netstatコマンドは非推奨。ss コマンドを使いましょう。
   TCPのLISTENポートを番号で表示します。
   ```console
   $ ss -ltn
+  ```
+
+- ipコマンド
+  ```console
+  $ ip a   # address show
+  $ ip n   # neighbour (ARP or NDISC)
+  $ ip r   # routing table
   ```
 
 - lsofコマンド
