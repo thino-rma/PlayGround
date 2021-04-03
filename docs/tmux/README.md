@@ -116,14 +116,14 @@
     > - in copy mode ```y``` copy selection (and quit copy mode)
 - panes (5 items)
   - ```PREFIX "(Shift-2)``` create a horizontal split
-    > if it is confusing, you can map it to ```PREFIX |(Shift-\)```
-    > ```
-    > bind | split-window -h # Split panes horizontal
-    > ```
-  - ```PREFIX %(Shift-5)``` create a virtical split
     > if it is confusing, you can map it to ```PREFIX -```
     > ```
-    > bind - split-window -v # Split panes vertically
+    > bind - split-window -h # Split panes horizontal
+    > ```
+  - ```PREFIX %(Shift-5)``` create a virtical split
+    > if it is confusing, you can map it to ```PREFIX |(Shift-\)```
+    > ```
+    > bind | split-window -v # Split panes vertically
     > ```
   - ```PREFIX z``` toggle zoom in/out
   - ```PREFIX o``` cycle through panes (change focus)
