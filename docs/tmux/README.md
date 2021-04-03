@@ -129,7 +129,7 @@
   - ```PREFIX o``` cycle through panes (change focus)
   - ```PREFIX x``` close pane
     > of course, ```$ exit``` close current pane  
-    > you can use mouse to resize pane with setting ```set-option -g mouse on```
+    > you can use mouse to select/resize pane with setting ```set-option -g mouse on```
 - windows (tabs)  (5 items)
   - ```PREFIX w``` list windows
   - ```PREFIX c``` create a window
@@ -137,3 +137,4 @@
   - ```PREFIX p``` previous window
   - ```PREFIX &(Shift-6)``` kill window
     > of course, ```$ exit``` close current window (if in last pane)
+    > you can use mouse to select window with setting ```set-option -g mouse on```
