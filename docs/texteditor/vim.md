@@ -12,14 +12,14 @@
       > チェックが入っていると、 BSキーで ```^h```（これは C-h とかぶる） を送信する。チェックを外すと、BSキーで ```^?``` を送信する。  
       > 目的：vimで、BSキーと C-h を別々にマッピングするのに必要。
   - キーコード
-    - 「1.modifyCursorKeys」を、「UP,DOWN,RIGHT,LEFT,PRIOR,NEXT,HOME,END,DELETE」（INSERTを除く）に対して「0」を設定。
+    - 「1.modifyCursorKeys」を、「UP,DOWN,RIGHT,LEFT,PRIOR,NEXT,HOME,END,DELETE」（INSERTを除く）に対して「2」を設定。
       > 注意：INSERTを除いていることに注意する。これは、RLogin のショートカットに Shift-Insert を $PASTE にマッピングしているため。  
       > 目的：vimで、カーソルキーなどのキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
-    - 「2.modifyCursorKeys」を、「F1-F12」（デフォルト）に対して「0」を設定。
+    - 「2.modifyCursorKeys」を、「F1-F12」（デフォルト）に対して「2」を設定。
       > 目的：vimで、ファンクションキーに機能を割り付けるとき、修飾コードを追加することで、使いやすくする。
-    - 「3.modifyKeypadKeys」を、「PAD0-PAD9,PADMUL,PADADD,PADSEP,PADSUB,PADDEC,PADDIV」（デフォルト）に対して「0」を設定。
+    - 「3.modifyKeypadKeys」を、「PAD0-PAD9,PADMUL,PADADD,PADSEP,PADSUB,PADDEC,PADDIV」（デフォルト）に対して「2」を設定。
       > 「-1」（デフォルト）の場合、Ctrlとキーパッドの「-」を入力すると、RLoginの挙動が不安定になった。（接続が応答しなくなる）  
-      > 「0」にした場合、Ctrlとキーパッドの「-」を入力しても、RLoginの挙動が不安定にならない。  
+      > 「2」にした場合、Ctrlとキーパッドの「-」を入力しても、RLoginの挙動が不安定にならない。  
       > vimの割り付けには使用しない。
     - 「4.modifyOtherKeys」を、「ESCAPE,RETURN,BACK,TAB」（デフォルト）に対して「-1」（デフォルト）を設定。
       > vimの割り付けには使用しない。
@@ -448,6 +448,55 @@
 - 3. Leader
 - 4. Key code
 
-
+### keycode check
+- キーコードをチェックするための定義  
+  以下を.vimrcの末尾に貼り付けて、動作確認する。  
+  ただし、カーソル移動にカーソルキーが使えなくなるので、hjklを使う、ggやGを使う、インサートモードに移行してカーソルキーを使う。
+  ```console
+  nnoremap <Up>         :echo 'nnoremap Up'<CR>
+  nnoremap <S-Up>       :echo 'nnoremap S-Up'<CR>
+  nnoremap <Down>       :echo 'nnoremap Down'<CR>
+  nnoremap <S-Down>     :echo 'nnoremap S-Down'<CR>
+  nnoremap <Right>      :echo 'nnoremap Right'<CR>
+  nnoremap <S-Right>    :echo 'nnoremap S-Right'<CR>
+  nnoremap <Left>       :echo 'nnoremap Left'<CR>
+  nnoremap <S-Left>     :echo 'nnoremap S-Left'<CR>
+  nnoremap <PageUp>     :echo 'nnoremap PageUp'<CR>
+  nnoremap <S-PageUp>   :echo 'nnoremap S-PageUp'<CR>
+  nnoremap <PageDown>   :echo 'nnoremap PageDown'<CR>
+  nnoremap <S-PageDown> :echo 'nnoremap S-PageDown'<CR>
+  nnoremap <Home>       :echo 'nnoremap Home'<CR>
+  nnoremap <S-Home>     :echo 'nnoremap S-Home'<CR>
+  nnoremap <End>        :echo 'nnoremap End'<CR>
+  nnoremap <S-End>      :echo 'nnoremap S-End'<CR>
+  nnoremap <Insert>     :echo 'nnoremap Insert'<CR>
+  nnoremap <S-Insert>   :echo 'nnoremap S-Insert'<CR>
+  nnoremap <Delete>     :echo 'nnoremap Delete'<CR>
+  nnoremap <S-Delete>   :echo 'nnoremap S-Delete'<CR>
+  nnoremap <F1>         :echo 'nnoremap F1'<CR>
+  nnoremap <S-F1>       :echo 'nnoremap S-F1'<CR>
+  nnoremap <F2>         :echo 'nnoremap F2'<CR>
+  nnoremap <S-F2>       :echo 'nnoremap S-F2'<CR>
+  nnoremap <F3>         :echo 'nnoremap F3'<CR>
+  nnoremap <S-F3>       :echo 'nnoremap S-F3'<CR>
+  nnoremap <F4>         :echo 'nnoremap F4'<CR>
+  nnoremap <S-F4>       :echo 'nnoremap S-F4'<CR>
+  nnoremap <F5>         :echo 'nnoremap F5'<CR>
+  nnoremap <S-F5>       :echo 'nnoremap S-F5'<CR>
+  nnoremap <F6>         :echo 'nnoremap F6'<CR>
+  nnoremap <S-F6>       :echo 'nnoremap S-F6'<CR>
+  nnoremap <F7>         :echo 'nnoremap F7'<CR>
+  nnoremap <S-F7>       :echo 'nnoremap S-F7'<CR>
+  nnoremap <F8>         :echo 'nnoremap F8'<CR>
+  nnoremap <S-F8>       :echo 'nnoremap S-F8'<CR>
+  nnoremap <F9>         :echo 'nnoremap F9'<CR>
+  nnoremap <S-F9>       :echo 'nnoremap S-F9'<CR>
+  nnoremap <F10>        :echo 'nnoremap F10'<CR>
+  nnoremap <S-F10>      :echo 'nnoremap S-F10'<CR>
+  nnoremap <F11>        :echo 'nnoremap F11'<CR>
+  nnoremap <S-F11>      :echo 'nnoremap S-F11'<CR>
+  nnoremap <F12>        :echo 'nnoremap F12'<CR>
+  nnoremap <S-F12>      :echo 'nnoremap S-F12'<CR>
+  ```
 
       
