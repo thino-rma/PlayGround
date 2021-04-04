@@ -289,11 +289,11 @@ endfunction
 
 """ start/finish recording with Shift+F12 to register
 nnoremap <S-F1>      :<C-u>call <SID>AltRecord('a', 4)<CR>
-nnoremap <M-F1>      :<C-u>call <SID>AltRecord('b', 8)<CR>
-nnoremap <M-S-F1>    :<C-u>call <SID>AltRecord('c', 8)<CR>
-nnoremap <C-F1>      :<C-u>call <SID>AltRecord('d', 8)<CR>
-nnoremap <C-S-F1>    :<C-u>call <SID>AltRecord('e', 8)<CR>
-nnoremap <M-C-F1>    :<C-u>call <SID>AltRecord('f', 8)<CR>
+nnoremap <M-F1>      :<C-u>call <SID>AltRecord('b', 4)<CR>
+nnoremap <M-S-F1>    :<C-u>call <SID>AltRecord('c', 6)<CR>
+nnoremap <C-F1>      :<C-u>call <SID>AltRecord('d', 4)<CR>
+nnoremap <C-S-F1>    :<C-u>call <SID>AltRecord('e', 6)<CR>
+nnoremap <M-C-F1>    :<C-u>call <SID>AltRecord('f', 6)<CR>
 nnoremap <M-C-S-F1>  :<C-u>call <SID>AltRecord('g', 8)<CR>
 
 inoremap <S-F1>      <C-o>:call <SID>AltRecord('a', 4)<CR>
