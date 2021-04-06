@@ -323,6 +323,89 @@
     > |```<C-u>```|unix-line-discard<br />Kill backward from point to the beginning of the line.| ```"_d0``` | as is |
     > |```<C-k>```|kill-line<br />Kill the text from point to the end of the line.| ```"_d$``` | ```cnoremap <C-k> <C-\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>``` |
   
+- keys for mappings
+  - F1, F2 Help/Show register and Recording/Executing macro
+    |mode|key|action|memo|
+    |:--:|:--|:-----|:---|
+    |n   |```<F1>```|toggle help<br />```nnoremap <F1> :call <SID>ToggleHelp()<CR>```||
+    |n   |```<F2>```|show register<br />```nnoremap <F2> :<C-u>reg<CR>```||
+    |n   |```<S-F1>```|record typed characters into named register a<br />```nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)<CR>```||
+    |n   |```<S-F2>```|execute register<br />```nnoremap <S-F2> @a```||
+    |n   |```<C-F1>```|record typed characters into named register a<br />```nnoremap <C-F1> :<C-u>call <SID>AltRecord('b', 4)<CR>```||
+    |n   |```<C-F2>```|execute register<br />```nnoremap <C-F2> @b```||
+    |n   |```<C-S-0F1>```|record typed characters into named register a<br />```nnoremap <C-S-F1> :<C-u>call <SID>AltRecord('c', 6)<CR>```||
+    |n   |```<C-S-0F2>```|execute register<br />```nnoremap <C-S-F2> @c```||
+    |iv  |```<F1>```|show information about current cursor position<br />```inoremap <F1> <ESC>g<C-g>```<br />```vnoremap <F1> <ESC>g<C-g>```||
+    |iv  |```<F2>```|```inoremap <F2> <nop>```<br />```vnoremap <F2> <nop>```||
+    > ```nnoremap <S-F1> :<C-u>call <SID>AltRecord('x', 4)<CR>```
+    > ```nnoremap <C-S-F1> :<C-u>call <SID>AltRecord('x', 6)<CR>```
+    > ```nnoremap <M-C-S-F1> :<C-u>call <SID>AltRecord('x', 8)<CR>```
+  - ToggleHelp
+    ```console
+    """ F1 toggle Help
+    nnoremap <F1> :call <SID>ToggleHelp()<CR>
+    """ function for F1, toggle Help
+    function! s:ToggleHelp()
+      if &buftype == "help"
+        exec 'quit'
+      else
+        exec 'help'
+      endif
+    endfunction
+    ```
+  - AltRecord
+    ```console
+    """ Function: AltRecord
+    "     Parameters:
+    "       reg
+    "         register name, e.g. 'a' means register @a
+    "       len
+    "         remove characters length.
+    "     Usage:
+    "         nnoremap <S-F1> :<C-u>call <SID>AltRecord('a', 4)
+    "         nnoremap <S-F2> :<C-u>call <SID>AltRecord('b', 4)
+    function! s:AltRecord(reg, len)
+      if exists("g:recording_macro")
+        let r = g:recording_macro
+        unlet g:recording_macro
+        normal! q
+        execute 'let @'.r." = @".r.'[:-'.a:len.']'
+        echo 'recorded. Type @'.r.' to run the macro.'
+      else
+        let g:recording_macro = a:reg
+        execute 'normal! q'.a:reg
+      endif
+    endfunction
+    ```
+  - F3, F4 search and replace
+    |mode|key|action|memo|
+    |:--:|:--|:-----|:---|
+    |n   |```<F3>```    |search next<br />```nnoremap <F3> n```||
+    |n   |```<S-F3>```  |search previous<br />```nnoremap <S-F3> N```||
+    |n   |```<C-F3>```  |confirm search next<br />```nnoremap <C-F3> /<C-r>"```||
+    |n   |```<C-S-F3>```|confirm search previous<br />```nnoremap <C-S-F3> ?<C-r>"```||
+    |n   |```<F4>```    |replace again<br />```nnoremap <F4> &```|repeat replace with ```<F3><F4>```|
+    |n   |```<S-F4>```  |replace again<br />```nnoremap <S-F4> &```|repeat replace with```<S-F3><S-F4>```|
+    |n   |```<C-F4>```  |confirm replace<br />```nnoremap <C-F4> :s/<C-r>"//gc<Left><Left><Left>```||
+    |n   |```<C-S-F4>```|confirm replace<br />```nnoremap <C-S-F4> :s#<C-r>"##gc<Left><Left><Left>```||
+    |v   |```<F3>```    |search next<br />```vnoremap <F3> n```||
+    |v   |```<S-F3>```  |search previous<br />```vnoremap <S-F3> N```||
+    |v   |```<C-F3>```  |confirm search<br />```vnoremap <C-F3> /<C-r>"```||
+    |v   |```<C-S-F3>```|confirm search<br />```vnoremap <C-S-F3> ?<C-r>"```||
+    |v   |```<F4>```    |replace again<br />```vnoremap <F4> &```||
+    |v   |```<S-F4>```  |replace again<br />```vnoremap <S-F4> &```||
+    |v   |```<C-F4>```  |confirm replace<br />```vnoremap <C-F4> :s/<C-r>"//gc<Left><Left><Left>```||
+    |v   |```<C-S-F4>```|confirm replace<br />```vnoremap <C-S-F4> :s#<C-r>"##gc<Left><Left><Left>```||
+    |i   |```<F3>```    |search next<br />```inoremap <F3> <C-o>n```||
+    |i   |```<S-F3>```  |search previous<br />```inoremap <S-F3> <C-o>N```||
+    |i   |```<C-F3>```  |confirm search<br />```inoremap <C-F3> <C-o>/<C-r>"```||
+    |i   |```<C-S-F3>```|confirm search<br />```inoremap <C-S-F3> <C-o>?<C-r>"```||
+    |i   |```<F4>```    |replace again<br />```inoremap <F4> <C-o>&```||
+    |i   |```<S-F4>```  |replace again<br />```inoremap <S-F4> <C-o>&```||
+    |i   |```<C-F4>```  |confirm replace<br />```inoremap <C-F4> <C-o>:s/<C-r>"//gc<Left><Left><Left>```||
+    |i   |```<C-S-F4>```|confirm replace<br />```inoremap <C-S-F4> <C-o>:s#<C-r>"##gc<Left><Left><Left>```||
+     
+  
 ### Usage
 - 1. mode
   - (1) NORMAL mode
