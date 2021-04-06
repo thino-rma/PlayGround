@@ -333,8 +333,8 @@
     |n   |```<S-F2>```|execute register<br />```nnoremap <S-F2> @a```||
     |n   |```<C-F1>```|record typed characters into named register a<br />```nnoremap <C-F1> :<C-u>call <SID>AltRecord('b', 4)<CR>```||
     |n   |```<C-F2>```|execute register<br />```nnoremap <C-F2> @b```||
-    |n   |```<C-S-0F1>```|record typed characters into named register a<br />```nnoremap <C-S-F1> :<C-u>call <SID>AltRecord('c', 6)<CR>```||
-    |n   |```<C-S-0F2>```|execute register<br />```nnoremap <C-S-F2> @c```||
+    |n   |```<C-S-F1>```|record typed characters into named register a<br />```nnoremap <C-S-F1> :<C-u>call <SID>AltRecord('c', 6)<CR>```||
+    |n   |```<C-S-F2>```|execute register<br />```nnoremap <C-S-F2> @c```||
     |iv  |```<F1>```|show information about current cursor position<br />```inoremap <F1> <ESC>g<C-g>```<br />```vnoremap <F1> <ESC>g<C-g>```||
     |iv  |```<F2>```|```inoremap <F2> <nop>```<br />```vnoremap <F2> <nop>```||
     > ```nnoremap <S-F1> :<C-u>call <SID>AltRecord('x', 4)<CR>```
@@ -390,20 +390,20 @@
     |n   |```<C-S-F4>```|confirm replace<br />```nnoremap <C-S-F4> :s#<C-r>"##gc<Left><Left><Left>```||
     |v   |```<F3>```    |search next<br />```vnoremap <F3> n```||
     |v   |```<S-F3>```  |search previous<br />```vnoremap <S-F3> N```||
-    |v   |```<C-F3>```  |confirm search<br />```vnoremap <C-F3> /<C-r>"```||
-    |v   |```<C-S-F3>```|confirm search<br />```vnoremap <C-S-F3> ?<C-r>"```||
+    |v   |```<C-F3>```  |confirm search<br />```vnoremap <C-F3> /<C-r><C-w>```||
+    |v   |```<C-S-F3>```|confirm search<br />```vnoremap <C-S-F3> ?<C-r><C-w>```||
     |v   |```<F4>```    |replace again<br />```vnoremap <F4> &```||
     |v   |```<S-F4>```  |replace again<br />```vnoremap <S-F4> &```||
-    |v   |```<C-F4>```  |confirm replace<br />```vnoremap <C-F4> :s/<C-r>"//gc<Left><Left><Left>```||
-    |v   |```<C-S-F4>```|confirm replace<br />```vnoremap <C-S-F4> :s#<C-r>"##gc<Left><Left><Left>```||
+    |v   |```<C-F4>```  |confirm replace<br />```vnoremap <C-F4> "vy:s/<C-r>v//gc<Left><Left><Left>```||
+    |v   |```<C-S-F4>```|confirm replace<br />```vnoremap <C-S-F4> "vy:s#<C-r>v##gc<Left><Left><Left>```||
     |i   |```<F3>```    |search next<br />```inoremap <F3> <C-o>n```||
     |i   |```<S-F3>```  |search previous<br />```inoremap <S-F3> <C-o>N```||
     |i   |```<C-F3>```  |confirm search<br />```inoremap <C-F3> <C-o>/<C-r>"```||
     |i   |```<C-S-F3>```|confirm search<br />```inoremap <C-S-F3> <C-o>?<C-r>"```||
     |i   |```<F4>```    |replace again<br />```inoremap <F4> <C-o>&```||
     |i   |```<S-F4>```  |replace again<br />```inoremap <S-F4> <C-o>&```||
-    |i   |```<C-F4>```  |confirm replace<br />```inoremap <C-F4> <C-o>:s/<C-r>"//gc<Left><Left><Left>```||
-    |i   |```<C-S-F4>```|confirm replace<br />```inoremap <C-S-F4> <C-o>:s#<C-r>"##gc<Left><Left><Left>```||
+    |i   |```<C-F4>```  |confirm replace<br />```inoremap <C-F4> <C-o>:s/<C-r><C-w>//gc<Left><Left><Left>```||
+    |i   |```<C-S-F4>```|confirm replace<br />```inoremap <C-S-F4> <C-o>:s#<C-r><C-w>##gc<Left><Left><Left>```||
      
   
 ### Usage
