@@ -1,3 +1,91 @@
+### キーマッピングにおける基本原則
+- 考慮する事項
+  - できる限りデフォルトをオーバーライドしない。
+    - 設定されていない環境で作業するときに事故を起こさないため。
+  - デフォルトを上書きする場合でも、できる限りデフォルトキーマップをバックアップする。
+  - デフォルトを上書きすべき理由を明確にする。
+- 考慮する事項 (1) vimで使えないキー
+  - RLogin（SSHクライアント）のキーマッピング
+  　```
+    Shift-INSERT $PASTE
+    ```
+  - tmuxのキーマッピング (基本は Meta付き）
+    ```
+    ### prefix key
+    unbind C-b
+    set -g prefix C-q
+    bind C-q send-prefix
+    
+    ### short cut keys
+    bind-key -n M-F7     select-pane -t :.-
+    bind-key -n M-F8     select-pane -t :.+
+    bind-key -n M-C-F7   previous-window
+    bind-key -n M-C-F8   next-window
+    
+    ### short cut keys F9, F10, F11, F12 with Alt: h,j,k,l
+    # without Shift, change pane
+    bind-key -n M-F9  select-pane -L
+    bind-key -n M-F10 select-pane -D
+    bind-key -n M-F11 select-pane -U
+    bind-key -n M-F12 select-pane -R
+    
+    # with Shift, change size
+    bind-key -n M-S-F9    resize-pane -L 1
+    bind-key -n M-S-F10   resize-pane -D 1
+    bind-key -n M-S-F11   resize-pane -U 1
+    bind-key -n M-S-F12   resize-pane -R 1
+    
+    bind-key -n M-C-S-F9  resize-pane -L 5
+    bind-key -n M-C-S-F10 resize-pane -D 5
+    bind-key -n M-C-S-F11 resize-pane -U 5
+    bind-key -n M-C-S-F12 resize-pane -R 5
+    
+    ### copy mode
+    # C-@ stands for NUL '\000' which is sent by C-Space on SSH client
+    bind-key -n C-@ copy-mode
+    ```
+- 考慮する事項 (2) vimで使えると便利なキー
+  - bashのキーマッピング、emacsのキーマッピング
+    ```
+    <C-b> cursor to left
+    <C-f> cursor to right
+    <M-b> Move back to the start of the current or previous word.
+    <M-f> Move forward to the end of the next word.
+    <C-a> cursor to begin of command-line
+    <C-e> cursor to end of command-line
+    <C-d> delete character under the cursor
+    <C-u> Remove all characters between the cursor position and the beginning of the line.
+    <C-k> Remove all characters between the cursor position and the end of the line.
+    <C-w> Cut from cursor to previous whitespace
+    <C-l> Clear the screen leaving the current line at the top of the screen.
+    ```
+
+### ESCの代替キーについての検討
+- 調査：```not used``` related keys
+  |mode|key|description|
+  |:--:|:--|:----------|
+  |i   |```CTRL-F```|not used (but by default it's in 'cinkeys' to re-indent the current line)|
+  |n   |```CTRL-F```|scroll N screens Forward|
+  |i   |```CTRL-S```|not used or used for terminal control flow|
+  |n   |```CTRL-S```|not used, or used for terminal control flow|
+  |i   |```CTRL-\ others```|not used|
+  |n   |```CTRL-\ others```|not used|
+  |i   |```CTRL-@```|insert previously inserted text and stop insert|
+  |n   |```CTRL-@```|not used|
+  |i   |```CTRL-K {char1} {char2}```|enter digraph|
+  |n   |```CTRL-K```|not used|
+  |i   |```CTRL-Q```|same as CTRL-V, unless used for terminal control flow|
+  |n   |```CTRL-Q```|not used, or used for terminal control flow|
+  |i   |```CTRL-_```|When 'allowrevins' set: change language (Hebrew, Farsi)|
+  |n   |```CTRL-_```|not used|
+- 調査： 実際にESCの代わりに使用するキー
+  |mode|key|description|
+  |:--:|:--|:----------|
+  |i   |```inoremap jj <ESC>```|because very useful.|
+  |vic |```CTRL-[```|i default: same as ```<Esc>```|
+  |vic |```vnoremap <C-i>      <ESC>```<br />```inoremap <C-i>      <ESC>```<br />```cnoremap <C-i>      <ESC>```|i default: same as <Tab>|
+  |vic |```vnoremap <C-\><C-\> <ESC>```<br />```inoremap <C-\><C-\> <ESC>```<br />```cnoremap <C-\><C-\> <ESC>```|default: not used.|
+  
 ### Ctrl-hとBackspaceが同じキーコードとなる問題
 - 参考URL
   - http://www.hypexr.org/linux_ruboff.php
