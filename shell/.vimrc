@@ -196,6 +196,19 @@ vnoremap <C-@>      <ESC>
 inoremap <C-@>      <ESC>
 cnoremap <C-@>      <ESC>
 
+" auto escape for search
+cnoremap <expr> / (getcmdtype() == '/') ? '\/' : '/'
+cnoremap <expr> ? (getcmdtype() == '?') ? '\?' : '?'
+
+""" vim registers <C-/> as <C-_> for some reason (historical design?).
+""" default key map:
+"""   normal mode,  <C-_> not used.
+"""   insert mode,  <C-_> when 'allowrevins' set: change language (Hebrew, Farsi)
+"""   command mode, <C-_> when 'allowrevins' set: change language (Hebrew, Farsi)
+" this maps <C-/> key to replace command
+" <C-r>/ pastes register @/ (=previous search pattern)
+nnoremap <C-_>    :s/<C-r>///gc<Left><Left><Left>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ key-maps for comandline-edit
 
