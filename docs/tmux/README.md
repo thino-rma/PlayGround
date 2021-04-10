@@ -30,7 +30,31 @@
     # unbind C-b
     # set -g prefix C-q
     # bind C-q send-prefix
-
+    
+    ### short cut keys
+    bind-key -n M-F7     select-pane -t :.-
+    bind-key -n M-F8     select-pane -t :.+
+    bind-key -n M-C-F7   previous-window
+    bind-key -n M-C-F8   next-window
+    
+    ### short cut keys F9, F10, F11, F12 with Alt: h,j,k,l
+    # without Shift, change pane
+    bind-key -n M-F9  select-pane -L
+    bind-key -n M-F10 select-pane -D
+    bind-key -n M-F11 select-pane -U
+    bind-key -n M-F12 select-pane -R
+    
+    # with Shift, change size
+    bind-key -n M-S-F9    resize-pane -L 1
+    bind-key -n M-S-F10   resize-pane -D 1
+    bind-key -n M-S-F11   resize-pane -U 1
+    bind-key -n M-S-F12   resize-pane -R 1
+    
+    bind-key -n M-C-S-F9  resize-pane -L 5
+    bind-key -n M-C-S-F10 resize-pane -D 5
+    bind-key -n M-C-S-F11 resize-pane -U 5
+    bind-key -n M-C-S-F12 resize-pane -R 5
+    
     ### copy mode
     # C-@ stands for NUL '\000' which is sent by C-@ and C-Space on SSH client
     bind-key -n C-@ copy-mode
@@ -142,3 +166,4 @@
   - ```PREFIX &(Shift-6)``` kill window
     > of course, ```$ exit``` close current window (if in last pane)  
     > you can use mouse to select window with setting ```set-option -g mouse on```
+
