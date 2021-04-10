@@ -167,3 +167,44 @@
     > of course, ```$ exit``` close current window (if in last pane)  
     > you can use mouse to select window with setting ```set-option -g mouse on```
 
+### about Version
+- Ubuntu
+  - Ubuntu20.04 tmux 3.0a-2ubuntu0.2
+  - Ubuntu18.04 tmux 2.6-3ubuntu0.2
+- CentOS
+  - CentOS8 tmux-2.7-1.el8.x86_64.rpm
+    - http://galaxy4.net/repo/RHEL/8/x86_64/tmux-3.1b-3.el8.x86_64.rpm
+  - CentOS7 tmux-1.8-4.el7.x86_64.rpm
+    - http://galaxy4.net/repo/RHEL/7/x86_64/tmux-3.1b-3.el7.x86_64.rpm
+
+### compile
+- Ubuntu
+  ```
+  $ sudo apt update
+  $ sudo apt install git automake bison build-essential pkg-config libevent-dev libncurses5-dev
+  $ cd /usr/local/src/
+  $ # git clone https://github.com/tmux/tmux
+  $ # cd ./tmux/
+  $ # ./autogen.sh
+  $ wget https://github.com/tmux/tmux/releases/download/3.1b/tmux-3.1b.tar.gz
+  $ tar -zxf tmux-3.1b.tar.gz
+  $ cd tmux-3.1b
+  $ ./configure --prefix=/usr/local
+  $ make
+  $ sudo make install
+  ```
+- CentOS7
+  ```
+  # yum groupinstall "Development Tools"
+  # yum install libevent ncurses libevent-devel ncurses-devel
+  # cd /usr/local/src/
+  # # git clone https://github.com/tmux/tmux
+  # # cd ./tmux/
+  # # ./autogen.sh
+  # wget https://github.com/tmux/tmux/releases/download/3.1b/tmux-3.1b.tar.gz
+  # tar -zxf tmux-3.1b.tar.gz
+  # cd tmux-3.1b
+  # ./configure --prefix=/usr/local
+  # make
+  # make install
+  ```
