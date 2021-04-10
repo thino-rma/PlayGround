@@ -114,7 +114,7 @@
   - in copy mode ```ENTER``` copy selection (and quit copy mode)
   - in copy mode ```ESC``` cancel selection
     > if you enables .tmux.conf as shown above, these keys can be used: 
-    > - in copy mode ```q``` quit copy mode
+    > - in copy mode ```q``` and ```Ctrl-C``` quit copy mode
     > - in copy mode ```v``` start selection
     > - in copy mode ```V(Shift-v)``` start selection (LINE)
     > - in copy mode ```y``` copy selection (and quit copy mode)
