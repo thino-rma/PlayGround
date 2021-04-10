@@ -140,5 +140,5 @@
   - ```PREFIX n``` next window
   - ```PREFIX p``` previous window
   - ```PREFIX &(Shift-6)``` kill window
-    > of course, ```$ exit``` close current window (if in last pane)
+    > of course, ```$ exit``` close current window (if in last pane)  
     > you can use mouse to select window with setting ```set-option -g mouse on```
