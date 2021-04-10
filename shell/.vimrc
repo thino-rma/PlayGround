@@ -189,8 +189,8 @@ cnoremap <C-\><C-\> <ESC>
 
 " default <C-@>      in Insert mode : insert previously inserted text and stop insert
 " default <C-@>      in Normal mode : not used
-""" in Noamrl mode, <C-@> stands for NUL '\000' which is sent by C-Space on SSH client
-""" you can check this with the mapping:  nnoremap <C-@> echo "C-Space"<CR>
+""" <C-@> stands for NUL '\000' which is sent by not only C-@ but also C-Space on SSH client
+""" you can check this with the mapping:  nnoremap <C-@> echo "C-@ or C-Space"<CR>
 """ on tmux, "bind -n C-@ copy-mode"
 vnoremap <C-@>      <ESC>
 inoremap <C-@>      <ESC>
