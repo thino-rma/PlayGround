@@ -32,6 +32,8 @@
     # bind C-q send-prefix
 
     ### copy mode
+    # C-@ stands for NUL '\000' which is sent by C-@ and C-Space on SSH client
+    bind-key -n C-@ copy-mode
     setw -g mode-keys vi
     
     bind-key -T copy-mode-vi 'v'      send -X begin-selection
