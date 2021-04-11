@@ -181,21 +181,35 @@
       ```
   - Vimでの確認方法
     - insert mode で C-v を押下した後、任意のキーを入力すると、キーコードが表示される。
-  - Emacs
-  - Emacsでの確認方法
-  - nano
-  - nanoでの確認方法
-  - micro
+  - Emacs（未確認）
+  - Emacsでの確認方法（未確認）
+  - nano（未確認）
+  - nanoでの確認方法（未確認）
+  - micro（未確認）
     - 参考URL https://qiita.com/ht_deko/items/c47fb602d090e5a2bfa8
-  - microでの確認方法
-  - tmux
-    - .tmux.conf に設定を行う
-      ```console
-      # set '^?' (0x7f) to 'C-h'
-      # in tmux command mode, use C-h or C-u to delete left
-      bind-key -n Bspace send-keys C-h
-      ```
+  - microでの確認方法（未確認）
 - 補足事項
+  - 考慮すべきことがら
+    - OSのバージョンによって、tmuxのバージョンが異なる。
+      - Ubuntu18.04ならtmux2.6、Ubuntu20.04ならtmux3.0a？
+      - CentOS7ならtmux1.8、CentOS8ならtmux2.7
+    - tmuxのバージョンによって、挙動が異なるかもしれない。
+      - tmux2.7で、DELETE keyがBackSpaceとして扱われる例があるようだ。 https://www.reddit.com/r/tmux/comments/8kg2rq/tmux_27_treating_delete_key_as_backspace/　
+      - tmux3.1で、DELETE keyが送信するコードを指定できるようになった！！
+    - CentOSとUbuntuでは、terminfoの設定が異なっているかもしれない。
+      - infocmpコマンドで、kbs(Backspace)やkdch1（Delete)を確認する必要があるかもしれない。
+    - SSHクライアントによってデフォルト設定が異なる可能性。
+      - VT100エミュレートなら、ほぼ同じはず？
+      - WindowsからはRLoginを使うが、LinuxのGUIから直接起動する場合（Xterm？）はまた違うのか？
+    - sttyでeraseを設定するタイミング
+      - tmuxを起動する前に実行すれば、tmuxのコマンドモードに反映される？
+      - tmuxを起動したときの.bashrcで実行すれば、tmuxのコマンドモードに反映される？
+    - https://tldp.org/HOWTO/Keyboard-and-Console-HOWTO-5.html
+  - 最終的にはあきらめ
+    - 何かの拍子に```BackSpace```が```^?```（フォントによっては豆腐）を出力してしまう状況が起こったら、素直に```C-h```で削除してあげよう。
+    - tmuxの最重要機能はセッション管理である。キーマッピングについてまで面倒を見てほしい、というのは多くを望みすぎなのかもしれない。
+    - vi/vimの最重要機能はテキスト編集dえある。キーマッピングがなくても、頑張って編集しよう。
+    - なぜtmuxやvi/vimが必要なのか考え直そう。tmuxもvimも使わなくてよい代替方法を常に用意しておくべきだ。ほとんどの場合は scp で転送すればよい。
   - 確認すべき挙動
     - RLogin-Bashでの入力
     - RLogin-Bash-vimでの入力
@@ -207,9 +221,13 @@
     - RLogin-Bash-tmux-Bash-ssh-Bashでの入力
     - RLogin-Bash-tmux-Bash-ssh-Bash-vimでの入力
   - 設定D tmuxには、キーバインド設定として、以下のようにする例が見つかる。
-    ```console
-    bind-key -n Bspace send-keys C-h
-    ```
+    - https://unix.stackexchange.com/questions/180087/why-pressing-ctrl-h-in-xterm-tmux-sends/180106
+    - .tmux.conf に設定を行う
+      ```console
+      # set '^?' (0x7f) to 'C-h'
+      # in tmux command mode, use C-h or C-u to delete left
+      bind-key -n Bspace send-keys C-h
+      ```
   - 設定A あり、設定B なし、設定D なし　の場合、tmux起動直後のCtrl-hが ```^?``` となってしまう。
   - 設定A あり、設定B なし、設定D あり　の場合、tmux起動直後のCtrl-hが ```^H``` のままになるが、tmuxセッション内でのコマンドモードのBackSpaceが ```^?``` （豆腐表示）となってしまう。
   - 設定A あり、設定B あり、設定D なし　の場合、よさそう
