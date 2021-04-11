@@ -159,9 +159,11 @@
     > RLoginでの入力方法は 設定Aを行っていれば、C-v BS、設定Aを行っていなければ C-v C-S-8 である。
     > 以下のようにしておくとよい。
     > ```console
+    > if [[ -t 0 ]]; then
+    >   ## erase with '^?' s
     >   ## TODO replace with C-v C-S-8(^?)
-    > [[ -n "$TMUX" ]] && stty erase ^?
-    > [[ "$TERM" =~ ^screen ]] && stty erase ^?
+    >   stty erase ^?
+    > fi
     > ```
   - 確認方法
     ttyの設定状況は、以下のコマンドを実行して表示できる。erase項目を確認する。
