@@ -228,7 +228,12 @@
       # in tmux command mode, use C-h or C-u to delete left
       bind-key -n Bspace send-keys C-h
       ```
+- 動作確認：Ubuntu18.04, tmux2.6
   - 設定A あり、設定B なし、設定D なし　の場合、tmux起動直後のCtrl-hが ```^?``` となってしまう。
   - 設定A あり、設定B なし、設定D あり　の場合、tmux起動直後のCtrl-hが ```^H``` のままになるが、tmuxセッション内でのコマンドモードのBackSpaceが ```^?``` （豆腐表示）となってしまう。
   - 設定A あり、設定B あり、設定D なし　の場合、よさそう
   - 設定A あり、設定B あり、設定D あり　の場合、tmux起動直後のBackSpaceが ```^H``` となってしまう。
+- 動作確認：CentOS8, tmux2.7
+  - 設定A あり、設定B あり、設定D なし　の場合、よさそう
+- 動作確認：CentOS7, tmux1.8
+  - 設定A あり、設定B あり、設定D なし　の場合、よさそう
