@@ -21,7 +21,8 @@ alias sudocat='sudopage'
 
 ## sudo
 # alias sudo='sudo -E '
-alias sudo='sudo -i '
+### this is very dangerous!
+# alias sudo='sudo -i '
 
 ## normal
 alias ls='ls --color=auto'
