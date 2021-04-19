@@ -91,10 +91,7 @@ struct context parse_args(int argc, char **argv) {
              strcmp(*(argv+i), "--help") == 0 )
              show_usage_exit(*argv, 0);
     for (i = 1; i < argc; i++) {
-        if ( strcmp(*(argv+i), "-h") == 0 || 
-             strcmp(*(argv+i), "--help") == 0)  
-            ; /* already been dieled with. */
-        else if (strcmp(*(argv+i), "-f") == 0) {
+        if (strcmp(*(argv+i), "-f") == 0) {
             if (++i < argc) { ctx.fpath = *(argv+i); }
             else { --i; msg = "requires log file path."; break; }
         } else if (strcmp(*(argv+i), "-p") == 0) {
@@ -107,13 +104,13 @@ struct context parse_args(int argc, char **argv) {
         show_usage_exit(p, 1);
     }
     if (ctx.fpath == NULL) {
-        ctx.fpath = malloc_str(strlen(p) + 4);
+        ctx.fpath = malloc_str(strlen(p) + 4); // "prog" + ".log"
         if (ctx.fpath == NULL)
             err_exit(11, "fpath = malloc_str()", errno);
         sprintf(ctx.fpath, "%s.log", "dumb");
     }
     if (ctx.ppath == NULL) {
-        ctx.ppath = malloc_str(strlen(p) + 4);
+        ctx.ppath = malloc_str(strlen(p) + 4); // "prog" + ".pid"
         if (ctx.ppath == NULL)
             err_exit(11, "ppath = malloc_str()", errno);
         sprintf(ctx.ppath, "%s.pid", "dumb");
@@ -225,12 +222,12 @@ int main(int argc, char **argv) {
                 if (fds[0].revents & (POLLERR | POLLNVAL)) {
                     es = 31;
                     perr_msg(es, "poll() fds[0].revents error",
-                            fds[0].revents);
+                             fds[0].revents);
                     goto end;  // error.
                 }
                 es = 31;
                 perr_msg(es, "poll() fds[0].revents unknown",
-                        fds[0].revents);
+                         fds[0].revents);
                 goto end;  // unknown.
             }
         }
