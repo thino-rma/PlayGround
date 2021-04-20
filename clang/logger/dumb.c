@@ -21,6 +21,7 @@ const char *ERR_FORMAT  = "[%d] Error: %s [%d] %s\n"; /* Error message */
 struct context {
     char   *fpath;       /* log file path */
     char   *ppath;       /* pid file path */
+    int    perm;         /* permission */
 };
 
 void show_usage_exit(const char * const p, int exit_code) {
@@ -29,12 +30,14 @@ void show_usage_exit(const char * const p, int exit_code) {
            , p);
     printf("Usage:\n");
     printf("    %s -h|--help\n"
-           "    command | %s [-f LOGFILE] [-p PIDFILE]\n"
+           "    command | %s [-f LOGFILE] [-p PIDFILE] [-m PERM]\n"
            , p, p);
     printf("Options:\n"
            "    -h|--help       Show usage and exit.\n"
            "    -f LOGFILE      Log file path. default: %s.log\n"
            "    -p PIDFILE      PID file path. default: %s.pid\n"
+           "    -m PERM         PERMISSION. default: 0640\n"
+           "                    User must have write permission.\n"
            , p, p);
     printf("Signals:\n"
            "    SIGUSR1         Causes to immediately reopen the log.\n");
@@ -81,7 +84,7 @@ void err_exit(const int exit_code, const char * const msg,
 struct context parse_args(int argc, char **argv) {
     int i = 0;
     char *msg = NULL;
-    struct context ctx = { NULL, NULL };
+    struct context ctx = { NULL, NULL, 0640 };
     char* p = strrchr(*argv, '/');
     if (p == NULL) { p = (char *)argv; } else { p++; }
 
@@ -97,6 +100,14 @@ struct context parse_args(int argc, char **argv) {
         } else if (strcmp(*(argv+i), "-p") == 0) {
             if (++i < argc) { ctx.ppath = *(argv+i); }
             else { --i; msg = "requires pid file path."; break; }
+        } else if (strcmp(*(argv+i), "-m") == 0) {
+            if (++i < argc) {
+                ctx.perm = strtol(*(argv+i), 0, 8);
+            }
+            else { --i; msg = "requires permission."; break; }
+            if (!(ctx.perm & S_IWUSR)) {
+                --i; msg = "must contain writable permision for user."; break;
+            }
         } else { msg = "is unknown parameter."; break; }
     }
     if (msg != NULL) {
@@ -115,7 +126,7 @@ struct context parse_args(int argc, char **argv) {
             err_exit(11, "ppath = malloc_str()", errno);
         sprintf(ctx.ppath, "%s.pid", "dumb");
     }
-
+    fprintf(stderr, "Debug: perm %d\n", ctx.perm);
     return ctx;
 }
 
@@ -159,12 +170,12 @@ int main(int argc, char **argv) {
     fds[0].revents = 0;
 
     /* need_to_end_section from here.: fd_log */
-    fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
+    fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, ctx.perm);
     if (fd_log < 0)
         err_exit(12, "open(LOGFILE)", errno);  // open error.
 
     /* create pid file */
-    fd_pid = open(ctx.ppath, O_WRONLY|O_CREAT|O_TRUNC, 0640);
+    fd_pid = open(ctx.ppath, O_WRONLY|O_CREAT|O_TRUNC, ctx.perm);
     if (fd_pid < 0) {
         es = 13; err_msg(es, "open(PIDFILE)", errno);
         goto end;  // open error.
@@ -237,7 +248,7 @@ int main(int argc, char **argv) {
                 es = 23; err_msg(es, "close(LOGFILE)", errno);
                 goto end;  // close error.
             }
-            fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, 0640);
+            fd_log = open(ctx.fpath, O_WRONLY|O_APPEND|O_CREAT, ctx.perm);
             if (fd_log < 0) {
                 es = 24; err_msg(es, "open(LOGFILE)", errno);
                 goto end;  // open error.
