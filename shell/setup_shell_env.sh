@@ -127,9 +127,11 @@ download ${RAW_GIT}/${TARGET} ~/${TARGET}
 VIM_DIR=~/.vim
 AUTOLOAD_DIR=${VIM_DIR}/autoload
 PLUGIN_DIR=${VIM_DIR}/plugin
+BIN_DIR=~/bin
 
 makedir $AUTOLOAD_DIR
 makedir $PLUGIN_DIR
+makedir $BIN_DIR
 
 ### oscyank
 # RAW_GIT=https://raw.githubusercontent.com/greymd/oscyank.vim/master
@@ -148,18 +150,27 @@ RAW_GIT=https://raw.githubusercontent.com/kana/vim-submode/master
 TARGET=autoload/submode.vim
 download ${RAW_GIT}/${TARGET} ${VIM_DIR}/${TARGET}
 
+### ydiff
+RAW_GIT=https://raw.githubusercontent.com/joshuarli/ydiff/master
+TARGET=ydiff
+download ${RAW_GIT}/${TARGET} ~/bin/${TARGET}
+### Usage: diff -up file1 file2 | ydiff | less
+### Usage: git diff file1 | ydiff | less
+
 ### packages
 echo "### commands to instal packages ###"
 if [ $distri_name = "debian" ] || [ $distri_name = "ubuntu" ]; then
-  echo "sudo apt -y install wget vim tmux"
+  echo "sudo apt -y install wget vim tmux bash-completion"
   echo "sudo localectl set-locale LANG=ja_JP.utf8"
   echo "sudo timedatectl set-timezone Asia/Tokyo"
 fi
 if [ $distri_name = "redhat" ]; then
   echo "# curl -L https://copr.fedorainfracloud.org/coprs/unixcommunity/vim/repo/epel-7/unixcommunity-vim-epel-7.repo -o /etc/yum.repos.d/unixcommunity-vim-epel-7.repo"
-  echo "sudo yum -y install wget vim tmux"
-  echo "sudo dnf -y install wget vim tmux"
+  echo "sudo yum -y install wget vim tmux bash-completion"
+  echo "sudo dnf -y install wget vim tmux bash-completion"
   echo "sudo localectl set-locale LANG=ja_JP.utf8"
   echo "sudo timedatectl set-timezone Asia/Tokyo"
   echo "sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime"
 fi
+
+
