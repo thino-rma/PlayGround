@@ -84,7 +84,7 @@ get_os_distribution
 ### .vimrc, .my_bash_alias ###
 ##############################
 
-RAW_GIT=https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell/
+RAW_GIT=https://raw.githubusercontent.com/thino-rma/PlayGround/master/shell
 
 TARGET=.vimrc
 download ${RAW_GIT}/${TARGET} ~/${TARGET}
@@ -154,6 +154,7 @@ download ${RAW_GIT}/${TARGET} ${VIM_DIR}/${TARGET}
 RAW_GIT=https://raw.githubusercontent.com/joshuarli/ydiff/master
 TARGET=ydiff
 download ${RAW_GIT}/${TARGET} ~/bin/${TARGET}
+chmod +x ~/bin/${TARGET}
 ### Usage: diff -up file1 file2 | ydiff | less
 ### Usage: git diff file1 | ydiff | less
 
