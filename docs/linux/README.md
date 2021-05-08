@@ -5,6 +5,18 @@
   - 管理ツール alternative for ```top```
 - ncdu
   - 管理ツール alternative for ```du```
+- ydiff
+  - python3製 差分を左右で比較表示するためのフィルタコマンド
+  - install
+    ```console
+    $ mkdir -p ~/bin
+    $ wget https://raw.githubusercontent.com/joshuarli/ydiff/master/ydiff -O ~/bin/ydiff
+    $ chmod u+x ~/bin/ydiff
+    ```  
+  - usage
+    ```console
+    $ diff -up file1 file2 | ydiff | less
+    ```
 - vim
   - テキストエディタ
 - micro
@@ -13,6 +25,33 @@
   - リポジトリ管理
 - img2sixel
   - コンソールで画像表示
+  - install for Ubuntu
+    [ラズパイに fdclone を導入する](http://dotnsf.blog.jp/archives/1073777442.html)
+    ```console
+    $ sudo apt install fdclone
+    ```
+  - install for CentOS  
+    [CentOS 8 で FDclone のビルドに失敗する対策](https://qiita.com/arin/items/3548efe988cce4b2b956)
+    ```console
+    # dnf group install "Development Tools"
+    # dnf --enablerepo=powertools install -y nkf
+    # dnf install -y ncurses-devel    
+    # cd /usr/local/src
+    # wget https://hp.vector.co.jp/authors/VA012337/soft/fd/FD-3.01j.tar.gz
+    # tar zxvf FD-3.01j.tar.gz
+    # cd FD-3.01j
+    # nkf --overwrite -w fd.spec
+    # sed -i '33i%global debug_package %{nil}' fd.spec
+    # sed -i "s/\* Tue Jul  7 2004/\* Wed Jul  7 2004/" fd.spec
+    # sed -i "s/\* Tue Sep 17 2003/\* Wed Sep 17 2003/" fd.spec
+    # cd ..
+    # mv FD-3.01j.tar.gz FD-3.01j.tar.gz.org
+    # tar zcvf FD-3.01j.tar.gz FD-3.01j
+    # rpmbuild -tb --clean ./FD-3.01j.tar.gz
+    # rpm -i /root/rpmbuild/RPMS/x86_64/FDclone-3.01j-1.x86_64.rpm
+    ```
+- fdclone
+  - コンソール向けのファイラ― FDClone
   - install for Ubuntu
     ```console
     $ sudo apt-get install libsixel-bin
