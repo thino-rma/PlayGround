@@ -27,6 +27,17 @@
   - ```Ctrl-2```
   - ```Ctrl-3```
   - ```Ctrl-4```
+- KeyPointer http://www.aurora.dti.ne.jp/~kzs/product/keypointer/keypointer.html
+  - マウスポインタをキーボードで動かすツール
+  - カスタマイズ後
+  - インターバル 50（デフォルト）、通常速度 12、最高速度36
+  - 切り替え Shift-Ctrl＋m(77) （デフォルト）
+  - 左下上右 h(72) j(74) k(75) l(76)
+  - 左クリック space(32) （デフォルト）
+  - 右クリック n(78)
+  - スクロール r(82)
+  - 加速 f(70) （デフォルト）
+  - 減速 d(68) （デフォルト）
 
 ### その他
 - Ctrl2cap
