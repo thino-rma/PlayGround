@@ -61,6 +61,10 @@
   $ echo `date '+%Y%m%d-%H%M%S'`       # 年月日-時分秒
   $ echo `date '+%Y%m%d-%H%M%S.%3N'`   # 年月日-時分秒.ミリ秒
   ```
+  cronの設定ファイル中では、エスケープが必要です。
+  ```console
+  $ 5 * * * * *  root command >> command.log.`date +'\%Y\%m\%d'`
+  ```
 - findコマンド
   ```console
   ### 通常ファイル、深さ１、名前指定、日付判定、３日以上経過
