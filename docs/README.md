@@ -53,6 +53,7 @@
     fd-find
      
 - dateコマンド
+  短縮表示 ```%F``` や ```%R```, ```%T``` が使用できるものの、セパレータが入ってしまう。
   ```console
   $ echo `date '+%F'`                  # %F   full date: same as %Y-%m-%d
   $ echo `date '+%F %R'`               # %R   24-hour hour and minute: same as %H:%M
@@ -63,7 +64,7 @@
   ```
   cronの設定ファイル中では、エスケープが必要です。
   ```console
-  $ 5 * * * * *  root command >> command.log.`date +'\%Y\%m\%d'`
+  $ 5 * * * * root command >> command.log.`date +'\%Y\%m\%d'`
   ```
 - findコマンド
   ```console
