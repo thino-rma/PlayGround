@@ -30,6 +30,22 @@
     ```console
     $ sudo apt install fdclone
     ```
+  - install for CentOS
+    ```console
+    # cd /usr/local
+    # git clone https://github.com/saitoha/libsixel.git
+    # cd libsixel
+    # ./configure
+    # make
+    # make install
+    # ldconfig
+    ```
+- fdclone
+  - コンソール向けのファイラ― FDClone
+  - install for Ubuntu
+    ```console
+    $ sudo apt-get install libsixel-bin
+    ```
   - install for CentOS  
     [CentOS 8 で FDclone のビルドに失敗する対策](https://qiita.com/arin/items/3548efe988cce4b2b956)
     ```console
@@ -50,38 +66,12 @@
     # rpmbuild -tb --clean ./FD-3.01j.tar.gz
     # rpm -i /root/rpmbuild/RPMS/x86_64/FDclone-3.01j-1.x86_64.rpm
     ```
-- fdclone
-  - コンソール向けのファイラ― FDClone
-  - install for Ubuntu
-    ```console
-    $ sudo apt-get install libsixel-bin
-    ```
-  - install for CentOS
-    ```console
-    # cd /usr/local
-    # git clone https://github.com/saitoha/libsixel.git
-    # cd libsixel
-    # ./configure
-    # make
-    # make install
-    # ldconfig
-    ```
     
 ### Python開発
 - miniconda
   - Python環境
 
 ### 検討
-#### ファイラ―
-- 検討状況
-- fd
-  - install for Ubuntu
-    ```console
-    $ sudo apt install fdclone
-    ```
-- vifm
-  - ruby製
-
 #### テキストエディタ
 - 検討状況
   - vimに統一することにする。
