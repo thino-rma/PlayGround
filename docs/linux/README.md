@@ -71,9 +71,7 @@
     License: The MIT License (MIT)
     BuildRequires: gcc
     BuildRequires: make
-    BuildRequires: sed
     BuildRequires: tar
-    BuildRequires: gzip
     BuildRequires: coreutils
     BuildRequires: glibc
     
@@ -137,6 +135,10 @@
     
     tar zcvf ${TAR_NAME}.tar.gz ${NAME}/
     rpmbuild -tb --clean ./${TAR_NAME}.tar.gz
+    
+    # bash build_libsixel_rpm.sh 
+    # find ~/rpmbuild/ | grep libsixel
+    /root/rpmbuild/RPMS/x86_64/libsixel-1.7.3-1.x86_64.rpm
     ```
 - fdclone
   - コンソール向けのファイラ― FDClone
