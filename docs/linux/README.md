@@ -40,6 +40,104 @@
     # make install
     # ldconfig
     ```
+  - rpm build script for CentOS8
+    ```console
+    # cat build_libsixel_rpm.sh 
+    #!/bin/bash
+    
+    NAME=libsixel
+    VER=1.7.3
+    GIT_URL=https://github.com/saitoha/${NAME}
+    TAR_NAME=${NAME}-${VER}
+    
+    cd /usr/local/src
+    
+    [ -d ${NAME} ]            && rm -rf ${NAME}
+    [ -f ${NAME}.spec ]       && rm -f  ${NAME}.spec
+    [ -f ${TAR_NAME}.tar.gz ] && rm -f  ${TAR_NAME}
+    
+    cat <<EOF > ${NAME}.spec
+    # check the macro: rpmbuild --showrc | less
+    # %define lang ja  # define macro lang
+    
+    Summary: encoder/decoder implementation for DEC SIXEL graphics, and some converter programs.
+    Name: libsixel
+    Version: 1.7.3
+    Release: 1
+    Group: Applications/Graphics
+    URL: https://github.com/saitoha/libsixel
+    Source: libsixel-%{version}.tar.gz
+    BuildRoot: %{_tmppath}/%{name}-%{version}-root
+    License: The MIT License (MIT)
+    BuildRequires: gcc
+    BuildRequires: make
+    BuildRequires: sed
+    BuildRequires: tar
+    BuildRequires: gzip
+    BuildRequires: coreutils
+    BuildRequires: glibc
+    
+    %description
+    SIXEL is one of image formats for printer and terminal
+    imaging introduced by Digital Equipment Corp. (DEC). Its
+    data scheme is represented as a terminal-friendly escape
+    sequence. So if you want to view a SIXEL image file, all
+    you have to do is "cat" it to your terminal.
+    
+    %global debug_package %{nil}
+    %prep
+    rm -rf \$RPM_BUILD_ROOT
+    %setup -n %{name}
+    
+    %build
+    %configure --prefix=/usr 
+    make DESTDIR="\$RPM_BUILD_ROOT" 
+    
+    %install
+    make DESTDIR="\$RPM_BUILD_ROOT" install
+    
+    %clean
+    rm -rf \$RPM_BUILD_ROOT
+    
+    %post
+    %files
+    %defattr(-,root,root)
+    %{_bindir}/img2sixel
+    %{_bindir}/libsixel-config
+    %{_bindir}/sixel2png
+    %{_includedir}/sixel.h
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__init__.py
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/__init__.cpython-36.opt-1.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/__init__.cpython-36.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/decoder.cpython-36.opt-1.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/decoder.cpython-36.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/encoder.cpython-36.opt-1.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/__pycache__/encoder.cpython-36.pyc
+    %{_prefix}/lib/python3.6/site-packages/libsixel/decoder.py
+    %{_prefix}/lib/python3.6/site-packages/libsixel/encoder.py
+    %{_libdir}/libsixel.a
+    %{_libdir}/libsixel.la
+    %{_libdir}/libsixel.so
+    %{_libdir}/libsixel.so.1
+    %{_libdir}/libsixel.so.1.0.6
+    %{_libdir}/pkgconfig/libsixel.pc
+    %{_datarootdir}/bash-completion/completions/img2sixel
+    %{_datarootdir}/man/man1/img2sixel.1.gz
+    %{_datarootdir}/man/man1/sixel2png.1.gz
+    %{_datarootdir}/man/man5/sixel.5.gz
+    %{_datarootdir}/zsh/site-functions/_img2sixel
+    
+    %changelog
+    * Sat Dec 10 2016 saitoha
+    - for 1.7.3
+    EOF
+    
+    git clone ${GIT_URL} -b v${VER}
+    cp ./${NAME}.spec ${NAME}/
+    
+    tar zcvf ${TAR_NAME}.tar.gz ${NAME}/
+    rpmbuild -tb --clean ./${TAR_NAME}.tar.gz
+    ```
 - fdclone
   - コンソール向けのファイラ― FDClone
   - install for Ubuntu
