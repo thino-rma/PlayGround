@@ -1,0 +1,12 @@
+[Unit]
+Description = base service script
+After = local-fs.target
+
+[Service]
+Type = oneshot
+WorkingDirectory = /opt/
+ExecStart = /opt/bin/execute.sh
+# RemainAfterExit = yes
+
+[Install]
+WantedBy = multi-user.target
