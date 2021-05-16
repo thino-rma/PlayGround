@@ -1,5 +1,5 @@
 [Unit]
-Description = base service script
+Description = base service unit file
 After = local-fs.target
 
 [Service]

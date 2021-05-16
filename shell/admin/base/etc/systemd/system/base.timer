@@ -1,11 +1,11 @@
 [Unit]
-Description=Timer for base.service
+Description = base timer unit file
 
 [Timer]
-OnBootSec=1min
-OnCalendar=*-*-* 04:00:00
-RandomizedDelaySec=30
-Unit=base.service
+OnBootSec = 1min
+OnCalendar = *-*-* 04:00:00
+RandomizedDelaySec = 30
+Unit = base.service
 
 [Install]
-WantedBy=multi-user.target
+WantedBy = multi-user.target
