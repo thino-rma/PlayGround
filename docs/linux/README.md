@@ -257,8 +257,8 @@
     - normal ```["x]p```  put the text [from register x] after the cursor N times (default is [""])
     - visual ```["x]p```  same as normal (default is [""])
     - insert ```<C-r> {register}``` insert the contents of a register
-    - insert ```<C-o> p``` execute command 'q' and return to insert mode
+    - insert ```<C-o> p``` execute command 'p'(put) and return to insert mode
     - command ```<C-r> {register}```  insert the contents of a register or object under the cursor as if typed
-    - insert ```<C-o>``` not used
-    - なので、commandモードとinsertモードでは、```C-v```で貼り付けできるようにしている。
+  - 以下は古い記述。`C-v`で貼り付けは行わないことにした。というか、vimに慣れることにした。
+    - commandモードとinsertモードでは、```C-v```で貼り付けできるようにしている。
     - すると、オリジナルの ```C-v``` が使えなくなって困るので、 ```C-\ C-v``` にマッピングしておく。
