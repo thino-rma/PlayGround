@@ -7,7 +7,9 @@
   - 管理ツール alternative for ```du```
 - ydiff
   - python3製 差分を左右で比較表示するためのフィルタコマンド
-    - 全角文字があると、表示ずれる。
+    - デフォルトでサイドバイサイド表示される。
+      - 長い行は折り返されて表示される。
+      - 全角文字があると、表示ずれる。
 
   > 残念ながらメンテナンスされていない。  
   > https://github.com/joshuarli/ydiff  
@@ -25,10 +27,18 @@
     ```
 - delta
   - Rust製 diffを見やすくするためのフィルタコマンド
-    - 全角文字があっても、表示がずれない。
+    - デフォルトは、伝統的なdiff表示となる。
+    - オプション `-s` で、サイドバイサイド表示となる。
+      - 全角文字があっても、表示がずれない。
+      - ただし、長い行は省略される。
     - 自動でlessしてくれる。offにもできる。　`--paging never`
     - 幅を指定できる。　`-w 400`
+
+  > ydiffの作者は、deltaを使ってるって言ってる。
+  > https://github.com/dandavison/delta
+
   - install
+    バージョンが最新かどうか、気を付けて！ 
     ```console
     $ wget http://mirrors.edge.kernel.org/ubuntu/pool/main/g/gcc-10/gcc-10-base_10-20200411-0ubuntu1_amd64.deb
     $ wget http://mirrors.xmission.com/ubuntu/pool/main/g/gcc-10/libgcc-s1_10-20200411-0ubuntu1_amd64.deb
