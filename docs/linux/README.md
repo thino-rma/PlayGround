@@ -203,6 +203,19 @@
 ### Python開発
 - miniconda
   - Python環境
+  - 2020/09にAnacondaの利用規約が変更され、大規模（200名以上？）な商用利用で有償化された。
+  - How to do?  
+    (1) remove defaults channel  
+    ```
+    conda config --remove channels defaults  
+    conda config --show channels
+    ```
+    (2) install with options -c conda-forge --override-channels  
+    option `-c conda-forge` automatically referes defaults channel.  
+    option `--override-channels`  ensures that conda searches only your specified channel and no other channels  
+    ```
+    conda install pandas -c conda-forge --override-channels
+    ```
 
 ### 検討
 #### テキストエディタ
