@@ -1,10 +1,31 @@
 ## Linux向け
 
 ### ソフトウェア
-- htop
-  - 管理ツール alternative for ```top```
-- ncdu
-  - 管理ツール alternative for ```du```
+- delta
+  - Rust製 diffを見やすくするためのフィルタコマンド
+    - デフォルトは、伝統的なdiff表示となる。
+    - オプション `-s` で、サイドバイサイド表示となる。
+      - 全角文字があっても、表示がずれない。
+      - ただし、長い行は省略される。
+    - 自動でlessしてくれる。offにもできる。　`--paging never`
+    - 幅を指定できる。　`-w 400`
+
+  > ydiffの作者は、deltaを使ってるって言ってる。  
+  > https://github.com/dandavison/delta
+
+  - install
+    バージョンが最新かどうか、気を付けて！ 
+    ```console
+    $ wget http://mirrors.edge.kernel.org/ubuntu/pool/main/g/gcc-10/gcc-10-base_10-20200411-0ubuntu1_amd64.deb
+    $ wget http://mirrors.xmission.com/ubuntu/pool/main/g/gcc-10/libgcc-s1_10-20200411-0ubuntu1_amd64.deb
+    $ wget https://github.com/dandavison/delta/releases/download/0.7.1/git-delta_0.7.1_amd64.deb
+    $ sudo dpkg -i gcc-10-base_10-20200411-0ubuntu1_amd64.deb libgcc-s1_10-20200411-0ubuntu1_amd64.deb git-delta_0.7.1_amd64.deb
+    ```  
+  - usage
+    ```console
+    $ diff -up file1 file2 | delta -s
+    $ diff -up .tmux.conf.org .tmux.conf | delta -s -n --paging never -w 400
+    ```
 - ydiff
   - python3製 差分を左右で比較表示するためのフィルタコマンド
     - デフォルトでサイドバイサイド表示される。
@@ -25,31 +46,10 @@
     ```console
     $ diff -up file1 file2 | ydiff | less
     ```
-- delta
-  - Rust製 diffを見やすくするためのフィルタコマンド
-    - デフォルトは、伝統的なdiff表示となる。
-    - オプション `-s` で、サイドバイサイド表示となる。
-      - 全角文字があっても、表示がずれない。
-      - ただし、長い行は省略される。
-    - 自動でlessしてくれる。offにもできる。　`--paging never`
-    - 幅を指定できる。　`-w 400`
-
-  > ydiffの作者は、deltaを使ってるって言ってる。
-  > https://github.com/dandavison/delta
-
-  - install
-    バージョンが最新かどうか、気を付けて！ 
-    ```console
-    $ wget http://mirrors.edge.kernel.org/ubuntu/pool/main/g/gcc-10/gcc-10-base_10-20200411-0ubuntu1_amd64.deb
-    $ wget http://mirrors.xmission.com/ubuntu/pool/main/g/gcc-10/libgcc-s1_10-20200411-0ubuntu1_amd64.deb
-    $ wget https://github.com/dandavison/delta/releases/download/0.7.1/git-delta_0.7.1_amd64.deb
-    $ sudo dpkg -i gcc-10-base_10-20200411-0ubuntu1_amd64.deb libgcc-s1_10-20200411-0ubuntu1_amd64.deb git-delta_0.7.1_amd64.deb
-    ```  
-  - usage
-    ```console
-    $ diff -up file1 file2 | delta -s
-    $ diff -up .tmux.conf.org .tmux.conf | delta -s -n --paging never -w 400
-    ```
+- htop
+  - 管理ツール alternative for ```top```
+- ncdu
+  - 管理ツール alternative for ```du```
 - vim
   - テキストエディタ
 - micro
