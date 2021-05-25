@@ -10,7 +10,7 @@
     - 自動でlessしてくれる。offにもできる。　`--paging never`
     - 幅を指定できる。　`-w 400`
 
-  > ydiffの作者は、deltaを使ってるって言ってる。  
+  > fork版 ydiffの作者 joshuarli は、deltaを使ってるって言ってる。  
   > https://github.com/dandavison/delta
 
   - install
@@ -32,9 +32,9 @@
       - 長い行は折り返されて表示される。
       - 全角文字があると、表示ずれる。
 
-  > こちらが本家。 
-  > https://github.com/ymattw/ydiff
-  > 以下は残念ながらメンテナンスされていない。 
+  > こちらが本家。  
+  > https://github.com/ymattw/ydiff  
+  > 以下の fork版 は残念ながらメンテナンスされていない。  
   > https://github.com/joshuarli/ydiff  
   > > UNMAINTAINED: I use delta now, here's my configuration.
 
@@ -46,7 +46,7 @@
     ```  
   - usage
     ```console
-    $ diff -up file1 file2 | ydiff | less
+    $ diff -up file1 file2 | ydiff -s | less
     ```
 - htop
   - 管理ツール alternative for ```top```
