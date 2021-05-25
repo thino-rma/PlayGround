@@ -32,7 +32,9 @@
       - 長い行は折り返されて表示される。
       - 全角文字があると、表示ずれる。
 
-  > 残念ながらメンテナンスされていない。  
+  > こちらが本家。 
+  > https://github.com/ymattw/ydiff
+  > 以下は残念ながらメンテナンスされていない。 
   > https://github.com/joshuarli/ydiff  
   > > UNMAINTAINED: I use delta now, here's my configuration.
 
