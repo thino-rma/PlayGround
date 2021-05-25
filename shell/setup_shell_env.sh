@@ -151,10 +151,10 @@ TARGET=autoload/submode.vim
 download ${RAW_GIT}/${TARGET} ${VIM_DIR}/${TARGET}
 
 ### ydiff
-RAW_GIT=https://raw.githubusercontent.com/joshuarli/ydiff/master
-TARGET=ydiff
-download ${RAW_GIT}/${TARGET} ~/bin/${TARGET}
-chmod +x ~/bin/${TARGET}
+if [ ! -f ~/bin/ydiff ]; then
+  curl -ksSL https://raw.github.com/ymattw/ydiff/master/ydiff.py > ~/bin/ydiff
+  chmod +x ~/bin/ydiff
+fi
 ### Usage: diff -up file1 file2 | ydiff | less
 ### Usage: git diff file1 | ydiff | less
 
