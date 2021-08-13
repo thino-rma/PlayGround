@@ -1,3 +1,14 @@
+### miniforge による python の 開発環境構築
+- install miniconda
+  ```console
+  wget wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O ~/Miniforge3.sh
+  bash ~/Miniforge3.sh -b -p $HOME/miniforge3
+  eval "$(~/miniforge/bin/conda shell.bash hook)"
+  conda init bash
+  conda config --set auto_activate_base false
+  conda update -n base -c defaults conda -y
+  ```
+
 ### miniconda による python の 開発環境構築
 - install miniconda
   ```console
