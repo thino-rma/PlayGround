@@ -1,30 +1,18 @@
 ### miniforge による python の 開発環境構築
-- install miniconda
+- install miniforge
   ```console
   wget wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O ~/Miniforge3.sh
   bash ~/Miniforge3.sh -b -p $HOME/miniforge3
-  eval "$(~/miniforge/bin/conda shell.bash hook)"
+  eval "$(~/miniforge3/bin/conda shell.bash hook)"
   conda init bash
   conda config --set auto_activate_base false
   conda update -n base -c defaults conda -y
   ```
 
-### miniconda による python の 開発環境構築
-- install miniconda
-  ```console
-  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-  bash ~/miniconda.sh -b -p $HOME/miniconda
-  eval "$(~/miniconda/bin/conda shell.bash hook)"
-  conda init bash
-  conda config --set auto_activate_base false
-  conda update -n base -c defaults conda -y
-  ```
 - create myenv
   ```console
   conda create -n myenv python=3.6 -y
   conda activate myenv
-  conda config --set channel_priority strict --file $CONDA_PREFIX/.condarc
-  conda config --add channels conda-forge    --file $CONDA_PREFIX/.condarc
   conda install autopep8 flake8 flake8-pep257 flake8-import-order 
   conda dectivate myenv
   ```
@@ -48,6 +36,8 @@
   conda install -n myenv -c conda-forge psycopg2
   # for selenium/chrome
   conda install -n myenv -c conda-forge selenium chromedriver-binary
+  # for csv
+  conda install -n myenv -c conda-forge csvkit visidata
   ```
 
 ### 静的コード解析
@@ -196,4 +186,24 @@
   $ sudo journalctl -f -u hello
   ```
 
+## old contents
+### miniconda による python の 開発環境構築
+- install miniconda
+  ```console
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+  bash ~/miniconda.sh -b -p $HOME/miniconda
+  eval "$(~/miniconda/bin/conda shell.bash hook)"
+  conda init bash
+  conda config --set auto_activate_base false
+  conda update -n base -c defaults conda -y
+  ```
 
+- create myenv
+  ```console
+  conda create -n myenv python=3.6 -y
+  conda activate myenv
+  conda config --set channel_priority strict --file $CONDA_PREFIX/.condarc
+  conda config --add channels conda-forge    --file $CONDA_PREFIX/.condarc
+  conda install autopep8 flake8 flake8-pep257 flake8-import-order 
+  conda dectivate myenv
+  ```
