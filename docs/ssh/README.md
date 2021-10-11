@@ -25,6 +25,10 @@
   $ ssh-add
   $ ssh-add ~/.ssh/id_rsa
   ```
+- ssh-agentを終了する
+  ```console
+  $ ssh-agent -k
+  ```
 
 ### ssh秘密鍵から公開鍵を作成
 - 方法
