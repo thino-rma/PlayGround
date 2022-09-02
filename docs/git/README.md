@@ -77,14 +77,6 @@
   $ git branch -d BRANCH      # remove BRANCH
   ```
 
-- Operation
-  ```console
-  git fetch
-  git checkout -m BRANCH FILE
-  git add FILE
-  git commit
-  ```
-
 - Operation Flow
   ```console
      +------------+
