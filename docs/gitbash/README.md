@@ -31,3 +31,20 @@
   }
   EOF
   ```
+- 同様に、任意のパッケージを追加できます。（git bashを管理者で起動のこと）
+  ```
+  pacman -S python3 python3-pip
+  ```
+- 検索は以下のようにする
+  ```
+  pacman -Ss rsync
+  ```
+- 検索は以下のようにする
+  ```
+  pacman -Ss rsync
+  ```
+- update and upgrade
+  ```
+  pacman -Syy   # update only
+  pacman -Syyu  # update & upgrade
+  ```
