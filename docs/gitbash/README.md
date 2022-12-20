@@ -39,10 +39,6 @@
   ```
   pacman -Ss rsync
   ```
-- 検索は以下のようにする
-  ```
-  pacman -Ss rsync
-  ```
 - update and upgrade
   ```
   pacman -Syy   # update only
