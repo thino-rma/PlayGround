@@ -35,4 +35,29 @@
   ```console
   ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
   ```
-  秘密鍵のパーミッションは600に設定しておくこと。
+  
+### その他
+- authorized_keysにcommand指定するときの環境変数 SSH_ORIGINAL_COMMAND  
+  ~/.ssh/authorized_keys
+  ```
+  command="/path/to/script.sh" ssh-rsa AAAAB3...
+  ```
+  /path/to/script.sh
+  ```
+  #!/bin/bash
+  read -a ssh_args <<< "$SSH_ORIGINAL_COMMAND"
+  ls "${ssh_args[@]}"
+  ```
+
+- 注意
+  秘密鍵のパーミッションは0600に設定しておくこと。
+  ```console
+  chmod 0600 ~/.ssh/id_rsa
+  chmod 0600 ~/.ssh/authorized_keys
+  ```
+  ホームディレクトリのパーミッションは、オーナー以外の書き込み権限を外す
+  ```console
+  chmod 0755 /path/to/HOMEDIR/
+  chmod 0750 /path/to/HOMEDIR/
+  ```
+
