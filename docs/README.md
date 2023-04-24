@@ -1,4 +1,6 @@
 ### いくつかの忘れやすい事柄
+- debパッケージの作成
+  - checkinstall http://checkinstall.izto.org/
 - html
   - ゼロ幅スペース &#8203;```&#8203;```
 - products
@@ -29,7 +31,6 @@
   - a2enconf / a2disconf
   - a2enmod / a2dismod
   - a2ensite / a2dissite
-  - なぜコマンドを分ける？サブコマンドにまとめて、タブ補完するべき。
 - 代替コマンド
   - htopコマンド (topコマンドの代替)
     ```console
