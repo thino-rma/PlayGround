@@ -46,3 +46,12 @@
 
 ### 引っ越し
 - EaseUS Partition Manager
+
+### サービス・スケジューラータスクの停止
+- Service
+  - Microsoft Office Click-To-Run
+    - 右クリックメニュー＞プロパティ＞停止
+    - 右クリックメニュー＞プロパティ＞スタートアップの種類＞無効
+- Task Scheduler
+  - タスクスケジューラライブラリ＞Microsoft＞Windows＞Application Experience＞Microsoft Compatibility Appraiser
+    - 右クリックメニューから「無効」
