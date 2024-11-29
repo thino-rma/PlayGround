@@ -4,6 +4,8 @@
   $ git config --global core.editor 'vim -c "set fenc=utf-8"'
   $ git config --global user.name "user"
   $ git config --global user.email "user@example.com"
+  $ git config --global --add merge.ff false
+  $ git config --global --add pull.ff only
   $ git config --global -l
   ```
 
@@ -30,12 +32,12 @@
   ```console
   ### at first, git pull to fetch/merge into master
   $ git pull                   # fetch and merge
-  ##### when you meet a conflic, you might want to roll-back the changes.
+  ##### when you meet a conflict, you might want to roll-back the changes.
   ##### if you want to roll-back the pull operation, execute "git merge --abort" then "git reset --hard HEAD"
   ##### "git pull" is equal to executing following commands in order. 
   ##### so to roll-back the changes, you need to firstly abort merge on the repository, then reset the repository.
-  #####   (1) "git fetch"  fetch resources to update origin/master. to reset this, "git reset --hard HEAD"
-  #####   (2) "git merge"  merge resources origin/master into master. to reset this, "git merge --abort"
+  #####   (1) "git fetch"  fetch resources to update origin/BRANCH. to reset this, "git reset --hard HEAD"
+  #####   (2) "git merge"  merge resources origin/BRANCH into BRANCH. to reset this, "git merge --abort"
   
   ### branch (create a branch)
   $ git branch BRANCH          # create your working branch (if you have not created yet)
@@ -67,11 +69,11 @@
                                # (C-2) to go back to the point before add,         "git reset HEAD^"
                                # (C-1) to go back to the point before edit,        "git reset --hard HEAD^"
   
-  ### switch to main branch and merge the branch
+  ### switch to main branch and merge BRANCH to it
   $ git checkout main
-  $ git merge BRANCH
-  
-  ### commit on branch master
+  $ git merge --squash BRANCH  # git merge BRANCH
+ 
+  ### commit on branch main
   $ git commit -v
   $ git push
   $ git branch -d BRANCH      # remove BRANCH
@@ -96,7 +98,7 @@
        |           >>--------------------------------------------> | repositry |
        |           ||                                              | <<TOPIC>> |
        |           ||                                              +-----------+
-       |           || git checkout TOPIC                             |
+       |           || git checkout TOPIC                             :
        |           >>==============================================> **
        |           :                                                 ||
        |           :                        ### JUST BEFORE EDIT ### ||
@@ -155,22 +157,22 @@
        |           ** <==============================================<<
        |           ||                                                :
        |           || ### JUST BEFORE MERGE ###                      :
-       |           ** <<<===========================**               :
-       |           ||                               ||               :
-       |  (merged) || git merge [--no-ff] TOPIC     ||               :
-       |        +--<>--> (!!CONFLICTED!!)           ||               :
-       |       /   ||                               ||               :
-       |      /    || vim FILE if CONFLICT          ||               :
-       |     +     >>---> fix the CONFLICT          ||               :
-       |     |     ||                               ||               :
-       |     |     || git status                    ||               :
-       |     |     >>---> check status              ||               :
-       |     |     ||                               ||               :
-       |     |     || git diff                      ||               :
-       |     |     >>---> check diff                ||               :
-       |     |     ||                               ||               :
-       |     |     || git reset --hard HEAD         ||               :
-       |     |     >>===============================**               :
+       |           ** <<<===================================**       :
+       |           ||                                       ||       :
+       |  (merged) || git merge [--no-ff] [--squash] TOPIC  ||       :
+       |        +--<>--> (!!CONFLICTED!!)                   ||       :
+       |       /   ||                                       ||       :
+       |      /    || vim FILE if CONFLICT                  ||       :
+       |     +     >>---> fix the CONFLICT                  ||       :
+       |     |     ||                                       ||       :
+       |     |     || git status                            ||       :
+       |     |     >>---> check status                      ||       :
+       |     |     ||                                       ||       :
+       |     |     || git diff                              ||       :
+       |     |     >>---> check diff                        ||       :
+       |     |     ||                                       ||       :
+       |     |     || git reset --hard HEAD                 ||       :
+       |     |     >>=======================================**       :
        |     |     ||                                                :
        |     +     || git commit -v                                  :
        |      \    >>---> (commited)                                 :
@@ -178,7 +180,7 @@
        |        +->** (merge commited)                               :
        |           ||                                                :
        |           || git branch -d TOPIC                            :
-       |           >>----------------------------------------------> X
+       |           >>----------------------------------------------> X deleted (removed)
        |           ||
        |           || git push origin BRANCH
        | <---------<<
